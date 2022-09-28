@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "725801633418",
+    "project_id": "hotel-fabaf",
+    "storage_bucket": "hotel-fabaf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:725801633418:android:f915ae70d8185cce820f73",
+        "android_client_info": {
+          "package_name": "com.hotel.brighttech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "725801633418-ibbvqr7h4f3gr8ejguk7oihkjpe10jqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYoQ-lxNeOu36HvSfUB69R6YFK-qKFPr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "725801633418-ibbvqr7h4f3gr8ejguk7oihkjpe10jqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
