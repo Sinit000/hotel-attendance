@@ -48,6 +48,20 @@ class EmployeeRepository {
       throw e;
     }
   }
+  Future<AccountModel> getEmployeeDetail({required String id}) async {
+    try {
+      String url = mainUrl + "chief/employees&employee_id=$id";
+
+      Response response = await apiProvider.get(url, null, null);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return AccountModel.fromJson(response.data);
+      }
+      throw CustomException.generalException();
+    } catch (e) {
+      throw e;
+    }
+  }
 
   // Future<List<RoleModel>> getRole() async {
   //   try {

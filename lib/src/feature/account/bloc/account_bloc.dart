@@ -32,6 +32,15 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         yield ErrorFethchingAccount(error: e.toString());
       }
     }
+    // if(event is FetchEmployeeDetailStarted){
+    //   yield FethchingAccount();
+    //   try {
+    //     accountModel = await _accountRepository.
+    //   } catch (e) {
+    //     print(e.toString());
+    //     yield ErrorFethchingAccount(error: e.toString());
+    //   }
+    // }
     if (event is FetchCounterStarted) {
       yield FetchingCounter();
       try {

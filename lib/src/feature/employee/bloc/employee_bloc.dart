@@ -9,25 +9,24 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
   EmployeeBloc() : super(FetchingEmployee());
   EmployeeRepository _departmentRepository = EmployeeRepository();
   List<AccountModel> emploList = [];
+  AccountModel? accountModel;
   // List<RoleModel> roleList = [];
   int rowperpage = 12;
   // String? image;
   int page = 1;
   @override
   Stream<EmployeeState> mapEventToState(EmployeeEvent event) async* {
-    // if (event is FetchRoleStarted) {
-    //   yield FetchingRole();
-    //   try {
-    //     if (roleList.length != 0) {
-    //       roleList.clear();
-    //     }
-    //     roleList = await _departmentRepository.getRole();
-    //     yield FetchedRole();
-    //   } catch (e) {
-    //     log(e.toString());
-    //     yield ErrorFetchingRole(error: e.toString());
-    //   }
-    // }
+    if (event is FetchEmployeeDetailStarted) {
+      yield FetchingEmployee();
+      try {
+        accountModel =
+            await _departmentRepository.getEmployeeDetail(id: event.id);
+        yield FetchedRole();
+      } catch (e) {
+        log(e.toString());
+        yield ErrorFetchingRole(error: e.toString());
+      }
+    }
     if (event is FetchEmloyeeStarted) {
       yield FetchingEmployee();
       try {

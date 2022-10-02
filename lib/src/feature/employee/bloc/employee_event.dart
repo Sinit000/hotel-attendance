@@ -13,7 +13,10 @@ class FetchEmloyeeStarted extends EmployeeEvent {}
 class FetchRoleStarted extends EmployeeEvent{
 
 }
-
+class FetchEmployeeDetailStarted extends EmployeeEvent {
+  final String id;
+  FetchEmployeeDetailStarted({required this.id});
+}
 class InitializeEmployeeStarted extends EmployeeEvent {}
 
 class RefreshEmployeeStarted extends EmployeeEvent {}

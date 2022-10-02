@@ -17,6 +17,8 @@ class FetchCheckAccountStarted extends AccountEvent {
   FetchCheckAccountStarted({required this.todayDate});
 }
 
+
+
 class AddCheckinStarted extends AccountEvent {
   final String checkinTime;
   final String lat;

@@ -1,5 +1,7 @@
+import 'package:e_learning/src/feature/account/screen/user_info_detail.dart';
 import 'package:e_learning/src/feature/employee/bloc/employee_bloc.dart';
 import 'package:e_learning/src/feature/employee/bloc/index.dart';
+import 'package:e_learning/src/feature/employee/screen/team_profile_detail.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,7 +163,15 @@ class _TeamProfileState extends State<TeamProfile> {
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(18),
                                     side: BorderSide(color: Colors.green)))),
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileTeamDetail(
+                                    name: _employeeBloc.accountModel!.name!,
+                                    id: _employeeBloc.accountModel!.id!,
+                                  )));
+                    }),
               )
             ],
           ),

@@ -4,6 +4,7 @@ import 'package:e_learning/src/feature/account/bloc/account_event.dart';
 import 'package:e_learning/src/feature/account/bloc/account_state.dart';
 import 'package:e_learning/src/feature/account/bloc/index.dart';
 import 'package:e_learning/src/feature/account/model/account_model.dart';
+import 'package:e_learning/src/feature/account/screen/account_page_one.dart';
 import 'package:e_learning/src/feature/checkin/screen/attendance.dart';
 import 'package:e_learning/src/shared/widget/error_snackbar.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
@@ -29,7 +30,7 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       appBar: standardAppBar(context, ""),
       body: BlocListener(
-        bloc: BlocProvider.of<AccountBloc>(context),
+        bloc: accountBloc,
         listener: (context, state) {
           if (state is UpdatingAccount) {
             EasyLoading.show(status: "loading...");
@@ -139,7 +140,7 @@ class _EditProfileState extends State<EditProfile> {
                       } else {
                         url = widget.accountModel.img!;
                       }
-                      BlocProvider.of<AccountBloc>(context)
+                      accountBloc
                           .add(UpdateAccountStated(img: _image, imgUrl: url));
                     },
                     padding: EdgeInsets.symmetric(vertical: 15),
