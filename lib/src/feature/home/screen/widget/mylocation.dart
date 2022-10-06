@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 
 // import 'package:flutter_switch/flutter_switch.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 // import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:location/location.dart';
 
@@ -20,7 +20,7 @@ class NearbyDriverState extends State<NearbyDriver> {
   // String driveronline = "Driver is online";
   // String driveroffline = "Driver is offline";
   // static bool isOnline = false;
-  
+
   // static PusherClient pusher;
   // static Channel channel;
   // Channel channel2;
@@ -36,8 +36,8 @@ class NearbyDriverState extends State<NearbyDriver> {
   String? _error;
   String? userName;
 
-  GoogleMapController? mapController;
-  LatLng? _initialcameraposition;
+  // GoogleMapController? mapController;
+  // LatLng? _initialcameraposition;
   Future<void> _myLocation() async {
     _location = await location.getLocation();
 
@@ -97,7 +97,7 @@ class NearbyDriverState extends State<NearbyDriver> {
         // locationDialog();
       }
     } else {
-      _initialcameraposition = LatLng(11.566151053634218, 104.88413827054434);
+      // _initialcameraposition = LatLng(11.566151053634218, 104.88413827054434);
       final PermissionStatus permissionRequestedResult =
           await location.requestPermission();
       setState(() {
@@ -234,9 +234,7 @@ class NearbyDriverState extends State<NearbyDriver> {
             backgroundColor: Colors.lightBlueAccent,
             child: Icon(Icons.add),
             elevation: 0,
-            onPressed: () {
-              
-            }),
+            onPressed: () {}),
       ),
       body: Container(
         child: Column(

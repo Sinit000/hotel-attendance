@@ -18,7 +18,7 @@ import 'package:image/image.dart' as image;
 
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+// import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -94,10 +94,10 @@ class _MyLocalNotificationState extends State<MyLocalNotification> {
             child: Icon(Icons.add),
             elevation: 0,
             onPressed: () {
-              // NotificationApi.showScheduleNotification(
-              //     title: "Hi sinit",
-              //     body: "Dinner at 4:30 pm",
-              //     payload: "sinit");
+              NotificationApi.showNotification(
+                  title: "Hi sinit",
+                  body: "Dinner at 4:30 pm",
+                  payload: "sinit");
               print("success");
               // scheduleDate: DateTime.now().add(Duration(seconds: 12)));
               // NotificationApi.showNotification(

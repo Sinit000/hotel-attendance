@@ -84,10 +84,7 @@ class _BodyState extends State<Body> {
 
                           //   }, icon: Icon(Icons.arrow_back_ios_new_outlined)),
                           // ),
-                          BlocProvider.of<AccountBloc>(context)
-                                      .accountModel!
-                                      .img ==
-                                  null
+                          accountBloc.accountModel!.img == null
                               ? Container(
                                   height: 80,
                                   width: 80,
@@ -102,8 +99,7 @@ class _BodyState extends State<Body> {
 
                                     // imageCacheHeight: 350,
                                     // imageCacheWidth: 350,
-                                    image:
-                                        "${BlocProvider.of<AccountBloc>(context).accountModel!.img}",
+                                    image: "${accountBloc.accountModel!.img}",
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -115,14 +111,14 @@ class _BodyState extends State<Body> {
                             child: Column(
                               children: [
                                 Text(
-                                  "${BlocProvider.of<AccountBloc>(context).accountModel!.name}",
+                                  "${accountBloc.accountModel!.name}",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold),
                                   textScaleFactor: 1.4,
                                 ),
                                 Text(
-                                    "${BlocProvider.of<AccountBloc>(context).accountModel!.positionModel!.positionName}",
+                                    "${accountBloc.accountModel!.positionModel!.positionName}",
                                     style: TextStyle(color: Colors.white))
                               ],
                             ),

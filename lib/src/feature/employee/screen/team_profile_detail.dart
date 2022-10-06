@@ -1,4 +1,5 @@
 import 'package:e_learning/src/feature/account/screen/widget/menu_detail.dart';
+import 'package:e_learning/src/feature/account/screen/widget/workday.dart';
 import 'package:e_learning/src/feature/employee/bloc/index.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
   EmployeeBloc _employeeBloc = EmployeeBloc();
   @override
   void initState() {
-    _employeeBloc.add(FetchEmployeeDetailStarted(id: widget.id!));
+    _employeeBloc.add(FetchEmployeeDetailStarted(id: widget.id));
     super.initState();
   }
 
@@ -32,12 +33,13 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
       body: BlocBuilder(
           bloc: _employeeBloc,
           builder: (context, state) {
+            print(state);
             if (state is ErrorFetchingEmployee) {
               return Center(
                 child: TextButton(
                     onPressed: () {
                       _employeeBloc
-                          .add(FetchEmployeeDetailStarted(id: widget.id!));
+                          .add(FetchEmployeeDetailStarted(id: widget.id));
                     },
                     style: TextButton.styleFrom(
                       primary: Colors.white,
@@ -66,24 +68,24 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
                             overidingWidget: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                        "${AppLocalizations.of(context)!.translate("name")!} : ",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1),
-                                    Expanded(
-                                      child: Text(
-                                        _employeeBloc.accountModel!.name!,
-                                        textScaleFactor: 1.1,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                // Row(
+                                //   children: [
+                                //     Text(
+                                //         "${AppLocalizations.of(context)!.translate("name")!} : ",
+                                //         style: Theme.of(context)
+                                //             .textTheme
+                                //             .bodyText1),
+                                //     Expanded(
+                                //       child: Text(
+                                //         _employeeBloc.accountModel!.name!,
+                                //         textScaleFactor: 1.1,
+                                //         style: TextStyle(
+                                //             color: Colors.black,
+                                //             fontWeight: FontWeight.bold),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
                                 SizedBox(height: 5),
                                 Row(
                                   children: [
@@ -178,7 +180,8 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
                                         ? Text("")
                                         : Expanded(
                                             child: Text(
-                                              _employeeBloc.accountModel!.phone!,
+                                              _employeeBloc
+                                                  .accountModel!.phone!,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText1,
@@ -362,7 +365,8 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
                                         ? Text("")
                                         : Expanded(
                                             child: Text(
-                                              _employeeBloc.accountModel!.officeTel!,
+                                              _employeeBloc
+                                                  .accountModel!.officeTel!,
                                               textScaleFactor: 1.1,
                                               style: TextStyle(
                                                   color: Colors.black,
@@ -471,6 +475,15 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
                               children: [
                                 Text(
                                     "${AppLocalizations.of(context)!.translate("workday")!}"),
+                                Container(
+                                  height: MediaQuery.of(context).size.width / 3,
+                                  child: workday(context,
+                                      workday: _employeeBloc
+                                          .accountModel!.workModel!.workday),
+                                ),
+                                // _buildWorkday(
+                                //     workday: _employeeBloc
+                                //         .accountModel!.workModel!.workday),
 
                                 // Container(
                                 //   height: 50,
@@ -485,8 +498,6 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
                             title: '',
                           ),
                           SizedBox(height: 10),
-
-                          SizedBox(height: 10),
                         ],
                       ),
                     ),
@@ -500,5 +511,60 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
             );
           }),
     );
+  }
+
+  _buildWorkday({required String workday}) {
+    String workday = "0,1,2,3,4,5,6";
+    List<String> list = workday.split(",");
+    List<String> newList = [];
+
+    for (int i = 0; i < list.length; i++) {
+      if (list[i] == "0") {
+        newList.add("Sunday");
+      }
+      if (list[i] == "1") {
+        newList.add("Monday");
+      }
+      if (list[i] == "2") {
+        newList.add("Tuesday");
+      }
+      if (list[i] == "3") {
+        newList.add("Wednesday");
+      }
+      if (list[i] == "4") {
+        newList.add("Thursday");
+      }
+      if (list[i] == "5") {
+        newList.add("Friday");
+      }
+      if (list[i] == "6") {
+        newList.add("Saturday");
+      }
+    }
+    String mystr1 = newList.join(" ");
+    print(mystr1);
+    print(newList);
+    return Container(
+      child: ListView.builder(
+          itemCount: newList.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                Text("- "),
+                Text(
+                  " ${newList[index]}",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ],
+            );
+          }),
+    );
+    // return Column(
+    //   children: [
+    //     Container(
+    //       child: Text(mystr1),
+    //     )
+    //   ],
+    // );
   }
 }

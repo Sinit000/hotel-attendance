@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:e_learning/src/feature/account/model/account_model.dart';
-import 'package:e_learning/src/feature/employee/model/employee_model.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
 
@@ -48,6 +47,7 @@ class EmployeeRepository {
       throw e;
     }
   }
+
   Future<AccountModel> getEmployeeDetail({required String id}) async {
     try {
       String url = mainUrl + "chief/employees&employee_id=$id";
@@ -55,7 +55,7 @@ class EmployeeRepository {
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);
       if (response.statusCode == 200) {
-        return AccountModel.fromJson(response.data);
+        return AccountModel.fromJson(response.data["data"]);
       }
       throw CustomException.generalException();
     } catch (e) {

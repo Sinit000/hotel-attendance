@@ -74,6 +74,7 @@ class _TeamProfileState extends State<TeamProfile> {
                           itemCount: _employeeBloc.emploList.length,
                           itemBuilder: (context, index) {
                             return _attendanceTile(
+                                id: _employeeBloc.emploList[index].id!,
                                 name: _employeeBloc.emploList[index].name!,
                                 position: "View");
                           },
@@ -98,6 +99,7 @@ class _TeamProfileState extends State<TeamProfile> {
   _attendanceTile({
     required String name,
     required String position,
+    required String id,
   }) {
     return AspectRatio(
       aspectRatio: 4 / 4.5,
@@ -168,8 +170,8 @@ class _TeamProfileState extends State<TeamProfile> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfileTeamDetail(
-                                    name: _employeeBloc.accountModel!.name!,
-                                    id: _employeeBloc.accountModel!.id!,
+                                    name: name,
+                                    id: id,
                                   )));
                     }),
               )

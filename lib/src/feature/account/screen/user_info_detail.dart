@@ -1,8 +1,10 @@
 
 import 'package:e_learning/src/feature/account/bloc/index.dart';
 import 'package:e_learning/src/feature/account/model/account_model.dart';
+import 'package:e_learning/src/feature/account/screen/account_page_one.dart';
 import 'package:e_learning/src/feature/account/screen/edit_profile.dart';
 import 'package:e_learning/src/feature/account/screen/widget/menu_detail.dart';
+import 'package:e_learning/src/feature/account/screen/widget/workday.dart';
 
 
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
@@ -442,11 +444,12 @@ class _UserInfoDetailState extends State<UserInfoDetail> {
                               Text(
                                   "${AppLocalizations.of(context)!.translate("workday")!}"),
 
-                              // Container(
-                              //   height: 50,
-                              //   child: time(context,
-                              //       time: widget.accountModel.timetableModel!),
-                              // ),
+                              Container(
+                                  height: MediaQuery.of(context).size.width / 3,
+                                  child: workday(context,
+                                      workday: widget.accountModel
+                                          !.workModel!.workday),
+                                ),
                               SizedBox(height: 5),
                             ],
                           ),
@@ -466,9 +469,7 @@ class _UserInfoDetailState extends State<UserInfoDetail> {
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     EditProfile(
-                                                      accountModel: BlocProvider
-                                                              .of<AccountBloc>(
-                                                                  context)
+                                                      accountModel: accountBloc
                                                           .accountModel!,
                                                     )));
                                       },

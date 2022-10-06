@@ -21,7 +21,8 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       try {
         accountModel =
             await _departmentRepository.getEmployeeDetail(id: event.id);
-        yield FetchedRole();
+        log(accountModel!.name!);
+        yield FetchedEmployee();
       } catch (e) {
         log(e.toString());
         yield ErrorFetchingRole(error: e.toString());

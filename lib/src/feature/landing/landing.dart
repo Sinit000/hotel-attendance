@@ -1,11 +1,15 @@
 // import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'dart:developer';
+
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
+import 'package:e_learning/src/config/routes/routes.dart';
 import 'package:e_learning/src/feature/auth/bloc/index.dart';
 
 import 'package:e_learning/src/feature/home/screen/home_page.dart';
 import 'package:e_learning/src/feature/login_register/screens/login_register_page.dart';
 import 'package:e_learning/src/feature/notification/res/notification_api.dart';
+import 'package:e_learning/src/feature/notification/screen/widget/navigator.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/share/helper.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +17,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lottie/lottie.dart';
 
 class LandingPage extends StatefulWidget {
@@ -24,14 +29,21 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int notificationId = 1;
+  AndroidNotificationChannel channel = AndroidNotificationChannel(
+      "high_importance_channel",
+      "High Importance Notifications",
+      "High Importance Notifications",
+      importance: Importance.high,
+      playSound: true);
   Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     print(message.data.toString());
     print("msg1");
+    // Navigator.pushNamed(context, notification);
 
-    // notificationNavigator(context,
-    //     target: message.data["target"].toString(),
-    //     targetValue: message.data["target_value"].toString());
-    // // print("Handling a background message");
+    notificationNavigator(context,
+        target: message.data["target"].toString(),
+        targetValue: message.data["target_value"].toString());
+    print("Handling a background message");
   }
 
   ApiProvider _apiProvider = ApiProvider();
@@ -60,6 +72,16 @@ class _LandingPageState extends State<LandingPage> {
                 //     MaterialPageRoute(builder: (c) => NotificationPage()));
               }
             });
+            final FlutterLocalNotificationsPlugin
+                flutterLocalNotificationsPlugin =
+                FlutterLocalNotificationsPlugin();
+
+            var initialzationSettingsAndroid =
+                AndroidInitializationSettings('@mipmap/launcher_icon');
+            var initializationSettings =
+                InitializationSettings(android: initialzationSettingsAndroid);
+            flutterLocalNotificationsPlugin.initialize(initializationSettings);
+
             FirebaseMessaging.onBackgroundMessage(
                 firebaseMessagingBackgroundHandler);
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -68,13 +90,38 @@ class _LandingPageState extends State<LandingPage> {
               print("${message.notification!.title}");
               print(notificationId);
               print("${message.notification!.body}");
-              AwesomeNotifications().createNotification(
-                  content: NotificationContent(
-                      id: notificationId,
-                      channelKey: 'local',
-                      title: "${message.notification!.title}",
-                      body: "${message.notification!.body}",
-                      color: Theme.of(context).primaryColor));
+              log("open app");
+              RemoteNotification notification = message.notification!;
+              AndroidNotification android = message.notification!.android!;
+              flutterLocalNotificationsPlugin.show(
+                  notification.hashCode,
+                  notification.title,
+                  notification.body,
+                  NotificationDetails(
+                    android: AndroidNotificationDetails(
+                        channel.id, channel.name, channel.description,
+                        icon: android.smallIcon),
+                  ));
+
+              //                 flutterLocalNotificationsPlugin.show(
+              //   notificationId,
+              //   message.notification!.title,
+              //   message.notification!.body,
+              //   channel
+              // );
+              // flutterLocalNotificationsPlugin
+              //     .resolvePlatformSpecificImplementation<
+              //         AndroidFlutterLocalNotificationsPlugin>()
+              //     ?.createNotificationChannel(channel);
+              // AwesomeNotifications().requestPermissionToSendNotifications();
+              // log("accept permission");
+              // AwesomeNotifications().cr eateNotification(
+              //     content: NotificationContent(
+              //         id: 1,
+              //         channelKey: 'local',
+              //         title: "${message.notification!.title}",
+              //         body: "${message.notification!.body}",
+              //         color: Theme.of(context).primaryColor));
             });
             print("work or not");
             FirebaseMessaging.onMessageOpenedApp

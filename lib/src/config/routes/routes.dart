@@ -23,3 +23,4 @@ const String otcompesation = '/otcompesation';
 const String addLeave = '/addLeave';
 const String addLeaveout = '/addLeaveout';
 const String addDayoff = '/addDayoff';
+const String notification = '/notification';

@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+// import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:timezone/timezone.dart' as tz;
 // import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
@@ -23,13 +23,13 @@ class NotificationApi {
     print(setting);
     await _notification.initialize(setting,
         onSelectNotification: (payload) async {});
-    if (initScheduled) {
-      tz.initializeTimeZones();
-      final localName = await FlutterNativeTimezone.getLocalTimezone();
-      print(localName);
+    // if (initScheduled) {
+    //   tz.initializeTimeZones();
+    //   // final localName = await FlutterNativeTimezone.getLocalTimezone();
+    //   // print(localName);
 
-      tz.setLocalLocation(tz.getLocation(localName));
-    }
+    //   tz.setLocalLocation(tz.getLocation(localName));
+    // }
   }
 
   static Future showNotification({
@@ -52,7 +52,6 @@ class NotificationApi {
     int? timeInM,
     // required DateTime scheduleDate,
   }) async {
-    
     _notification.zonedSchedule(
         id,
         title,
@@ -75,16 +74,16 @@ class NotificationApi {
         // matchDateTimeComponents: DateTimeComponents.time
         matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
   }
+
   static Future showScheduleNotificationTimeOut({
     int id = 0,
     String? title,
     String? body,
     String? payload,
-     int? timeOutH,
+    int? timeOutH,
     int? timeOutM,
     // required DateTime scheduleDate,
   }) async {
-    
     _notification.zonedSchedule(
         id,
         title,

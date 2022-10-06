@@ -11,7 +11,7 @@ import 'package:e_learning/src/shared/widget/error_snackbar.dart';
 import 'package:e_learning/src/shared/widget/loadin_dialog.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
 import 'package:e_learning/src/utils/share/helper.dart';
-import 'package:elegant_notification/resources/arrays.dart';
+// import 'package:elegant_notification/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';

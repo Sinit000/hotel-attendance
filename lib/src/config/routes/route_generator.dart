@@ -8,6 +8,7 @@ import 'package:e_learning/src/feature/leaveout/screen/add_leaveout.dart';
 import 'package:e_learning/src/feature/leaveout/screen/all_leaveout_page_chief.dart';
 import 'package:e_learning/src/feature/leaveout/screen/all_leaveout_security.dart';
 import 'package:e_learning/src/feature/leaveout/screen/my_leaveout_page.dart';
+import 'package:e_learning/src/feature/notification/screen/notification_page.dart';
 import 'package:e_learning/src/feature/ot_compesation/screen/ot_comesation_page.dart';
 import 'package:e_learning/src/feature/overtime/model/overtime_model.dart';
 import 'package:e_learning/src/feature/overtime/screen/add_overtime.dart';
@@ -84,6 +85,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => AddChangeDayoff());
       case mydayOff:
         return MaterialPageRoute(builder: (_) => MyDayOff());
+      case notification:
+        return MaterialPageRoute(builder: (_) => NotificationPage());
       // case editCustomer:
       //   if (args is Customer) {
       //     return MaterialPageRoute(

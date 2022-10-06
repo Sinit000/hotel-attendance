@@ -1,4 +1,4 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+// import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:e_learning/src/config/routes/route_generator.dart';
 import 'package:e_learning/src/feature/account/bloc/index.dart';
 import 'package:e_learning/src/feature/auth/bloc/index.dart';
@@ -23,29 +23,31 @@ import 'src/feature/notification/res/notification_api.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'src/feature/notification/screen/local_notification.dart';
+
 ///Receive message when app is in background solution for on message
 // GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AwesomeNotifications().initialize(
-      "resource://drawable/ic_stat_ic_launcher",
-      [
-        NotificationChannel(
-            channelKey: "local", channelDescription: '', channelName: 'local')
-      ],
-      debug: true);
+  // AwesomeNotifications().initialize(
+  //     "resource://drawable/ic_stat_ic_launcher",
+  //     [
+  //       NotificationChannel(
+  //           channelKey: "local", channelDescription: '', channelName: 'local')
+  //     ],
+  //     debug: true);
 
   // tz.initializeTimeZones();
   // var locations = tz.timeZoneDatabase.locations;
   // print(locations.length); // => 429
   // print(locations.keys.first); // => "Africa/Abidjan"
   // print(locations.keys.last); //
-  // NotificationApi.showScheduleNotification(
-  //     title: "Hi sinit",
-  //     body: "Dinner at 4:30 pm",
-  //     payload: "sinit",
-  //     scheduleDate: DateTime.now().add(Duration(seconds: 12)));
+  // NotificationApi.showNotification(
+  //   title: "Hi sinit",
+  //   body: "Dinner at 4:30 pm",
+  //   payload: "sinit",
+  // );
   // await Firebase.initializeApp();
   // // await Firebase.
   // SystemChrome.setEnabledSystemUIMode();

@@ -30,6 +30,7 @@ class AccountModel {
   final DepartmentModel? departmentModel;
   final PositionModel? positionModel;
   final RoleModel? roleModel;
+  final WorkdayModel? workModel;
   factory AccountModel.fromJson(Map<String, dynamic> json) {
     // List<TimetableModel> time = [];
     // if (json["timetable"] != null) {
@@ -67,6 +68,9 @@ class AccountModel {
       departmentModel: json["department"] == null
           ? null
           : DepartmentModel.fromJson(json["department"]),
+      workModel: json["workday"] == null
+          ? null
+          : WorkdayModel.fromJson(json["workday"]),
       positionModel: json["position"] == null
           ? null
           : PositionModel.fromJson(json["position"]),
@@ -98,6 +102,7 @@ class AccountModel {
       required this.departmentModel,
       required this.positionModel,
       required this.roleModel,
+      required this.workModel,
       required this.no,
       required this.card,
       required this.maritalStatus,
@@ -150,6 +155,34 @@ class RoleModel {
     return RoleModel(id: json["id"].toString(), name: json["name"]);
   }
   RoleModel({required this.id, required this.name});
+}
+
+class WorkdayModel {
+  final String id;
+  final String name;
+  final String typeDateTime;
+  final String dateTime;
+  final String workday;
+  final String offday;
+  final String notes;
+  factory WorkdayModel.fromJson(Map<String, dynamic> json) {
+    return WorkdayModel(
+        name: json["name"],
+        id: json["id"].toString(),
+        typeDateTime: json["type_date_time"].toString(),
+        dateTime: json["date_time"].toString(),
+        workday: json["working_day"],
+        offday: json["off_day"].toString(),
+        notes: json["notes"]);
+  }
+  WorkdayModel(
+      {required this.name,
+      required this.id,
+      required this.typeDateTime,
+      required this.dateTime,
+      required this.workday,
+      required this.offday,
+      required this.notes});
 }
 
 class StoreModel {

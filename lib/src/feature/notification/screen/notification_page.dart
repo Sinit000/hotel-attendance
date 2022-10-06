@@ -1,3 +1,4 @@
+import 'package:e_learning/src/feature/auth/bloc/authentication_bloc.dart';
 import 'package:e_learning/src/feature/notification/bloc/index.dart';
 
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
@@ -64,6 +65,15 @@ class _NotificationPageState extends State<NotificationPage> {
                     child: ListView.builder(
                         itemCount: _notificationBloc.notificationModel.length,
                         itemBuilder: (context, index) {
+                          // for(int i=0; i<_notificationBloc.notificationModel.length; i++){
+                          //     if(_notificationBloc.notificationModel[i].userId==BlocProvider.of<AuthenticationBloc>(context).state.user!.id){
+
+                          //     }
+                          // }
+                          print(BlocProvider.of<AuthenticationBloc>(context)
+                              .state
+                              .user!
+                              .id);
                           return InkWell(
                             onTap: () {
                               // Navigator.push(context, MaterialPageRoute(builder: (con)=>));
@@ -97,11 +107,17 @@ class _NotificationPageState extends State<NotificationPage> {
                                             size: 18.0,
                                             color: Colors.orange[900],
                                           ),
-                                          Text(
-                                            " " + '02/28/2022',
-                                            style:
-                                                TextStyle(color: Colors.black),
-                                          ),
+                                          _notificationBloc
+                                                      .notificationModel[index]
+                                                      .date ==
+                                                  null
+                                              ? Text("")
+                                              : Text(
+                                                  " " +
+                                                      '${_notificationBloc.notificationModel[index].date}',
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
                                         ],
                                       ),
                                       SizedBox(

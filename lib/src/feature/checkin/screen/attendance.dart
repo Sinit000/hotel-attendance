@@ -6,7 +6,7 @@ import 'package:e_learning/src/shared/widget/standard_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
 
@@ -28,8 +28,8 @@ class _AttendanceState extends State<Attendance> {
   String? checkindate;
   PermissionStatus? _permissionGranted;
   LocationData? _location;
-  GoogleMapController? mapController;
-  LatLng? _initialcameraposition;
+  // GoogleMapController? mapController;
+  // LatLng? _initialcameraposition;
   double? lat;
   double? lot;
   final Location location = Location();
@@ -74,7 +74,7 @@ class _AttendanceState extends State<Attendance> {
         // locationDialog();
       }
     } else {
-      _initialcameraposition = LatLng(11.566151053634218, 104.88413827054434);
+      // _initialcameraposition = LatLng(11.566151053634218, 104.88413827054434);
       final PermissionStatus permissionRequestedResult =
           await location.requestPermission();
       setState(() {
