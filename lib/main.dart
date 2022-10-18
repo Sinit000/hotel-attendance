@@ -48,6 +48,9 @@ import 'src/feature/notification/screen/local_notification.dart';
 enum Env { Production, Developement }
 final Env env = Env.Production;
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // status bar color
+  ));
   WidgetsFlutterBinding.ensureInitialized();
 
   await dotenv.load(fileName: getServerEnvAssetPath(env));

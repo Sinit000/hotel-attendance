@@ -37,14 +37,18 @@ class _MyAppBarState extends State<MyAppBar> {
             children: [
               Container(
                   padding: EdgeInsets.only(left: 20),
+                  width: MediaQuery.of(context).size.width / 1.5,
                   child: Text(
-                    "Attendance App",
+                    "Welcome ${BlocProvider.of<AuthenticationBloc>(context).state.user!.username}",
                     textScaleFactor: 1.7,
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
                     style: TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold),
                   )
                   // Image.asset('assets/icon/logo1.png')
                   ),
+
               Row(
                 children: [
                   InkWell(
@@ -53,17 +57,17 @@ class _MyAppBarState extends State<MyAppBar> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("${AppLocalizations.of(context)!
-                                  .translate("alert")!}"),
-                              content: Text("${AppLocalizations.of(context)!
-                                  .translate("alert_text")!}"),
+                              title: Text(
+                                  "${AppLocalizations.of(context)!.translate("alert")!}"),
+                              content: Text(
+                                  "${AppLocalizations.of(context)!.translate("alert_text")!}"),
                               actions: <Widget>[
                                 FlatButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: Text("${AppLocalizations.of(context)!
-                                  .translate("no")!}",
+                                  child: Text(
+                                      "${AppLocalizations.of(context)!.translate("no")!}",
                                       style: TextStyle(color: Colors.red)),
                                 ),
                                 FlatButton(
@@ -73,8 +77,8 @@ class _MyAppBarState extends State<MyAppBar> {
                                     Navigator.pop(context);
                                     // Navigator.pop(context);
                                   },
-                                  child: Text("${AppLocalizations.of(context)!
-                                  .translate("yes")!}",
+                                  child: Text(
+                                      "${AppLocalizations.of(context)!.translate("yes")!}",
                                       style: TextStyle(color: Colors.blue)),
                                 ),
                               ],

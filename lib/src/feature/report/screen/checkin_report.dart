@@ -219,7 +219,7 @@ class _CheckinReportState extends State<CheckinReport> {
                                         ),
                                       ),
                                       Text(
-                                        "${_reportBloc.myreport[index].checkitStatus} ${_reportBloc.myreport[index].checkinLate}",
+                                        "${_reportBloc.myreport[index].checkitStatus} ${_reportBloc.myreport[index].checkinLate} mn",
                                       ),
                                     ],
                                   ),
@@ -256,6 +256,24 @@ class _CheckinReportState extends State<CheckinReport> {
                                       ),
                                       Text(
                                         "${_reportBloc.myreport[index].checkoutStatus}  ${_reportBloc.myreport[index].checkoutLate}",
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5.0,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 8),
+                                        child: Text(
+                                          "Duration :",
+                                          style: TextStyle(color: Colors.black),
+                                        ),
+                                      ),
+                                      Text(
+                                        "${_reportBloc.myreport[index].duration} h",
                                       ),
                                     ],
                                   ),

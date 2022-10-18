@@ -41,6 +41,7 @@ class _AddOvertimeState extends State<AddOvertime> {
   String id = "";
   String? createDate;
   // String? mydate;
+  bool isSame = false;
 
   List<String> typeList = [
     'hour',
@@ -139,6 +140,13 @@ class _AddOvertimeState extends State<AddOvertime> {
                                 _typeCtrl.text = value;
                                 print(value);
                               });
+                            },
+                            onChanged: (v) {
+                              if (v == "hour") {
+                                setState(() {
+                                  isSame = true;
+                                });
+                              }
                             },
 
                             readOnly: true,
@@ -254,6 +262,15 @@ class _AddOvertimeState extends State<AddOvertime> {
                             // keyboardType: TextInputType.text,
                             onTap: () {
                               _dialogDate(controller: _fromCtrl);
+                            },
+                            onChanged: (v) {
+                              if (isSame == true) {
+                                setState(() {
+                                  _toCtrl.text = _fromCtrl.text;
+                                });
+                                print(_toCtrl.text);
+                                print("on change from");
+                              }
                             },
                             decoration: InputDecoration(
                                 prefixIcon: Icon(

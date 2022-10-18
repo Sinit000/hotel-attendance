@@ -72,7 +72,17 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingOvertime) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    overtimeBloc.add(InitailzeMyOvertimeStarted(
+                        dateRange: "This month", isSecond: true));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text("Retry")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -456,40 +466,97 @@ class _BodyState extends State<Body> {
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        CupertinoButton(
-                            padding: EdgeInsets.all(1.0),
+                        Container(
+                          height:
+                              1.4 * (MediaQuery.of(context).size.height / 25),
+                          width: 5 * (MediaQuery.of(context).size.width / 15),
+                          margin: EdgeInsets.only(bottom: 5, top: 5),
+                          child: RaisedButton(
+                            elevation: 5.0,
                             color: Colors.green,
-                            child: Row(
-                              children: [
-                                Icon(Icons.edit),
-                              ],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                             onPressed: () {
                               _displayTextInputDialog(context, overtime.id);
-                            }),
+                            },
+                            child: Text(
+                              "Aprove",
+                              style: TextStyle(
+                                color: Colors.white,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           width: 5,
                         ),
-                        CupertinoButton(
-                            padding: EdgeInsets.all(1.0),
+                        Container(
+                          height:
+                              1.4 * (MediaQuery.of(context).size.height / 25),
+                          width: 5 * (MediaQuery.of(context).size.width / 15),
+                          margin: EdgeInsets.only(bottom: 5, top: 5),
+                          child: RaisedButton(
+                            elevation: 5.0,
                             color: Colors.red,
-                            child: Row(
-                              children: [
-                                Icon(Icons.delete),
-                              ],
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                             onPressed: () {
-                              deleteDialog(
-                                  context: context,
-                                  onPress: () {
-                                    print("id ${overtime.id}");
-                                    overtimeBloc.add(
-                                        DeleteOvertimeStarted(id: overtime.id));
-                                    Navigator.pop(context);
-                                  });
-                            }),
+                              overtimeBloc.add(UpdateOvertimeStatusStarted(
+                                  id: overtime.id,
+                                  status: "rejected",
+                                  paytype: _payTypeCtrl.text));
+                            },
+                            child: Text(
+                              "Reject",
+                              style: TextStyle(
+                                color: Colors.white,
+                                letterSpacing: 1.5,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     )
+                  // ? Row(
+                  //     mainAxisAlignment: MainAxisAlignment.end,
+                  //     children: [
+                  //       CupertinoButton(
+                  //           padding: EdgeInsets.all(1.0),
+                  //           color: Colors.green,
+                  //           child: Row(
+                  //             children: [
+                  //               Icon(Icons.edit),
+                  //             ],
+                  //           ),
+                  //           onPressed: () {
+                  //             _displayTextInputDialog(context, overtime.id);
+                  //           }),
+                  //       SizedBox(
+                  //         width: 5,
+                  //       ),
+                  //       CupertinoButton(
+                  //           padding: EdgeInsets.all(1.0),
+                  //           color: Colors.red,
+                  //           child: Row(
+                  //             children: [
+                  //               Icon(Icons.delete),
+                  //             ],
+                  //           ),
+                  //           onPressed: () {
+                  //             deleteDialog(
+                  //                 context: context,
+                  //                 onPress: () {
+                  //                   print("id ${overtime.id}");
+                  //                   overtimeBloc.add(
+                  //                       DeleteOvertimeStarted(id: overtime.id));
+                  //                   Navigator.pop(context);
+                  //                 });
+                  //           }),
+                  //     ],
+                  //   )
                   : overtime.status == "rejected"
                       ? Container()
                       : Container(),
@@ -593,91 +660,39 @@ class _BodyState extends State<Body> {
               }
             },
             child: AlertDialog(
-              title: Text('Choose status'),
-              content: Container(
-                height: MediaQuery.of(context).size.height / 3,
-                child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          controller: _textFieldController,
-                          readOnly: true,
-                          onTap: () {
-                            customModal(context, _mylist, (value) {
-                              _textFieldController.text = value;
-                              if (_textFieldController.text == "Approve") {
-                                print("approve ");
+              title: Text('Choose Paytype'),
+              content: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    controller: _payTypeCtrl,
 
-                                setState(() {
-                                  isEnable = true;
-                                });
-                                print(isEnable);
-                              } else {
-                                setState(() {
-                                  isEnable = false;
-                                });
-                                print(isEnable);
-                              }
-                            });
-                          },
-                          // keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.arrow_drop_down),
-                              contentPadding: EdgeInsets.all(15),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0),
-                                ),
-                                borderSide: new BorderSide(
-                                  width: 1,
-                                ),
-                              ),
-                              isDense: true,
-                              labelText: "Choose status"),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'status is required.';
-                            }
-                            return null;
-                          },
+                    readOnly: true,
+                    onTap: () {
+                      customModal(context, _payType, (value) {
+                        _payTypeCtrl.text = value;
+                      });
+                    },
+                    // keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        suffixIcon: Icon(Icons.arrow_drop_down),
+                        contentPadding: EdgeInsets.all(15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(5.0),
+                          ),
+                          borderSide: new BorderSide(
+                            width: 1,
+                          ),
                         ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextFormField(
-                          controller: _payTypeCtrl,
-
-                          readOnly: true,
-                          onTap: () {
-                            customModal(context, _payType, (value) {
-                              _payTypeCtrl.text = value;
-                            });
-                          },
-                          // keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                              suffixIcon: Icon(Icons.arrow_drop_down),
-                              contentPadding: EdgeInsets.all(15),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0),
-                                ),
-                                borderSide: new BorderSide(
-                                  width: 1,
-                                ),
-                              ),
-                              isDense: true,
-                              labelText: "Choose pay type"),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'type is required.';
-                            }
-                            return null;
-                          },
-                        )
-                      ],
-                    )),
-              ),
+                        isDense: true,
+                        labelText: "Choose pay type"),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'type is required.';
+                      }
+                      return null;
+                    },
+                  )),
               actions: <Widget>[
                 FlatButton(
                   color: Colors.red,
@@ -695,16 +710,10 @@ class _BodyState extends State<Body> {
                   child: Text('OK'),
                   onPressed: () {
                     if (_formKey!.currentState!.validate()) {
-                      String status = "";
-                      if (_textFieldController.text == "Approve") {
-                        status = "approved";
-                      }
-                      if (_textFieldController.text == "Reject") {
-                        status = "rejected";
-                      }
-                      print(status);
                       overtimeBloc.add(UpdateOvertimeStatusStarted(
-                          id: id, status: status, paytype: _payTypeCtrl.text));
+                          id: id,
+                          status: "approved",
+                          paytype: _payTypeCtrl.text));
                     }
                   },
                 ),

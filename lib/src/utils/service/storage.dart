@@ -45,12 +45,13 @@ class Storage {
     await storage.write(key: "id", value: user.id);
 
     await storage.write(key: "roleName", value: user.roleName);
+    await storage.write(key: "username", value: user.username);
     // await storage.write(key: "position", value: user.position);
 
     print(user.roleId);
     print(user.token);
     print(user.roleName);
-    // print(user.position);
+    print(user.username);
     print(user.id);
 
     // await storage.write(key: "type", value: user.type.toString());
@@ -66,6 +67,7 @@ class Storage {
     String? _id = await storage.read(key: "id");
 
     String? _roleName = await storage.read(key: "roleName");
+    String? _username = await storage.read(key: "username");
     // String? _position = await storage.read(key: "position");
     print(_roleId);
     print(_token);
@@ -78,7 +80,7 @@ class Storage {
         _id != null &&
         _roleName != null) {
       return UserModel(
-        // position: _position,
+        username: _username,
         id: _id,
         roleName: _roleName,
         roleId: _roleId,

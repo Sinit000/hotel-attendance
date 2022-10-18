@@ -9,7 +9,7 @@ class AttendanceModel {
   final String? date;
   final String? status;
   final String? noted;
-
+final String? duration;
   factory AttendanceModel.fromJson(Map<String, dynamic> json) {
     return AttendanceModel(
         id: json["id"].toString(),
@@ -21,6 +21,7 @@ class AttendanceModel {
         checkoutStatus: json["checkout_status"],
         date: json["date"],
         status: json["status"],
+        duration: json["duration"].toString(),
         noted: json["note"]);
   }
   AttendanceModel(
@@ -33,5 +34,6 @@ class AttendanceModel {
       required this.checkoutStatus,
       required this.date,
       required this.status,
+      required this.duration,
       required this.noted});
 }
