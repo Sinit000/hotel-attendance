@@ -5,9 +5,11 @@ import 'package:e_learning/src/feature/auth/bloc/index.dart';
 import 'package:e_learning/src/feature/changeDayof/bloc/index.dart';
 import 'package:e_learning/src/feature/change_password/screen/change_password_page.dart';
 import 'package:e_learning/src/feature/checkin/screen/attendance.dart';
+import 'package:e_learning/src/feature/holiday/screen/holiday_page.dart';
 import 'package:e_learning/src/feature/language/sreen/language.dart';
 
 import 'package:e_learning/src/shared/widget/blank_appbar.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -84,11 +86,27 @@ class _BodyState extends State<Body> {
 
                           //   }, icon: Icon(Icons.arrow_back_ios_new_outlined)),
                           // ),
-                          accountBloc.accountModel!.img == null
-                              ? Container(
-                                  height: 80,
-                                  width: 80,
-                                  child: Image.asset("assets/icon/avartar.png"),
+                          accountBloc.accountModel!.img != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Container(
+                                    height: 80,
+                                    width: 80,
+                                    color: Colors.grey[350],
+                                    child: ExtendedImage.network(
+                                      accountBloc.accountModel!.img!,
+                                      // err: Container(
+                                      //   child: Image.asset("assets/img/store/shop-hint.jpg"),
+                                      // ),
+                                      cacheWidth: 1000,
+                                      // cacheHeight: 400,
+                                      enableMemoryCache: true,
+                                      clearMemoryCacheWhenDispose: true,
+                                      clearMemoryCacheIfFailed: false,
+                                      fit: BoxFit.fill,
+                                      width: double.infinity,
+                                    ),
+                                  ),
                                 )
                               : Container(
                                   height: 80,
@@ -177,12 +195,29 @@ class _BodyState extends State<Body> {
                               _builContainer(
                                   iconData: Icons.account_circle_outlined,
                                   title: "My Counter",
-                                  iconColor: Colors.green,
+                                  iconColor: Colors.blue,
                                   onTap: () {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (con) => CounterPage()));
+                                  }),
+                              Container(
+                                margin: EdgeInsets.only(left: 50),
+                                child: Divider(
+                                  height: 2.0,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                              _builContainer(
+                                  iconData: Icons.account_circle_outlined,
+                                  title: "Publich Holiday",
+                                  iconColor: Colors.pinkAccent,
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (con) => HolidayPage()));
                                   }),
                               Container(
                                 margin: EdgeInsets.only(left: 50),
@@ -281,21 +316,21 @@ class _BodyState extends State<Body> {
                                 ),
                               ),
 
-                              _builContainer(
-                                  iconData: Icons.help_outlined,
-                                  title:
-                                      "${AppLocalizations.of(context)!.translate("help")!}",
-                                  iconColor: Colors.pinkAccent,
-                                  onTap: () {
-                                    // languageModal(context);
-                                  }),
-                              Container(
-                                margin: EdgeInsets.only(left: 50),
-                                child: Divider(
-                                  height: 2.0,
-                                  color: Colors.grey[400],
-                                ),
-                              ),
+                              // _builContainer(
+                              //     iconData: Icons.help_outlined,
+                              //     title:
+                              //         "${AppLocalizations.of(context)!.translate("help")!}",
+                              //     iconColor: Colors.pinkAccent,
+                              //     onTap: () {
+                              //       // languageModal(context);
+                              //     }),
+                              // Container(
+                              //   margin: EdgeInsets.only(left: 50),
+                              //   child: Divider(
+                              //     height: 2.0,
+                              //     color: Colors.grey[400],
+                              //   ),
+                              // ),
                               // Container(
                               //     child: ListTile(
                               //   title: Text(AppLocalizations.of(context)!

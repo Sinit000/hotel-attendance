@@ -3,6 +3,7 @@ import 'package:e_learning/src/feature/employee/bloc/employee_bloc.dart';
 import 'package:e_learning/src/feature/employee/bloc/index.dart';
 import 'package:e_learning/src/feature/employee/screen/team_profile_detail.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -76,6 +77,7 @@ class _TeamProfileState extends State<TeamProfile> {
                             return _attendanceTile(
                                 id: _employeeBloc.emploList[index].id!,
                                 name: _employeeBloc.emploList[index].name!,
+                                img: _employeeBloc.emploList[index].img,
                                 position: "View");
                           },
                         ),
@@ -100,6 +102,7 @@ class _TeamProfileState extends State<TeamProfile> {
     required String name,
     required String position,
     required String id,
+    required String? img,
   }) {
     return AspectRatio(
       aspectRatio: 4 / 4.5,
@@ -121,7 +124,24 @@ class _TeamProfileState extends State<TeamProfile> {
                   borderRadius: BorderRadius.circular(50),
                   // child: Image.asset(
                   //     "assets/icon/avartar.png"),
-                  child: Image.asset("assets/icon/avartar.png"),
+                  child: img != null
+                      ? Container(
+                          color: Colors.grey[350],
+                          child: ExtendedImage.network(
+                            img,
+                            // err: Container(
+                            //   child: Image.asset("assets/img/store/shop-hint.jpg"),
+                            // ),
+                            cacheWidth: 1000,
+                            // cacheHeight: 400,
+                            enableMemoryCache: true,
+                            clearMemoryCacheWhenDispose: true,
+                            clearMemoryCacheIfFailed: false,
+                            fit: BoxFit.fill,
+                            width: double.infinity,
+                          ),
+                        )
+                      : Image.asset("assets/icon/avartar.png"),
                 ),
               ),
 

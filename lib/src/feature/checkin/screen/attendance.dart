@@ -252,6 +252,7 @@ class _AttendanceState extends State<Attendance> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        
         GestureDetector(
           onTap: () {
             String mylat = lat.toString();

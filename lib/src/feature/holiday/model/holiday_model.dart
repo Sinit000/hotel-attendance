@@ -6,6 +6,7 @@ class HolidayModel {
   final String? notes;
   final String? status;
   final String? duration;
+
   factory HolidayModel.fromJson(Map<String, dynamic> json) {
     return HolidayModel(
         id: json["id"].toString(),

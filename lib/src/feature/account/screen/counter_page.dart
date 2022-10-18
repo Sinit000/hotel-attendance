@@ -1,5 +1,6 @@
 import 'package:e_learning/src/feature/account/bloc/index.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -27,78 +28,74 @@ class _CounterPageState extends State<CounterPage> {
       backgroundColor: Colors.grey.withOpacity(0.2),
       appBar: standardAppBar(context, "Counter page"),
       body: Container(
-        margin: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
+        margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
         child: BlocBuilder(
             bloc: _accountBloc,
             builder: (context, state) {
               if (state is FetchedCounter) {
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _itemTile(
-                              name: "Total Ot",
-                              number: "${_accountBloc.mycounter!.otDuration}"),
-                          _itemTile(
-                              name: "Total PH",
-                              number: "${_accountBloc.mycounter!.totalPh}"),
-                        ],
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1.0,
+                          mainAxisSpacing: 4.0,
+                          crossAxisSpacing: 4.0,
+                          children: [
+                            _buildItem(
+                                title: "Total Ot",
+                                text: "${_accountBloc.mycounter!.otDuration}"),
+                            _buildItem(
+                                title: "Total PH",
+                                text: "${_accountBloc.mycounter!.totalPh}"),
+                            _buildItem(
+                                title: "Hospitality Leave",
+                                text:
+                                    "${_accountBloc.mycounter!.hospitalLeave}"),
+                            _buildItem(
+                                title: "Marriage Leave",
+                                text:
+                                    "${_accountBloc.mycounter!.marriageLeave}"),
+                            _buildItem(
+                                title: "Feneral Leave",
+                                text:
+                                    "${_accountBloc.mycounter!.funeralLeave}"),
+                            _buildItem(
+                                title: "Maternity Leave",
+                                text:
+                                    "${_accountBloc.mycounter!.meternityLeave}"),
+                            _buildItem(
+                                title: "Peternity Leave",
+                                text:
+                                    "${_accountBloc.mycounter!.peternityLeave}")
+                            // Container(
+                            //   alignment: Alignment.center,
+                            //   margin: EdgeInsets.all(30.0),
+                            //   decoration: BoxDecoration(
+                            //       color: Colors.green,
+                            //       borderRadius: BorderRadius.circular(20)),
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.center,
+                            //     mainAxisAlignment: MainAxisAlignment.center,
+                            //     children: <Widget>[
+                            //       Text("Data"),
+                            //       SizedBox(
+                            //         height: 10.0,
+                            //       ),
+                            //       Text("Sinit")
+                            //     ],
+                            //   ),
+                            // ),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _itemTile(
-                              name: "Hospitality Leave",
-                              number:
-                                  "${_accountBloc.mycounter!.hospitalLeave}"),
-                          _itemTile(
-                              name: "Marriage Leave",
-                              number:
-                                  "${_accountBloc.mycounter!.marriageLeave}"),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _itemTile(
-                              name: "Feneral Leave",
-                              number:
-                                  "${_accountBloc.mycounter!.funeralLeave}"),
-                          _itemTile(
-                              name: "Maternity Leave",
-                              number:
-                                  "${_accountBloc.mycounter!.meternityLeave}"),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          _itemTile(
-                              name: "Peternity Leave",
-                              number:
-                                  "${_accountBloc.mycounter!.peternityLeave}"),
-                        ],
-                      ),
-                    ],
-                  ),
+                    )
+                  ],
                 );
               }
               if (state is ErrorFethchingAccount) {
@@ -115,86 +112,29 @@ class _CounterPageState extends State<CounterPage> {
       ),
     );
     // BlocProvider.of<AccountBloc>(context).add(FetchCounterStarted());
-    return Scaffold(
-        appBar: standardAppBar(context, "Counter page"),
-        body: Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
-          child: BlocConsumer(
-              bloc: BlocProvider.of<AccountBloc>(context),
-              builder: (context, state) {
-                if (state is ErrorFethchingAccount) {
-                  return Center(
-                    child: Text(state.error.toString()),
-                  );
-                }
-                if (state is FetchedCounter) {
-                  return SmartRefresher(
-                    controller: _refreshController,
-                    enablePullDown: true,
-                    enablePullUp: true,
-                    onLoading: () {
-                      // _employeeBloc.add(FetchEmloyeeStarted());
-                    },
-                    onRefresh: () {
-                      // _employeeBloc.add(RefreshEmployeeStarted());
-                    },
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            children: [
-                              _itemTile(
-                                  name: "Total Ot",
-                                  number:
-                                      "${BlocProvider.of<AccountBloc>(context).mycounter!.otDuration}"),
-                              _itemTile(
-                                  name: "Total PH",
-                                  number:
-                                      "${BlocProvider.of<AccountBloc>(context).mycounter!.totalPh}"),
-                            ],
-                          ),
-                          // _itemTile(
-                          //     name: "Hospitality Leave",
-                          //     number:
-                          //         "${BlocProvider.of<AccountBloc>(context).mycounter!.hospitalLeave}"),
-                          // _itemTile(
-                          //     name: "Marriage Leave",
-                          //     number:
-                          //         "${BlocProvider.of<AccountBloc>(context).mycounter!.marriageLeave}"),
-                          // _itemTile(
-                          //     name: "Feneral Leave",
-                          //     number:
-                          //         "${BlocProvider.of<AccountBloc>(context).mycounter!.funeralLeave}"),
-                          // _itemTile(
-                          //     name: "Maternity Leave",
-                          //     number:
-                          //         "${BlocProvider.of<AccountBloc>(context).mycounter!.meternityLeave}"),
-                          // _itemTile(
-                          //     name: "Peternity Leave",
-                          //     number:
-                          //         "${BlocProvider.of<AccountBloc>(context).mycounter!.peternityLeave}"),
-                        ],
-                      ),
-                    ),
-                  );
-                }
-                return Center(
-                  // child: CircularProgressIndicator(),
-                  child: Lottie.asset('assets/animation/loader.json',
-                      width: 200, height: 200),
-                );
-              },
-              listener: (context, state) {
-                // if (state is FetchedEmployee) {
-                //   _refreshController.loadComplete();
-                //   _refreshController.refreshCompleted();
-                // }
-                // if (state is EndofEmployeeList) {
-                //   _refreshController.loadNoData();
-                // }
-              }),
-        ));
+  }
+
+  _buildItem({required String title, required String text}) {
+    return Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+          color: Colors.green, borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            "$title",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
+          Text("$text")
+        ],
+      ),
+    );
   }
 
   _itemTile({

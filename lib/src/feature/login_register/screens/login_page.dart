@@ -19,10 +19,12 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController _passwordController = TextEditingController();
   //     TextEditingController();
   late GlobalKey<FormState>? _formKey = GlobalKey<FormState>();
+  LoginBloc _loginBloc = LoginBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<LoginBloc, LoginState>(
+      body: BlocListener(
+        bloc: _loginBloc,
         listener: (context, state) {
           if (state is Logging) {
             EasyLoading.show(status: 'loading...');
@@ -188,11 +190,9 @@ class _LoginPageState extends State<LoginPage> {
                               color: Colors.blue,
                               onPressed: () {
                                 if (_formKey!.currentState!.validate()) {
-                                  BlocProvider.of<LoginBloc>(context).add(
-                                      LoginPressed(
-                                          phoneNumber:
-                                              _phoneNumberController.text,
-                                          password: _passwordController.text));
+                                  _loginBloc.add(LoginPressed(
+                                      phoneNumber: _phoneNumberController.text,
+                                      password: _passwordController.text));
                                 }
                               },
                               padding: EdgeInsets.symmetric(vertical: 15),
@@ -215,5 +215,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _loginBloc.close();
+    super.dispose();
   }
 }

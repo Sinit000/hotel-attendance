@@ -26,5 +26,29 @@ class HolidayBloc extends Bloc<HolidayEvent, HolidayState> {
         yield ErrorFetchingHoliday(error: e.toString());
       }
     }
+    if (event is InitailizePHStarted) {
+      yield InitailizingPH();
+      try {
+        // page = 1;
+        holidaylist.clear();
+        List<HolidayModel> _templist = await leaveRepository.getPh();
+        holidaylist.addAll(_templist);
+        yield InitailizedPH();
+      } catch (e) {
+        yield ErrorFetchingHoliday(error: e.toString());
+      }
+    }
+    if (event is FetchPHStarted) {
+      yield FetchingHoliday();
+      try {
+         holidaylist.clear();
+        List<HolidayModel> _templist = await leaveRepository.getPh();
+        holidaylist.addAll(_templist);
+        // leavemodel.addAll(leaveList);
+        yield FetchedHoliday();
+      } catch (e) {
+        yield ErrorFetchingHoliday(error: e.toString());
+      }
+    }
   }
 }

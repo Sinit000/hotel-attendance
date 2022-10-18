@@ -17,14 +17,13 @@ class FetchCheckAccountStarted extends AccountEvent {
   FetchCheckAccountStarted({required this.todayDate});
 }
 
-
-
 class AddCheckinStarted extends AccountEvent {
   final String checkinTime;
   final String lat;
   final String lon;
   final String createdDate;
   final String date;
+  final String qrId;
 
   AddCheckinStarted({
     required this.checkinTime,
@@ -32,7 +31,7 @@ class AddCheckinStarted extends AccountEvent {
     required this.lon,
     required this.createdDate,
     required this.date,
-    // required this.timetableId
+    required this.qrId,
   });
 }
 
@@ -43,17 +42,17 @@ class AddCheckoutStarted extends AccountEvent {
   final String lon;
   final String createdDate;
   final String date;
+  final String qrId;
   // final String timetableId;
-  AddCheckoutStarted({
-    required this.id,
-    required this.checkoutTime,
-    required this.lat,
-    required this.lon,
-    // required this.locationId,
-    required this.date,
-    required this.createdDate,
-    // required this.timetableId
-  });
+  AddCheckoutStarted(
+      {required this.id,
+      required this.checkoutTime,
+      required this.lat,
+      required this.lon,
+      // required this.locationId,
+      required this.date,
+      required this.createdDate,
+      required this.qrId});
 }
 
 class SetAccount extends AccountEvent {

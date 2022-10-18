@@ -8,9 +8,13 @@ import 'package:e_learning/src/feature/language/bloc/index.dart';
 import 'package:e_learning/src/feature/notification/bloc/index.dart';
 import 'package:e_learning/src/feature/ot_compesation/bloc/index.dart';
 import 'package:e_learning/src/feature/permission/bloc/index.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'appLocalizations.dart';
@@ -27,10 +31,40 @@ import 'src/feature/notification/screen/local_notification.dart';
 
 ///Receive message when app is in background solution for on message
 // GlobalKey<NavigatorState>? navigatorKey = GlobalKey<NavigatorState>();
+// AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     "high_importance_channel",
+//     "High Importance Notifications",
+//     "High Importance Notifications",
+//     importance: Importance.high,
+//     playSound: true);
+// final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//     FlutterLocalNotificationsPlugin();
 
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+//   print('A bg message just showed up :  ${message.messageId}');
+// }
+
+enum Env { Production, Developement }
+final Env env = Env.Production;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // AwesomeNotifications().initialize(
+
+  await dotenv.load(fileName: getServerEnvAssetPath(env));
+  // await Firebase.initializeApp();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  // await flutterLocalNotificationsPlugin
+  //     .resolvePlatformSpecificImplementation<
+  //         AndroidFlutterLocalNotificationsPlugin>()
+  //     ?.createNotificationChannel(channel);
+
+  // await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+  //   alert: true,
+  //   badge: true,
+  //   sound: true,
+  // );
+  // // AwesomeNotifications().initialize(
   //     "resource://drawable/ic_stat_ic_launcher",
   //     [
   //       NotificationChannel(
@@ -61,11 +95,24 @@ void main() async {
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
-    DeviceOrientation.landscapeLeft,
-    DeviceOrientation.landscapeRight,
+    // DeviceOrientation.landscapeLeft,
+    // DeviceOrientation.landscapeRight,
   ]).then((_) {
     runApp(MyApp());
   });
+}
+
+String getServerEnvAssetPath(Env env) {
+  late final String path;
+  switch (env) {
+    case Env.Developement:
+      path = '';
+      break;
+    case Env.Production:
+      path = 'assets/.env';
+      break;
+  }
+  return path;
 }
 
 class MyApp extends StatefulWidget {

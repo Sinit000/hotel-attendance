@@ -5,26 +5,24 @@ import 'package:e_learning/src/feature/auth/bloc/authentication_state.dart';
 import 'package:e_learning/src/feature/home/screen/menu.dart';
 import 'package:e_learning/src/feature/home/screen/widget/home_item.dart';
 import 'package:e_learning/src/feature/notification/res/notification_api.dart';
+import 'package:e_learning/src/feature/notification/screen/local_notification.dart';
 import 'package:e_learning/src/feature/notification/screen/notification_page.dart';
 import 'package:e_learning/src/feature/timetable/model/schedule_model.dart';
 import 'package:e_learning/src/feature/timetable/model/timetable_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../../../../appLocalizations.dart';
 import 'home_menu.dart';
 import 'my_app_bar.dart';
 
 class HomePage extends StatefulWidget {
-
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
- 
-
   @override
   Widget build(BuildContext context) {
     final List<Map> homeMenuUser = [
@@ -62,7 +60,6 @@ class _HomePageState extends State<HomePage> {
         "image": "assets/blackIcon/overtime.png",
         "onPressed": () {
           Navigator.pushNamed(context, overtime);
-         
         }
       },
       {
@@ -71,15 +68,13 @@ class _HomePageState extends State<HomePage> {
         "image": "assets/blackIcon/money.png",
         "onPressed": () {
           Navigator.pushNamed(context, payslip);
-         
         }
       },
       {
         "name": "${AppLocalizations.of(context)!.translate("changing")!}",
         "iconColor": Colors.blue,
-        "image": "assets/blackIcon/money.png",
+        "image": "assets/blackIcon/calendar.png",
         "onPressed": () {
-         
           BlocProvider.of<AuthenticationBloc>(context).state.user!.roleName ==
                   "Cheif Department"
               ? Navigator.pushNamed(context, dayoff)
@@ -94,18 +89,16 @@ class _HomePageState extends State<HomePage> {
           Navigator.pushNamed(context, teamProfile);
         }
       },
-     
       {
         "name": "${AppLocalizations.of(context)!.translate("report")!}",
         "iconColor": Colors.blue,
         "image": "assets/blackIcon/analytics.png",
         "onPressed": () {
-          Navigator.pushNamed(context, report);
+          Navigator.pushNamed(context, dashReport);
         }
       },
-      
     ];
-    
+
     print(BlocProvider.of<AuthenticationBloc>(context).state.user!.roleName);
     return Scaffold(
       backgroundColor: Colors.grey.withOpacity(0.2),
@@ -153,7 +146,6 @@ class _HomePageState extends State<HomePage> {
                           name: homeMenuUser[index]["name"],
                           image: homeMenuUser[index]["image"],
                           onPressed: homeMenuUser[index]["onPressed"]);
-                      
                     },
                     itemCount: homeMenuUser.length,
                   ),
@@ -163,7 +155,36 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     // await flutterLocalNotificationsPlugin.show(
+      //     //     0,
+      //     //     'plain title',
+      //     //     'plain body',
+      //     //     NotificationDetails(
+      //     //       android: AndroidNotificationDetails(
+      //     //           '', '', 'channel.description',
+      //     //           icon: '@mipmap/launcher_icon'),
+      //     //     ),
+      //     //     payload: 'item x');
+      //     _showNotificationWithActions();
+      //   },
+      //   child: Icon(Icons.play_arrow),
+      // ),
     );
-   
+  }
+
+  Future<void> _showNotificationWithActions() async {
+    print('object');
+    const AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      '...',
+      '...',
+      '...',
+    );
+    const NotificationDetails notificationDetails =
+        NotificationDetails(android: androidNotificationDetails);
+    await flutterLocalNotificationsPlugin.show(
+        0, '...', '...', notificationDetails);
   }
 }

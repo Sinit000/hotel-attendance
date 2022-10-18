@@ -3,9 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:e_learning/src/feature/notification/model/notification_model.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NotificationRepository {
-  String mainUrl = "https://banban-hr.herokuapp.com/api/";
+  String mainUrl = "${dotenv.env['baseUrl']}";
   ApiProvider apiProvider = ApiProvider();
   Future<List<NotificationModel>> getNotification(
       {required int rowperpage, required int page}) async {

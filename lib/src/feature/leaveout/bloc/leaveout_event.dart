@@ -51,48 +51,53 @@ class FetchLeaveOutSecurityStarted extends LeaveOutEvent {
 
 class AddLeaveOutStarted extends LeaveOutEvent {
   final String reason;
-
+  final String requestType;
   final String timein;
   final String timeout;
   final String createdDate;
   final String today;
-  AddLeaveOutStarted({
-    required this.createdDate,
-    required this.today,
-    required this.reason,
-    required this.timein,
-    required this.timeout,
-  });
+  AddLeaveOutStarted(
+      {required this.createdDate,
+      required this.today,
+      required this.reason,
+      required this.timein,
+      required this.timeout,
+      required this.requestType});
 }
 
 class UpdateLeaveOutStarted extends LeaveOutEvent {
   final String id;
   final String reason;
+  final String requestType;
 
   final String timein;
   final String timeout;
   final String createdDate;
   final String today;
-  UpdateLeaveOutStarted({
-    required this.id,
-    required this.createdDate,
-    required this.today,
-    required this.reason,
-    required this.timein,
-    required this.timeout,
-  });
+
+  UpdateLeaveOutStarted(
+      {required this.id,
+      required this.createdDate,
+      required this.today,
+      required this.reason,
+      required this.timein,
+      required this.timeout,
+      required this.requestType});
 }
 
 class UpdateLeaveOutStatusStarted extends LeaveOutEvent {
   final String id;
   final String status;
-  UpdateLeaveOutStatusStarted({required this.id, required this.status});
+  // final String requestType;
+  UpdateLeaveOutStatusStarted(
+      {required this.id, required this.status});
 }
 
 class UpdateLeaveOutSStatusStarted extends LeaveOutEvent {
   final String id;
   final String status;
-  UpdateLeaveOutSStatusStarted({required this.id, required this.status});
+  final String arrivingTime;
+  UpdateLeaveOutSStatusStarted({required this.id, required this.status,required this.arrivingTime});
 }
 
 class DeleteLeaveOutStarted extends LeaveOutEvent {

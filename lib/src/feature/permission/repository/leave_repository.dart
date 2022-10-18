@@ -3,9 +3,10 @@ import 'package:e_learning/src/feature/permission/model/leave_model.dart';
 import 'package:e_learning/src/feature/permission/model/leave_type_model.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LeaveRepository {
-  String mainUrl = "https://banban-hr.herokuapp.com/api/";
+  String mainUrl = "${dotenv.env['baseUrl']}";
   ApiProvider apiProvider = ApiProvider();
   Future<List<LeaveTypeModel>> getleavetype() async {
     try {
@@ -34,7 +35,7 @@ class LeaveRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);
@@ -60,7 +61,7 @@ class LeaveRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/leaves/chief?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}leaves/chief?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);

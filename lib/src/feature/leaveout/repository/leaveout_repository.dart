@@ -4,9 +4,10 @@ import 'package:e_learning/src/feature/permission/model/leave_model.dart';
 import 'package:e_learning/src/feature/permission/model/leave_type_model.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LeaveOutRepository {
-  String mainUrl = "https://banban-hr.herokuapp.com/api/";
+  String mainUrl = "${dotenv.env['baseUrl']}";
   ApiProvider apiProvider = ApiProvider();
   // Future<List<LeaveOutModel>> getleaveout() async {
   //   try {
@@ -35,7 +36,7 @@ class LeaveOutRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/me/leaveouts?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}me/leaveouts?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);
@@ -61,7 +62,7 @@ class LeaveOutRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/leaveouts/chief?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}leaveouts/chief?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);
@@ -87,7 +88,7 @@ class LeaveOutRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/leaveouts/security?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}leaveouts/security?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);
@@ -135,18 +136,17 @@ class LeaveOutRepository {
   Future<void> editleaveOutStatusS({
     required String id,
     required String status,
+    required String arrivingTime,
   }) async {
     try {
       String url = mainUrl + "leaveouts/security/edit/$id";
       Map body = {
-        // "type": "company",
+        "arrived_time": arrivingTime,
         "status": status,
       };
       Response response = await apiProvider.put(url, body);
 
-      print(response.statusCode);
       if (response.statusCode == 200 && response.data["code"] == 0) {
-        print(response.data);
         return;
       } else if (response.data["code"].toString() != "0") {
         throw response.data["message"];
@@ -162,10 +162,12 @@ class LeaveOutRepository {
       required String timein,
       required String createDate,
       required String date,
+      required String requestType,
       required String timeout}) async {
     try {
       String url = mainUrl + "me/leaveouts/add";
       Map body = {
+        "request_type": requestType,
         "reason": reason,
         "time_in": timein,
         "time_out": timeout,
@@ -190,6 +192,7 @@ class LeaveOutRepository {
   Future<void> editleaveOut(
       {required String id,
       required String reason,
+      required String requestType,
       required String timein,
       required String createDate,
       required String date,
@@ -197,6 +200,7 @@ class LeaveOutRepository {
     try {
       String url = mainUrl + "me/leaveouts/edit/$id";
       Map body = {
+        "request_type": requestType,
         "reason": reason,
         "created_at": createDate,
         "date": date,
@@ -204,8 +208,6 @@ class LeaveOutRepository {
         "time_out": timeout,
       };
       Response response = await apiProvider.put(url, body);
-
-      print(response.statusCode);
       if (response.statusCode == 200 && response.data["code"] == 0) {
         print(response.data);
         return;

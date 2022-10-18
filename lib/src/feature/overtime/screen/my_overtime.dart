@@ -645,68 +645,36 @@ class _BodyState extends State<Body> {
                         SizedBox(
                           height: 15,
                         ),
-                        isEnable == false
-                            ? TextFormField(
-                                controller: _payTypeCtrl,
-                                enabled: false,
-                                readOnly: true,
-                                // onTap: () {
-                                //   customModal(context, _payType, (value) {
-                                //     _payTypeCtrl.text = value;
-                                //   });
-                                // },
-                                // keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    suffixIcon: Icon(Icons.arrow_drop_down),
-                                    contentPadding: EdgeInsets.all(15),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0),
-                                      ),
-                                      borderSide: new BorderSide(
-                                        width: 1,
-                                      ),
-                                    ),
-                                    isDense: true,
-                                    labelText: "Choose pay type"),
-                                // validator: (value) {
-                                //   if (value!.isEmpty) {
-                                //     return 'type is required.';
-                                //   }
-                                //   return null;
-                                // },
-                              )
-                            : TextFormField(
-                                controller: _payTypeCtrl,
-                                // enabled: false,
-                                enabled: true,
-                                readOnly: true,
-                                onTap: () {
-                                  customModal(context, _payType, (value) {
-                                    _payTypeCtrl.text = value;
-                                  });
-                                },
-                                // keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                    suffixIcon: Icon(Icons.arrow_drop_down),
-                                    contentPadding: EdgeInsets.all(15),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(5.0),
-                                      ),
-                                      borderSide: new BorderSide(
-                                        width: 1,
-                                      ),
-                                    ),
-                                    isDense: true,
-                                    labelText: "Choose pay type"),
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'type is required.';
-                                  }
-                                  return null;
-                                },
-                              )
+                        TextFormField(
+                          controller: _payTypeCtrl,
+
+                          readOnly: true,
+                          onTap: () {
+                            customModal(context, _payType, (value) {
+                              _payTypeCtrl.text = value;
+                            });
+                          },
+                          // keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              suffixIcon: Icon(Icons.arrow_drop_down),
+                              contentPadding: EdgeInsets.all(15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                                borderSide: new BorderSide(
+                                  width: 1,
+                                ),
+                              ),
+                              isDense: true,
+                              labelText: "Choose pay type"),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'type is required.';
+                            }
+                            return null;
+                          },
+                        )
                       ],
                     )),
               ),

@@ -7,6 +7,9 @@ class HolidayEvent extends Equatable {
 }
 
 class InitializeHolidayStarted extends HolidayEvent {}
+class InitailizePHStarted extends HolidayEvent{}
+
+class FetchPHStarted extends HolidayEvent{}
 
 class FetchHolidayStarted extends HolidayEvent {}
 

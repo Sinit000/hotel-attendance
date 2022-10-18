@@ -3,7 +3,7 @@ import 'package:e_learning/src/feature/permission/model/leave_type_model.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import 'package:lottie/lottie.dart';
 
 class LeavetypePage extends StatefulWidget {
@@ -37,7 +37,16 @@ class _LeavetypePageState extends State<LeavetypePage> {
             }
             if (state is ErrorFetchingLeaveType) {
               return Center(
-                child: Text(state.error.toString()),
+                child: TextButton(
+                    onPressed: () {
+                      _leaveBloc.add(FetchLeaveTypeStarted());
+                    },
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.teal,
+                      onSurface: Colors.grey,
+                    ),
+                    child: Text("Retry")),
               );
             }
             return Stack(
@@ -66,6 +75,58 @@ class _LeavetypePageState extends State<LeavetypePage> {
             child: ListView.builder(
                 itemCount: leave.length,
                 itemBuilder: (context, index) {
+                  return Card(
+                    child: Container(
+                      height: 80,
+                      margin: EdgeInsets.only(top: 10),
+                      child: ListTile(
+                        leading: Container(
+                          // padding: EdgeInsets.only(left: 10),
+                          // margin: EdgeInsets.only(left: 20, top: 5),
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.orangeAccent,
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Center(
+                            child: leave[index].leaveType.contains('Maternity')
+                                ? Text(
+                                    "1",
+                                    style: TextStyle(color: Colors.white),
+                                    textScaleFactor: 1.2,
+                                  )
+                                : Text(
+                                    "${leave[index].duration}",
+                                    style: TextStyle(color: Colors.white),
+                                    textScaleFactor: 1.5,
+                                  ),
+                          ),
+                        ),
+                        title: Text(
+                          "${leave[index].leaveType}",
+                          textScaleFactor: 1.3,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: leave[index].leaveType.contains('Maternity')
+                            ? Text(
+                                "1 Month",
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold),
+                                textScaleFactor: 1.2,
+                              )
+                            : Text(""),
+                        trailing: leave[index].leaveType == "Special Leave"
+                            ? Icon(
+                                Icons.navigate_next_outlined,
+                              )
+                            : Text(""),
+                      ),
+                    ),
+                  );
                   return Container(
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey.withOpacity(0.2)),
@@ -126,7 +187,6 @@ class _LeavetypePageState extends State<LeavetypePage> {
                                   Text(
                                     "${leave[index].leaveType}",
                                     textScaleFactor: 1.3,
-                                    
                                   ),
                                   SizedBox(
                                     height: 4,
@@ -180,5 +240,11 @@ class _LeavetypePageState extends State<LeavetypePage> {
           height: double.infinity,
           color: Theme.of(context).primaryColor,
         ));
+  }
+
+  @override
+  void dispose() {
+    _leaveBloc.close();
+    super.dispose();
   }
 }

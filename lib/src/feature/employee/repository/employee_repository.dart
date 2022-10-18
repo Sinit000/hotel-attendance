@@ -2,9 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:e_learning/src/feature/account/model/account_model.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class EmployeeRepository {
-  String mainUrl = "https://banban-hr.herokuapp.com/api/";
+  String mainUrl = "${dotenv.env['baseUrl']}";
   ApiProvider apiProvider = ApiProvider();
   Future<List<AccountModel>> getEmployeeByDepartmentAll() async {
     try {

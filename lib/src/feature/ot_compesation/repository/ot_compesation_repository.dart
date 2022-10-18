@@ -3,9 +3,10 @@ import 'package:e_learning/src/feature/ot_compesation/model/ot_compesation_model
 import 'package:e_learning/src/feature/overtime/model/overtime_model.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class OTCompesationRepository {
-  String mainUrl = "https://banban-hr.herokuapp.com/api/";
+  String mainUrl = "${dotenv.env['baseUrl']}";
   ApiProvider _apiProvider = ApiProvider();
   // for specific user
   Future<List<OTCompesationModel>> getOTCompesation(
@@ -15,7 +16,7 @@ class OTCompesationRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/me/compesations?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}me/compesations?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await _apiProvider.get(url, null, null);
       print(response.statusCode);
@@ -41,7 +42,7 @@ class OTCompesationRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/chief/overtimes/departments?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}chief/overtimes/departments?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await _apiProvider.get(url, null, null);
       print(response.statusCode);

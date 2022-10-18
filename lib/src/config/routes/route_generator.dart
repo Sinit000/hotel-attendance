@@ -23,6 +23,7 @@ import 'package:e_learning/src/feature/permission/screen/all_leave.dart';
 import 'package:e_learning/src/feature/permission/screen/leave_page.dart';
 import 'package:e_learning/src/feature/permission/screen/my_leave.dart';
 import 'package:e_learning/src/feature/report/screen/report_page.dart';
+import 'package:e_learning/src/feature/report/screen/report_with_dashboard.dart';
 import 'package:flutter/material.dart';
 
 import 'routes.dart';
@@ -87,6 +88,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MyDayOff());
       case notification:
         return MaterialPageRoute(builder: (_) => NotificationPage());
+
+      case dashReport:
+        return MaterialPageRoute(builder: (_) => ReportWithDashboard());
       // case editCustomer:
       //   if (args is Customer) {
       //     return MaterialPageRoute(

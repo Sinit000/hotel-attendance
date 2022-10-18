@@ -144,6 +144,14 @@ class LeavePage extends StatelessWidget {
                   ? SizedBox(height: 20)
                   : Container(),
               BlocProvider.of<AuthenticationBloc>(context)
+                      .state
+                      .user!
+                      .roleName!
+                      .toLowerCase()
+                      .contains('security')
+                  ? SizedBox(height: 20)
+                  : Container(),
+              BlocProvider.of<AuthenticationBloc>(context)
                           .state
                           .user!
                           .roleName!
@@ -174,6 +182,7 @@ class LeavePage extends StatelessWidget {
                       ),
                     )
                   : Container(),
+
               SizedBox(height: 20),
               delayedWidget(
                 child: ComponentWidget(

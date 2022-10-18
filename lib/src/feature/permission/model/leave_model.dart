@@ -13,6 +13,7 @@ class LeaveModel {
   final String? number;
   final String? note;
   final String? imgUrl;
+  final String? leaveDeduction;
   final LeaveTypeModel? leaveTypeModel;
   factory LeaveModel.fromJson(Map<String, dynamic> json) {
     return LeaveModel(
@@ -28,6 +29,7 @@ class LeaveModel {
         subtype: json["subtype"],
         imgUrl: json["image_url"],
         note: json["note"],
+        leaveDeduction: json["leave_deduction"].toString(),
         leaveTypeModel: json["leavetype"] == null
             ? null
             : LeaveTypeModel.fromJson(json["leavetype"]));
@@ -45,5 +47,6 @@ class LeaveModel {
       required this.leavetype,
       required this.type,
       required this.imgUrl,
+      required this.leaveDeduction,
       required this.leaveTypeModel});
 }

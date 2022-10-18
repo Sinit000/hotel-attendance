@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 enum Method { Post, Get, Delete, Put }
 
@@ -77,7 +78,7 @@ Future<String> uploadImage({required File image}) async {
     // var type = "upload";
 
     Response response = await apiProvider.post(
-        "https://banban-hr.herokuapp.com/api/employee/uploads", formData, null);
+        "${dotenv.env['baseUrl']}/employee/uploads", formData, null);
     print(response.statusCode);
     print(response);
 

@@ -136,22 +136,25 @@ class _CheckinPageState extends State<CheckinPage> {
         // print(mylat);
         // print(scanData.code.toString());
         String qrResult = scanData.code!.substring(0, 3);
+        // after split data get as array
+        var qrId = scanData.code!.split("/");
         // var lastResult = qrResult.split(" ");
         print(qrResult);
         if (qrResult == "ban") {
-          print('valid qr');
-          print(mydate);
-          print(createDate);
-          print(checkinTime);
-          print(widget.lat);
-          print(widget.lon);
+          // print('valid qr');
+          // print(mydate);
+          // print(createDate);
+          // print(checkinTime);
+          // print(widget.lat);
+          // print(widget.lon);
+          // print(qrId[1]);
           BlocProvider.of<AccountBloc>(context).add(AddCheckinStarted(
-            date: mydate!,
-            createdDate: createDate!,
-            checkinTime: checkinTime!,
-            lat: widget.lat,
-            lon: widget.lon,
-          ));
+              date: mydate!,
+              createdDate: createDate!,
+              checkinTime: checkinTime!,
+              lat: widget.lat,
+              lon: widget.lon,
+              qrId: qrId[1]));
 
           print("success");
         } else {

@@ -7,13 +7,14 @@ class NotificationModel {
   // final String? targetValue;
   final String title;
   final String? time;
+  final String? createDate;
 
   NotificationModel(
       {required this.id,
       required this.comment,
       required this.userId,
       required this.date,
-      // required this.targetValue,
+      required this.createDate,
       required this.time,
       required this.title});
 
@@ -23,7 +24,7 @@ class NotificationModel {
         comment: json["body"],
         date: json['date'],
         userId: json['user_id'].toString(),
-        // targetValue: json['target_value'],
+        createDate: json['created_at'].toString(),
         time: json["time"].toString(),
         title: json["title"]);
   }

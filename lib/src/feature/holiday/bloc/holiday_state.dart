@@ -7,6 +7,8 @@ class HolidayState extends Equatable {
 }
 
 class InitializingHoliday extends HolidayState {}
+class InitailizingPH extends HolidayState{}
+class InitailizedPH extends HolidayState{}
 
 class InitializedHoliday extends HolidayState {}
 

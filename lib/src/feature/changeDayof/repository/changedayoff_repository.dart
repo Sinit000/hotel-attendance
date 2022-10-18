@@ -3,9 +3,10 @@ import 'package:e_learning/src/feature/changeDayof/model/changeday_off_model.dar
 
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ChangeDayoffRepository {
-  String mainUrl = "https://banban-hr.herokuapp.com/api/";
+  String mainUrl = "${dotenv.env['baseUrl']}";
   ApiProvider apiProvider = ApiProvider();
   // Future<List<LeaveOutModel>> getleaveout() async {
   //   try {
@@ -34,7 +35,7 @@ class ChangeDayoffRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/me/dayoffs?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}me/dayoffs?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);
@@ -60,7 +61,7 @@ class ChangeDayoffRepository {
       required String endDate}) async {
     try {
       String url =
-          "https://banban-hr.herokuapp.com/api/dayoffs/chief?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+          "${dotenv.env['baseUrl']}dayoffs/chief?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await apiProvider.get(url, null, null);
       print(response.statusCode);

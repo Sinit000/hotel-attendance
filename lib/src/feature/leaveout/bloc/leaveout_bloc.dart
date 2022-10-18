@@ -88,7 +88,7 @@ class LeaveOutBloc extends Bloc<LeaveOutEvent, LeaveoutState> {
             reason: event.reason,
             // duration: event.duration,
             timein: event.timein,
-            // type: event.type,
+            requestType: event.requestType,
             timeout: event.timeout);
         yield AddedLeaveOut();
         yield FetchingLeaveOut();
@@ -126,6 +126,7 @@ class LeaveOutBloc extends Bloc<LeaveOutEvent, LeaveoutState> {
             // duration: event.duration,
             timein: event.timein,
             // type: event.type,
+            requestType: event.requestType,
             timeout: event.timeout);
         yield AddedLeaveOut();
         yield FetchingLeaveOut();
@@ -323,7 +324,9 @@ class LeaveOutBloc extends Bloc<LeaveOutEvent, LeaveoutState> {
         dateRange = "This month";
 
         await leaveRepository.editleaveOutStatusS(
-            id: event.id, status: event.status);
+            arrivingTime: event.arrivingTime,
+            id: event.id,
+            status: event.status);
         yield AddedLeaveOut();
         yield FetchingLeaveOut();
         security.clear();

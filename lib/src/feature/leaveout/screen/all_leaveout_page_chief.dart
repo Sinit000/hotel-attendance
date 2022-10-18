@@ -35,16 +35,22 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  LeaveOutBloc _chiefBloc = LeaveOutBloc();
+  @override
+  void initState() {
+    _chiefBloc.add(
+        InitializeAllLeaveOutStarted(dateRange: mydateRage, isSecond: false));
+    super.initState();
+  }
+
   final RefreshController _refreshController = RefreshController();
 
   String mydateRage = "This month";
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<LeaveOutBloc>(context).add(
-        InitializeAllLeaveOutStarted(dateRange: mydateRage, isSecond: false));
     return BlocConsumer(
-        bloc: BlocProvider.of<LeaveOutBloc>(context),
+        bloc: _chiefBloc,
         builder: (context, state) {
           print(state);
 
@@ -63,23 +69,20 @@ class _BodyState extends State<Body> {
             return Column(
               children: [
                 // user condition to avoid null and cause error while data is fetching
-                BlocProvider.of<LeaveOutBloc>(context).dateRange == null
+                _chiefBloc.dateRange == null
                     ? Container()
                     : Container(
                         padding: EdgeInsets.only(left: 20),
                         alignment: Alignment.centerLeft,
                         child: DropdownButton<String>(
-                          hint: BlocProvider.of<LeaveOutBloc>(context)
-                                  .dateRange!
-                                  .contains("to")
-                              ? Text(
-                                  "${BlocProvider.of<LeaveOutBloc>(context).dateRange!}")
+                          hint: _chiefBloc.dateRange!.contains("to")
+                              ? Text("${_chiefBloc.dateRange!}")
                               : Text(
                                   // leaveBloc.dateRange!,
                                   // _reportBloc.dateRange!.contains("to")
                                   //     ? _reportBloc.dateRange!
                                   //     :W
-                                  "${BlocProvider.of<LeaveOutBloc>(context).dateRange!}",
+                                  "${_chiefBloc.dateRange!}",
                                   textScaleFactor: 1,
                                 ),
                           items: [
@@ -103,9 +106,8 @@ class _BodyState extends State<Body> {
                                 print("myvalue $mydateRage");
                                 print(mydateRage);
                               });
-                              BlocProvider.of<LeaveOutBloc>(context).add(
-                                  InitializeAllLeaveOutStarted(
-                                      dateRange: value, isSecond: true));
+                              _chiefBloc.add(InitializeAllLeaveOutStarted(
+                                  dateRange: value, isSecond: true));
                             }
                           },
                         ),
@@ -115,7 +117,7 @@ class _BodyState extends State<Body> {
                   height: 10,
                   color: Colors.transparent,
                 ),
-                BlocProvider.of<LeaveOutBloc>(context).allLeaveout.length == 0
+                _chiefBloc.allLeaveout.length == 0
                     ? Container(
                         child: Text("No data"),
                       )
@@ -124,14 +126,13 @@ class _BodyState extends State<Body> {
                         onRefresh: () {
                           print("fetch dateRange");
                           print(mydateRage);
-                          BlocProvider.of<LeaveOutBloc>(context).add(
-                              InitializeAllLeaveOutStarted(
-                                  dateRange: mydateRage, isRefresh: 'yes'));
+                          _chiefBloc.add(InitializeAllLeaveOutStarted(
+                              dateRange: mydateRage, isRefresh: 'yes'));
                         },
                         onLoading: () {
                           print("fetch dateRange");
                           print(mydateRage);
-                          BlocProvider.of<LeaveOutBloc>(context).add(
+                          _chiefBloc.add(
                               FetchAllLeaveOutStarted(dateRange: mydateRage));
                         },
                         enablePullDown: true,
@@ -147,10 +148,7 @@ class _BodyState extends State<Body> {
                                 shrinkWrap: true,
                                 // padding: EdgeInsets.only(left: 10, top: 10, right: 0),
 
-                                itemCount:
-                                    BlocProvider.of<LeaveOutBloc>(context)
-                                        .allLeaveout
-                                        .length,
+                                itemCount: _chiefBloc.allLeaveout.length,
                                 itemBuilder: (context, index) {
                                   return Container(
                                     margin: EdgeInsets.only(
@@ -189,7 +187,7 @@ class _BodyState extends State<Body> {
                                                 ),
                                               ),
                                               Text(
-                                                "${BlocProvider.of<LeaveOutBloc>(context).allLeaveout[index].date}",
+                                                "${_chiefBloc.allLeaveout[index].date}",
                                                 style: TextStyle(
                                                     color: Colors.green,
                                                     fontWeight:
@@ -214,7 +212,7 @@ class _BodyState extends State<Body> {
                                                 ),
                                               ),
                                               Text(
-                                                "${BlocProvider.of<LeaveOutBloc>(context).allLeaveout[index].name}",
+                                                "${_chiefBloc.allLeaveout[index].name}",
                                                 style: TextStyle(
                                                     color: Colors.green,
                                                     fontWeight:
@@ -239,7 +237,7 @@ class _BodyState extends State<Body> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    "${BlocProvider.of<LeaveOutBloc>(context).allLeaveout[index].reason} ",
+                                                    "${_chiefBloc.allLeaveout[index].reason} ",
                                                     style: TextStyle(
                                                         color: Colors.red,
                                                         fontWeight:
@@ -260,9 +258,7 @@ class _BodyState extends State<Body> {
                                             height: 5.0,
                                           ),
                                           _buildExpenable(
-                                              BlocProvider.of<LeaveOutBloc>(
-                                                      context)
-                                                  .allLeaveout[index])
+                                              _chiefBloc.allLeaveout[index])
                                           // SizedBox(
                                           //   height: 5.0,
                                           // ),
@@ -420,7 +416,8 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 10,
               ),
-              leaveOutModel.status == "pending"
+              leaveOutModel.status == "pending" &&
+                      leaveOutModel.requestType == "leave_out"
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -436,10 +433,8 @@ class _BodyState extends State<Body> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             onPressed: () {
-                              BlocProvider.of<LeaveOutBloc>(context).add(
-                                  UpdateLeaveOutStatusStarted(
-                                      id: leaveOutModel.id,
-                                      status: "approved"));
+                              _chiefBloc.add(UpdateLeaveOutStatusStarted(
+                                  id: leaveOutModel.id, status: "approved"));
                             },
                             child: Text(
                               "Aprove",
@@ -466,10 +461,8 @@ class _BodyState extends State<Body> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             onPressed: () {
-                              BlocProvider.of<LeaveOutBloc>(context).add(
-                                  UpdateLeaveOutStatusStarted(
-                                      id: leaveOutModel.id,
-                                      status: "rejected"));
+                              _chiefBloc.add(UpdateLeaveOutStatusStarted(
+                                  id: leaveOutModel.id, status: "rejected"));
                             },
                             child: Text(
                               "Reject",
@@ -553,9 +546,8 @@ class _BodyState extends State<Body> {
             Navigator.pop(context);
             ps.onConfirm!(ps, ps.selecteds);
             pe.onConfirm!(pe, pe.selecteds);
-            BlocProvider.of<LeaveOutBloc>(context).add(
-                InitializeAllLeaveOutStarted(
-                    dateRange: "$_startDate/$_endDate", isSecond: true));
+            _chiefBloc.add(InitializeAllLeaveOutStarted(
+                dateRange: "$_startDate/$_endDate", isSecond: true));
           },
           child: Text(PickerLocalizations.of(context).confirmText!))
     ];
@@ -580,5 +572,11 @@ class _BodyState extends State<Body> {
             ),
           );
         });
+  }
+
+  @override
+  void dispose() {
+    _chiefBloc.close();
+    super.dispose();
   }
 }

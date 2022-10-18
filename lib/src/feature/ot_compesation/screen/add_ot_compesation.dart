@@ -44,27 +44,13 @@ class _AddOtCompestionState extends State<AddOtCompestion> {
     super.initState();
   }
 
-  _dialogDate({required TextEditingController controller}) async {
-    DatePicker.showDatePicker(context,
-            showTitleActions: true,
-            minTime: DateTime(DateTime.now().year - 5),
-            maxTime: DateTime(DateTime.now().year + 60),
-            // minTime: DateTime(2018, 01, 01),
-            // maxTime: DateTime(2030, 01, 01),
-            theme: DatePickerTheme(
-                // headerColor: Colors.blueGrey,
-                headerColor: Colors.blue,
-                backgroundColor: Colors.white,
-                itemStyle: TextStyle(
-                    color: Colors.black,
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 18),
-                doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-            onChanged: (date) {},
-            onConfirm: (date) {},
-            currentTime: DateTime.now(),
-            locale: LocaleType.en)
-        .then((value) {
+  _datePicker({required TextEditingController controller}) {
+    return showDatePicker(
+      context: context,
+      initialDate: dateNow,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 60),
+    ).then((value) {
       if (value == null) {
         print("null");
       } else {
@@ -74,42 +60,8 @@ class _AddOtCompestionState extends State<AddOtCompestion> {
           controller.text = formateDate.toString();
         });
       }
+      // after click on date ,
     });
-    // DatePicker.showDatePicker(context,
-    //         showTitleActions: true,
-    //         minTime: DateTime(2018, 01, 01),
-    //         maxTime: DateTime(2030, 01, 01),
-    //         theme: DatePickerTheme(
-    //             // headerColor: Colors.blueGrey,
-    //             headerColor: Colors.blue,
-    //             backgroundColor: Colors.white,
-    //             itemStyle: TextStyle(
-    //                 color: Colors.black,
-    //                 // fontWeight: FontWeight.bold,
-    //                 fontSize: 18),
-    //             doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-    //         onChanged: (date) {},
-    //         onConfirm: (date) {},
-    //         currentTime: DateTime.now(),
-    //         locale: LocaleType.en)
-    //     .then((value) {
-    //   if (value == null) {
-    //     print("null");
-    //   } else {
-    //     setState(() {
-    //       date = value;
-    //       String formateDate = DateFormat('yyyy/MM/dd').format(date!);
-    //       controller.text = formateDate.toString();
-    //     });
-    //   }
-    // });
-    // if (date != null && date != dateNow) {
-    //   setState(() {
-    //     date = dateNow;
-
-    //     dateInCtrl.text = date.toString();
-    //   });
-    // }
   }
 
   @override
@@ -234,8 +186,14 @@ class _AddOtCompestionState extends State<AddOtCompestion> {
                         controller: _fromCtrl,
                         readOnly: true,
                         // keyboardType: TextInputType.text,
+                        onChanged: (v) {
+                          print(v);
+                        },
                         onTap: () {
-                          _dialogDate(controller: _fromCtrl);
+                          _datePicker(controller: _fromCtrl);
+                          if (_typeCtrl.text == "hour") {
+                            _toCtrl.text = _fromCtrl.text;
+                          }
                         },
                         decoration: InputDecoration(
                             prefixIcon: Icon(
@@ -267,7 +225,7 @@ class _AddOtCompestionState extends State<AddOtCompestion> {
                         // keyboardType: TextInputType.text,
                         readOnly: true,
                         onTap: () {
-                          _dialogDate(controller: _toCtrl);
+                          _datePicker(controller: _toCtrl);
                         },
                         decoration: InputDecoration(
                             prefixIcon: Icon(

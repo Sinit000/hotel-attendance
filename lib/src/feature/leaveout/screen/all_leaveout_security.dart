@@ -36,16 +36,57 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   final RefreshController _refreshController = RefreshController();
+  TextEditingController _arriveCtrl = TextEditingController();
+  late GlobalKey<FormState>? _formKey = GlobalKey<FormState>();
 
   String mydateRage = "This month";
 
+  DateTime? date;
+  DateTime dateNow = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  String? dateToday;
+  String? createDate;
+  List<String> typeList = ['leave_out', 'clear_leave_out'];
+  LeaveOutBloc _secuirtyBloc = LeaveOutBloc();
+  @override
+  void initState() {
+    _secuirtyBloc.add(InitializeLeaveOutSecurityStarted(
+        dateRange: mydateRage, isSecond: false));
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('MM/dd/yyyy').format(now);
+    String creDate = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    createDate = creDate.toString();
+    dateToday = formattedDate.toString();
+
+    super.initState();
+  }
+
+  _dialogTime({required TextEditingController controller}) async {
+    showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    ).then((value) {
+      print(value);
+      if (value == null) {
+        print("no selt");
+      } else {
+        setState(() {
+          selectedTime = value;
+          DateTime parsedTime =
+              DateFormat.jm().parse(selectedTime.format(context).toString());
+          final String time = DateFormat('HH:mm:ss').format(parsedTime);
+          print("out put time $time");
+
+          controller.text = time;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<LeaveOutBloc>(context).add(
-        InitializeLeaveOutSecurityStarted(
-            dateRange: mydateRage, isSecond: false));
     return BlocConsumer(
-        bloc: BlocProvider.of<LeaveOutBloc>(context),
+        bloc: _secuirtyBloc,
         builder: (context, state) {
           print(state);
 
@@ -64,23 +105,20 @@ class _BodyState extends State<Body> {
             return Column(
               children: [
                 // user condition to avoid null and cause error while data is fetching
-                BlocProvider.of<LeaveOutBloc>(context).dateRange == null
+                _secuirtyBloc.dateRange == null
                     ? Container()
                     : Container(
                         padding: EdgeInsets.only(left: 20),
                         alignment: Alignment.centerLeft,
                         child: DropdownButton<String>(
-                          hint: BlocProvider.of<LeaveOutBloc>(context)
-                                  .dateRange!
-                                  .contains("to")
-                              ? Text(
-                                  "${BlocProvider.of<LeaveOutBloc>(context).dateRange!}")
+                          hint: _secuirtyBloc.dateRange!.contains("to")
+                              ? Text("${_secuirtyBloc.dateRange!}")
                               : Text(
                                   // leaveBloc.dateRange!,
                                   // _reportBloc.dateRange!.contains("to")
                                   //     ? _reportBloc.dateRange!
                                   //     :W
-                                  "${BlocProvider.of<LeaveOutBloc>(context).dateRange!}",
+                                  "${_secuirtyBloc.dateRange!}",
                                   textScaleFactor: 1,
                                 ),
                           items: [
@@ -104,7 +142,7 @@ class _BodyState extends State<Body> {
                                 print("myvalue $mydateRage");
                                 print(mydateRage);
                               });
-                              BlocProvider.of<LeaveOutBloc>(context).add(
+                              _secuirtyBloc.add(
                                   InitializeLeaveOutSecurityStarted(
                                       dateRange: value, isSecond: true));
                             }
@@ -116,7 +154,7 @@ class _BodyState extends State<Body> {
                   height: 10,
                   color: Colors.transparent,
                 ),
-                BlocProvider.of<LeaveOutBloc>(context).security.length == 0
+                _secuirtyBloc.security.length == 0
                     ? Container(
                         child: Text("No data"),
                       )
@@ -125,16 +163,14 @@ class _BodyState extends State<Body> {
                         onRefresh: () {
                           print("fetch dateRange");
                           print(mydateRage);
-                          BlocProvider.of<LeaveOutBloc>(context).add(
-                              InitializeLeaveOutSecurityStarted(
-                                  dateRange: mydateRage, isRefresh: 'yes'));
+                          _secuirtyBloc.add(InitializeLeaveOutSecurityStarted(
+                              dateRange: mydateRage, isRefresh: 'yes'));
                         },
                         onLoading: () {
                           print("fetch dateRange");
                           print(mydateRage);
-                          BlocProvider.of<LeaveOutBloc>(context).add(
-                              FetchLeaveOutSecurityStarted(
-                                  dateRange: mydateRage));
+                          _secuirtyBloc.add(FetchLeaveOutSecurityStarted(
+                              dateRange: mydateRage));
                         },
                         enablePullDown: true,
                         enablePullUp: true,
@@ -149,10 +185,7 @@ class _BodyState extends State<Body> {
                                 shrinkWrap: true,
                                 // padding: EdgeInsets.only(left: 10, top: 10, right: 0),
 
-                                itemCount:
-                                    BlocProvider.of<LeaveOutBloc>(context)
-                                        .security
-                                        .length,
+                                itemCount: _secuirtyBloc.security.length,
                                 itemBuilder: (context, index) {
                                   return Container(
                                     margin: EdgeInsets.only(
@@ -191,7 +224,7 @@ class _BodyState extends State<Body> {
                                                 ),
                                               ),
                                               Text(
-                                                "${BlocProvider.of<LeaveOutBloc>(context).security[index].date}",
+                                                "${_secuirtyBloc.security[index].date}",
                                                 style: TextStyle(
                                                     color: Colors.green,
                                                     fontWeight:
@@ -216,7 +249,7 @@ class _BodyState extends State<Body> {
                                                 ),
                                               ),
                                               Text(
-                                                "${BlocProvider.of<LeaveOutBloc>(context).security[index].employeeModel!.name}",
+                                                "${_secuirtyBloc.security[index].employeeModel!.name}",
                                                 style: TextStyle(
                                                     color: Colors.green,
                                                     fontWeight:
@@ -241,19 +274,12 @@ class _BodyState extends State<Body> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    "${BlocProvider.of<LeaveOutBloc>(context).security[index].reason} ",
+                                                    "${_secuirtyBloc.security[index].reason} ",
                                                     style: TextStyle(
                                                         color: Colors.red,
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
-                                                  // Text("- "),
-                                                  // Text(
-                                                  //   " ${BlocProvider.of<WantedBloc>(context).wantedList[index].maxPrice}",
-                                                  //   style: TextStyle(
-                                                  //       color: Colors.red,
-                                                  //       fontWeight: FontWeight.bold),
-                                                  // ),
                                                 ],
                                               ),
                                             ],
@@ -262,9 +288,7 @@ class _BodyState extends State<Body> {
                                             height: 5.0,
                                           ),
                                           _buildExpenable(
-                                              BlocProvider.of<LeaveOutBloc>(
-                                                      context)
-                                                  .security[index])
+                                              _secuirtyBloc.security[index])
                                           // SizedBox(
                                           //   height: 5.0,
                                           // ),
@@ -298,6 +322,7 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorAddingLeaveOut) {
             EasyLoading.dismiss();
+
             errorSnackBar(text: state.error.toString(), context: context);
           }
           if (state is AddedLeaveOut) {
@@ -440,7 +465,8 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 10,
               ),
-              leaveOutModel.status == "approved"
+              leaveOutModel.status == "approved" &&
+                      leaveOutModel.requestType == "leave_out"
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -456,10 +482,8 @@ class _BodyState extends State<Body> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             onPressed: () {
-                              BlocProvider.of<LeaveOutBloc>(context).add(
-                                  UpdateLeaveOutSStatusStarted(
-                                      id: leaveOutModel.id,
-                                      status: "completed"));
+                              _displayTextInputDialog(
+                                  context, leaveOutModel.id, "completed");
                             },
                             child: Text(
                               "Complete",
@@ -486,10 +510,10 @@ class _BodyState extends State<Body> {
                               borderRadius: BorderRadius.circular(10.0),
                             ),
                             onPressed: () {
-                              BlocProvider.of<LeaveOutBloc>(context).add(
-                                  UpdateLeaveOutSStatusStarted(
-                                      id: leaveOutModel.id,
-                                      status: "Uncomplete"));
+                              _secuirtyBloc.add(UpdateLeaveOutSStatusStarted(
+                                  arrivingTime: "",
+                                  id: leaveOutModel.id,
+                                  status: "Uncomplete"));
                             },
                             child: Text(
                               "Uncomplete",
@@ -573,9 +597,8 @@ class _BodyState extends State<Body> {
             Navigator.pop(context);
             ps.onConfirm!(ps, ps.selecteds);
             pe.onConfirm!(pe, pe.selecteds);
-            BlocProvider.of<LeaveOutBloc>(context).add(
-                InitializeLeaveOutSecurityStarted(
-                    dateRange: "$_startDate/$_endDate", isSecond: true));
+            _secuirtyBloc.add(InitializeLeaveOutSecurityStarted(
+                dateRange: "$_startDate/$_endDate", isSecond: true));
           },
           child: Text(PickerLocalizations.of(context).confirmText!))
     ];
@@ -600,5 +623,107 @@ class _BodyState extends State<Body> {
             ),
           );
         });
+  }
+
+  Future<void> _displayTextInputDialog(
+      BuildContext context, String id, String status) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return BlocListener(
+            bloc: _secuirtyBloc,
+            listener: (context, state) {
+              if (state is AddingLeaveOut) {
+                EasyLoading.show(status: "loading....");
+              }
+              if (state is ErrorAddingLeaveOut) {
+                EasyLoading.dismiss();
+                errorSnackBar(text: state.error.toString(), context: context);
+                Navigator.pop(context);
+                _arriveCtrl.clear();
+              }
+              if (state is AddedLeaveOut) {
+                EasyLoading.dismiss();
+                EasyLoading.showToast("Success");
+                Navigator.pop(context);
+                 _arriveCtrl.clear();
+              }
+            },
+            child: AlertDialog(
+              title: Text('Choose arriving time'),
+              content: Container(
+                height: MediaQuery.of(context).size.height / 3,
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _arriveCtrl,
+                          readOnly: true,
+                          onTap: () {
+                            _dialogTime(controller: _arriveCtrl);
+                          },
+
+                          // keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.date_range_outlined,
+                                color: Colors.lightBlue,
+                              ),
+                              contentPadding: EdgeInsets.all(15),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                                borderSide: new BorderSide(
+                                  width: 1,
+                                ),
+                              ),
+                              isDense: true,
+                              labelText: "Choose Time"),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'arriving time is required.';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    )),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  color: Colors.red,
+                  textColor: Colors.white,
+                  child: Text('CANCEL'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _arriveCtrl.clear();
+                  },
+                ),
+                FlatButton(
+                  color: Colors.green,
+                  textColor: Colors.white,
+                  child: Text('OK'),
+                  onPressed: () {
+                    if (_formKey!.currentState!.validate()) {
+                      print(_arriveCtrl.text);
+                      _secuirtyBloc.add(UpdateLeaveOutSStatusStarted(
+                          arrivingTime: _arriveCtrl.text,
+                          id: id,
+                          status: status));
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  @override
+  void dispose() {
+    _secuirtyBloc.close();
+    super.dispose();
   }
 }

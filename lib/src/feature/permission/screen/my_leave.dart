@@ -53,7 +53,7 @@ class _LeaveBodyState extends State<LeaveBody> {
   @override
   void initState() {
     leaveBloc
-        .add(InitializeLeaveStarted(dateRange: "This month", isSecond: false));
+        .add(InitializeLeaveStarted(dateRange: mydateRage, isSecond: false));
     // leaveBloc.add(FetchLeaveTypeStarted());
     super.initState();
   }
@@ -74,7 +74,17 @@ class _LeaveBodyState extends State<LeaveBody> {
           }
           if (state is ErrorFetchingLeave) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    leaveBloc.add(InitializeLeaveStarted(
+                        dateRange: mydateRage, isSecond: true));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text("Retry")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -119,7 +129,7 @@ class _LeaveBodyState extends State<LeaveBody> {
                                 print(mydateRage);
                               });
                               leaveBloc.add(InitializeLeaveStarted(
-                                  dateRange: value, isSecond: true));
+                                  dateRange: mydateRage, isSecond: true));
                             }
                           },
                         ),
@@ -336,6 +346,35 @@ class _LeaveBodyState extends State<LeaveBody> {
                                                 style: TextStyle(
                                                     color: Colors.red),
                                               ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: Text(
+                                                  "${AppLocalizations.of(context)!.translate("leave_deduction")!} : ",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              leaveBloc.myleave[index]
+                                                          .leaveDeduction ==
+                                                      null
+                                                  ? Text(
+                                                      "\$0",
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    )
+                                                  : Text(
+                                                      "\$${leaveBloc.myleave[index].leaveDeduction}",
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
                                             ],
                                           ),
                                           leaveBloc.myleave[index].status ==

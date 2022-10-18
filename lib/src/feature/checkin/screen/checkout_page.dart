@@ -207,6 +207,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         // print(mylat);
         // print(scanData.code.toString());
         String qrResult = scanData.code!.substring(0, 3);
+        var qrId = scanData.code!.split("/");
         print(qrResult);
         if (qrResult == "ban") {
           BlocProvider.of<AccountBloc>(context).add(AddCheckoutStarted(
@@ -215,15 +216,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
               checkoutTime: checkinTime!,
               lat: widget.lat,
               lon: widget.lon,
+              qrId: qrId[1],
               createdDate: today!));
-          print("success");
+          // print("success");
         } else {
-          print("wrong qr");
+          // print("wrong qr");
           // EasyLoading.showError("Wrong Qr Code");
           controller.resumeCamera();
           // errorSnackBar(text: "Sorry Wrong QR Code", context: context);
           // Navigator.pop(context);
-          print("wrong");
+          // print("wrong");
         }
       }
     });

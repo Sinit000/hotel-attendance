@@ -10,11 +10,17 @@ class FetchReportStarted extends ReportEvent {
   FetchReportStarted({required this.dateRange});
 }
 
-class InitailizeReportStarted extends ReportEvent {
+class InitailizeAttendanceStarted extends ReportEvent {
   final String? dateRange;
   final bool? isSecond;
   final String? isRefresh;
-  InitailizeReportStarted({required this.dateRange,this.isSecond,this.isRefresh});
+  InitailizeAttendanceStarted(
+      {required this.dateRange, this.isSecond, this.isRefresh});
+}
+
+class FetchAttendanceStarted extends ReportEvent {
+  final String? dateRange;
+  FetchAttendanceStarted({required this.dateRange});
 }
 
 class RefreshReportStarted extends ReportEvent {

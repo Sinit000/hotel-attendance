@@ -1,4 +1,5 @@
 import 'package:e_learning/src/feature/leaveout/bloc/index.dart';
+import 'package:e_learning/src/shared/widget/custome_modal.dart';
 import 'package:e_learning/src/shared/widget/error_snackbar.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,14 @@ class _AddLeaveoutState extends State<AddLeaveout> {
   final TextEditingController _reasonCtrl = TextEditingController();
   final TextEditingController _numCtrl = TextEditingController();
   late GlobalKey<FormState>? _formKey = GlobalKey<FormState>();
+  final TextEditingController _typeCtrl = TextEditingController();
 
   DateTime? date;
   DateTime dateNow = DateTime.now();
   TimeOfDay selectedTime = TimeOfDay.now();
   String? dateToday;
   String? createDate;
+  List<String> typeList = ['leave_out', 'clear_leave_out'];
   @override
   void initState() {
     DateTime now = DateTime.now();
@@ -93,6 +96,39 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                   child: Column(
                     children: [
                       SizedBox(height: 15),
+                      SizedBox(height: 15),
+                      TextFormField(
+                        controller: _typeCtrl,
+                        onTap: () {
+                          customModal(context, typeList, (value) {
+                            _typeCtrl.text = value;
+                            print(value);
+                          });
+                        },
+
+                        readOnly: true,
+                        // keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                            suffixIcon: Icon(Icons.arrow_drop_down),
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Colors.grey.shade400)),
+                            enabledBorder: InputBorder.none,
+                            // isDense: true,
+                            contentPadding: const EdgeInsets.only(
+                              left: 14.0,
+                            ),
+                            labelText:
+                                "${AppLocalizations.of(context)!.translate("type")!}"),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'type  is required.';
+                          }
+                          return null;
+                        },
+                      ),
                       SizedBox(height: 15),
                       TextFormField(
                         controller: _reasonCtrl,
@@ -227,6 +263,7 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                                 // addessdetail = 11.565271/94.6778 so we need to spilt into lat and long
                                 BlocProvider.of<LeaveOutBloc>(context).add(
                                     AddLeaveOutStarted(
+                                      requestType: _typeCtrl.text,
                                         createdDate: createDate!,
                                         today: dateToday!,
                                         reason: _reasonCtrl.text,

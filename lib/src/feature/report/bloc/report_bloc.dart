@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:e_learning/src/feature/report/bloc/index.dart';
+import 'package:e_learning/src/feature/report/model/attendance_model.dart';
 import 'package:e_learning/src/feature/report/model/report_model.dart';
 import 'package:e_learning/src/feature/report/repository/report_repository.dart';
 import 'package:e_learning/src/utils/share/helper.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ReportBloc extends Bloc<ReportEvent, ReportState> {
   ReportBloc() : super(FetchingReport());
-  List<ReportModel> myreport = [];
+  List<AttendanceModel> myreport = [];
   ReportRepository _reportRepository = ReportRepository();
 
   int rowperpage = 12;
@@ -17,17 +18,18 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   String? startDate;
   String? endDate;
   Helper helper = Helper();
+  ReportModel? reportModel;
   @override
   Stream<ReportState> mapEventToState(ReportEvent event) async* {
-    if (event is InitailizeReportStarted) {
+    if (event is InitailizeAttendanceStarted) {
       yield InitializingReport();
       try {
         dateRange = event.dateRange;
-        print(dateRange);
+
         setEndDateAndStartDate();
         myreport.clear();
         page = 1;
-        List<ReportModel> _temList = await _reportRepository.getReport(
+        List<AttendanceModel> _temList = await _reportRepository.getAttandance(
             endDate: endDate!,
             startDate: startDate!,
             page: page,
@@ -35,7 +37,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         myreport.addAll(_temList);
         page++;
         print(myreport.length);
-        if (event.isSecond == true || event.isRefresh=='yes') {
+        if (event.isSecond == true || event.isRefresh == 'yes') {
           yield FetchedReport();
         } else {
           yield InitializedReport();
@@ -45,29 +47,42 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
         ErrorFetchingReport(error: e.toString());
       }
     }
-    if (event is FetchReportStarted) {
+    if (event is FetchAttendanceStarted) {
       yield FetchingReport();
       try {
-        print(myreport.length);
         dateRange = event.dateRange;
-        print(dateRange);
-        print(page);
+
         setEndDateAndStartDate();
-        List<ReportModel> _temList = await _reportRepository.getReport(
+
+        List<AttendanceModel> _temList = await _reportRepository.getAttandance(
             endDate: endDate!,
             startDate: startDate!,
             page: page,
             rowperpage: rowperpage);
         myreport.addAll(_temList);
         page++;
-        print(page);
-        print(myreport.length);
+
         if (_temList.length < rowperpage) {
           yield EndOfReportList();
         } else {
-          print(myreport.length);
           yield FetchedReport();
         }
+      } catch (e) {
+        log(e.toString());
+        ErrorFetchingReport(error: e.toString());
+      }
+    }
+    if (event is FetchReportStarted) {
+      yield FetchingReport();
+      try {
+        dateRange = event.dateRange;
+
+        setEndDateAndStartDate();
+        reportModel = await _reportRepository.getReport(
+          endDate: endDate!,
+          startDate: startDate!,
+        );
+        yield FetchedReport();
       } catch (e) {
         log(e.toString());
         ErrorFetchingReport(error: e.toString());

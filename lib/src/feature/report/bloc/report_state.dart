@@ -9,6 +9,8 @@ class InitializingReport extends ReportState {}
 
 class InitializedReport extends ReportState {}
 
+class EndOfReportlist extends ReportState{}
+
 class FetchingReport extends ReportState {}
 
 class FetchedReport extends ReportState {}

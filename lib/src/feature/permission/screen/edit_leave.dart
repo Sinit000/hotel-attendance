@@ -254,8 +254,9 @@ class _EditLeaveState extends State<EditLeave> {
                                     widget.leaveModel.leaveTypeModel!.parentId);
                                 if (_leaveCtrl.text == widget.parent) {
                                   _subtypeBloc.add(FetchSubtypeStarted(
-                                      id: widget.leaveModel.leaveTypeModel!
-                                          .parentId));
+                                      id: widget
+                                          .leaveModel.leaveTypeModel!.parentId
+                                          .toString()));
                                 } else {
                                   _subtypeBloc.add(FetchSubtypeStarted(
                                       id: widget.leaveModel.leaveTypeModel!.id

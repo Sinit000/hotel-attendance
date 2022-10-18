@@ -12,6 +12,8 @@ class LeaveOutModel {
   final String? name;
   final String? approveby;
   final String? duration;
+  final String? type;
+  final String? requestType;
   // final String? imgUrl;
   final EmployeeModel? employeeModel;
   factory LeaveOutModel.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,8 @@ class LeaveOutModel {
         checkby: json["check_by"],
         approveby: json["approve_by"],
         name: json["name"],
+        type: json["type"],
+        requestType: json["request_type"],
         employeeModel:
             json["user"] == null ? null : EmployeeModel.fromJson(json["user"]));
   }
@@ -41,5 +45,7 @@ class LeaveOutModel {
     required this.approveby,
     required this.employeeModel,
     required this.name,
+    required this.requestType,
+    required this.type,
   });
 }

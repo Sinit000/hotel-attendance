@@ -25,7 +25,7 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       try {
         // Future.delayed(Duration(microseconds: 200));
         accountModel = await _accountRepository.getAccount();
-        
+
         yield FethedAccount();
       } catch (e) {
         print(e.toString());
@@ -75,15 +75,16 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
         print(event.createdDate);
         print(event.date);
         await _accountRepository.checkin(
-          date: event.date,
-          createDate: event.createdDate,
-          checkinTime: event.checkinTime,
-          lat: event.lat,
-          lon: event.lon,
-          // locationId: event.locationId,
-          // date: event.date,
-          // timetableId: event.timetableId
-        );
+            date: event.date,
+            createDate: event.createdDate,
+            checkinTime: event.checkinTime,
+            lat: event.lat,
+            lon: event.lon,
+            qrId: event.qrId
+            // locationId: event.locationId,
+            // date: event.date,
+            // timetableId: event.timetableId
+            );
         yield AddedCheckin();
         yield FetchingCheckAccount();
 
@@ -100,15 +101,16 @@ class AccountBloc extends Bloc<AccountEvent, AccountState> {
       try {
         today = event.createdDate.substring(0, 10);
         await _accountRepository.checkout(
-          date: event.date,
-          id: event.id,
-          checkoutTime: event.checkoutTime,
-          lat: event.lat,
-          lon: event.lon,
-          // locationId: event.locationId,
-          // date: event.date,
-          // timetableId: event.timetableId
-        );
+            date: event.date,
+            id: event.id,
+            checkoutTime: event.checkoutTime,
+            lat: event.lat,
+            lon: event.lon,
+            qrId: event.qrId
+            // locationId: event.locationId,
+            // date: event.date,
+            // timetableId: event.timetableId
+            );
         yield AddedCheckin();
         yield FetchingCheckAccount();
         check = await _accountRepository.check(todayDate: today);

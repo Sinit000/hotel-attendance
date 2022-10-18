@@ -3,10 +3,11 @@ import 'package:e_learning/src/feature/account/model/account_model.dart';
 import 'package:e_learning/src/feature/account/model/counter_model.dart';
 import 'package:e_learning/src/utils/service/api_provider.dart';
 import 'package:e_learning/src/utils/service/custome_exception.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AccountRepository {
   int rowPerPage = 10;
-  String mainUrl = "https://banban-hr.herokuapp.com/api/";
+  String mainUrl = "${dotenv.env['baseUrl']}";
   ApiProvider apiProvider = ApiProvider();
   Future<AccountModel> getAccount() async {
     try {
@@ -16,7 +17,7 @@ class AccountRepository {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.data);
-       
+
         return AccountModel.fromJson(response.data["user"]);
       }
       throw CustomException.generalException();
@@ -33,7 +34,7 @@ class AccountRepository {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.data);
-       
+
         return CounterModel.fromJson(response.data["data"]);
       }
       throw CustomException.generalException();
@@ -133,14 +134,13 @@ class AccountRepository {
     }
   }
 
-  Future<void> checkin({
-    required String checkinTime,
-    required String lat,
-    required String lon,
-    required String date,
-    required String createDate,
-    // required String timetableId
-  }) async {
+  Future<void> checkin(
+      {required String checkinTime,
+      required String lat,
+      required String lon,
+      required String date,
+      required String createDate,
+      required String qrId}) async {
     try {
       String url = mainUrl + "me/checkins/add";
       print(checkinTime);
@@ -152,6 +152,7 @@ class AccountRepository {
         "lon": lon,
         "created_at": createDate,
         "date": date,
+        "qr_id": qrId
       };
       // print('lat $lat and long $lon');
       Response response = await apiProvider.post(url, body, null);
@@ -177,7 +178,7 @@ class AccountRepository {
     required String lon,
     required String date,
     // required String locationId,
-    // required String date,
+    required String qrId,
     // required String timetableId
   }) async {
     try {
@@ -190,6 +191,7 @@ class AccountRepository {
         "lon": lon,
         // "location_id": locationId,
         "date": date,
+        "qr_id": qrId
         // "timetable_id": timetableId
       };
       print(checkoutTime);

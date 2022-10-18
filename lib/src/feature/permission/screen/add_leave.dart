@@ -81,39 +81,7 @@ class _AddLeaveState extends State<AddLeave> {
     });
   }
 
-  _dialogDate({required TextEditingController controller}) async {
-    DatePicker.showDatePicker(context,
-            showTitleActions: true,
-            minTime: DateTime(DateTime.now().year - 5),
-            maxTime: DateTime(DateTime.now().year + 60),
-            // minTime: DateTime(2018, 01, 01),
-            // maxTime: DateTime(2030, 01, 01),
-            theme: DatePickerTheme(
-                // headerColor: Colors.blueGrey,
-                headerColor: Colors.blue,
-                backgroundColor: Colors.white,
-                itemStyle: TextStyle(
-                    color: Colors.black,
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 18),
-                doneStyle: TextStyle(color: Colors.white, fontSize: 16)),
-            onChanged: (date) {},
-            onConfirm: (date) {},
-            currentTime: DateTime.now(),
-            locale: LocaleType.en)
-        .then((value) {
-      if (value == null) {
-        print("null");
-      } else {
-        setState(() {
-          date = value;
-          String formateDate = DateFormat('yyyy/MM/dd').format(date!);
-          controller.text = formateDate.toString();
-        });
-      }
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

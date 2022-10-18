@@ -17,6 +17,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lottie/lottie.dart';
 
@@ -66,11 +67,7 @@ class _LandingPageState extends State<LandingPage> {
             print("firebase divice : " + token.toString());
             FirebaseMessaging.instance.getInitialMessage().then((message) {
               print("FirebaseMessaging.getInitialMessage");
-              if (message != null) {
-                print(message);
-                // Navigator.of(context).push(
-                //     MaterialPageRoute(builder: (c) => NotificationPage()));
-              }
+              if (message != null) {}
             });
             final FlutterLocalNotificationsPlugin
                 flutterLocalNotificationsPlugin =
@@ -85,47 +82,37 @@ class _LandingPageState extends State<LandingPage> {
             FirebaseMessaging.onBackgroundMessage(
                 firebaseMessagingBackgroundHandler);
             FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-              print("hi");
-              notificationId = notificationId++;
-              print("${message.notification!.title}");
-              print(notificationId);
-              print("${message.notification!.body}");
-              log("open app");
-              RemoteNotification notification = message.notification!;
-              AndroidNotification android = message.notification!.android!;
-              flutterLocalNotificationsPlugin.show(
-                  notification.hashCode,
-                  notification.title,
-                  notification.body,
-                  NotificationDetails(
-                    android: AndroidNotificationDetails(
-                        channel.id, channel.name, channel.description,
-                        icon: android.smallIcon),
-                  ));
+              try {
+                print("hi");
+                notificationId = notificationId++;
+                print("${message.notification!.title}");
+                print(notificationId);
+                print("${message.notification!.body}");
+                log("open app");
+                RemoteNotification? notification = message.notification!;
+                AndroidNotification? android = message.notification!.android!;
+                if (notification != null && android != null) {
+                  print("on meesage openapp");
+                  NotificationApi.showNotification(
+                      title: notification.title!,
+                      body: notification.title!,
+                      payload: 'attendance');
+                  flutterLocalNotificationsPlugin.show(
+                      notification.hashCode,
+                      notification.title,
+                      notification.title,
+                      NotificationDetails(
+                        android: AndroidNotificationDetails(
+                            channel.id, channel.name, channel.description,
+                            icon: '@mipmap/launcher_icon'),
+                      ));
 
-              //                 flutterLocalNotificationsPlugin.show(
-              //   notificationId,
-              //   message.notification!.title,
-              //   message.notification!.body,
-              //   channel
-              // );
-              // flutterLocalNotificationsPlugin
-              //     .resolvePlatformSpecificImplementation<
-              //         AndroidFlutterLocalNotificationsPlugin>()
-              //     ?.createNotificationChannel(channel);
-              // AwesomeNotifications().requestPermissionToSendNotifications();
-              // log("accept permission");
-              // AwesomeNotifications().cr eateNotification(
-              //     content: NotificationContent(
-              //         id: 1,
-              //         channelKey: 'local',
-              //         title: "${message.notification!.title}",
-              //         body: "${message.notification!.body}",
-              //         color: Theme.of(context).primaryColor));
+                  print("work or not");
+                  FirebaseMessaging.onMessageOpenedApp
+                      .listen(firebaseMessagingBackgroundHandler);
+                }
+              } catch (e) {}
             });
-            print("work or not");
-            FirebaseMessaging.onMessageOpenedApp
-                .listen(firebaseMessagingBackgroundHandler);
           });
         });
       });
@@ -134,7 +121,7 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void initState() {
-    // initNotification();
+    // initNotification("");
 
     super.initState();
     // Timer(
@@ -171,7 +158,7 @@ class _LandingPageState extends State<LandingPage> {
     //         'https://system.anakutapp.com/anakut_multi/public/api/update/fcm'));
     // request.body = '''{\r\n   "device_token":"$token"\r\n}''';
     // request.headers.addAll(headers);
-    String url = "https://banban-hr.herokuapp.com/api/notification/update/fcm";
+    String url = "${dotenv.env['baseUrl']}notification/update/fcm";
     // http.StreamedResponse response = await request.send();
     Map body = {
       // "type": "company",
@@ -194,8 +181,6 @@ class _LandingPageState extends State<LandingPage> {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
       if (state is Authenticated) {
-        print(state.userModel.token);
-        print(state.userModel.roleName);
         return HomePage();
       }
       if (state is ErrorAuthentication) {
@@ -213,31 +198,18 @@ class _LandingPageState extends State<LandingPage> {
       );
     }, listener: (context, state) {
       if (state is Authenticated) {
-        print("user token ${state.token}");
         initNotification(state.userModel.token!);
       }
-    });
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        builder: (context, state) {
-      if (state is Authenticated) {
-        print("user token ${state.token}");
-        initNotification(state.userModel.token!);
-        return HomePage();
-      }
-      if (state is ErrorAuthentication) {
-        Helper.handleState(state: state, context: context);
-      }
-      if (state is NotAuthenticated) {
-        // return HomePage();
-        return LoginRegisterPage(isLogin: true);
-      }
-      return Scaffold(
-        body: Center(
-          // child: CircularProgressIndicator(),
-          child: Lottie.asset('assets/animation/loader.json',
-              width: 200, height: 200),
-        ),
-      );
     });
   }
 }
+
+// Future<void> onMessageOpenedApp(RemoteMessage message) async {
+//   try {
+//     notificationNavigator(context,
+//         target: message.data["target"].toString(),
+//         targetValue: message.data["target_value"].toString());
+//   } catch (e) {
+//     log(e.toString());
+//   }
+// }
