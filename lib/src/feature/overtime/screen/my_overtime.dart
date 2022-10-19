@@ -710,6 +710,7 @@ class _BodyState extends State<Body> {
                   child: Text('OK'),
                   onPressed: () {
                     if (_formKey!.currentState!.validate()) {
+                      print(_payTypeCtrl.text);
                       overtimeBloc.add(UpdateOvertimeStatusStarted(
                           id: id,
                           status: "approved",

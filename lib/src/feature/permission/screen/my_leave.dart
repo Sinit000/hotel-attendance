@@ -362,9 +362,11 @@ class _LeaveBodyState extends State<LeaveBody> {
                                                       color: Colors.black),
                                                 ),
                                               ),
-                                              leaveBloc.myleave[index]
-                                                          .leaveDeduction ==
-                                                      null
+                                              leaveBloc.myleave[index].status ==
+                                                          "pending" ||
+                                                      leaveBloc.myleave[index]
+                                                              .status ==
+                                                          "rejected"
                                                   ? Text(
                                                       "\$0",
                                                       style: TextStyle(
