@@ -11,6 +11,7 @@ class OTCompesationBloc extends Bloc<OTCompesationEvent, OTCompesationState> {
   OTCompesationBloc() : super(InitailizingOTCompesation());
   List<OTCompesationModel> otComList = [];
   OTCompesationRepository _otCompesationRepository = OTCompesationRepository();
+  List<OTCompesationModel> songlist = [];
   int rowperpage = 12;
 
   String? dateRange;
@@ -27,9 +28,6 @@ class OTCompesationBloc extends Bloc<OTCompesationEvent, OTCompesationState> {
         otComList.clear();
         dateRange = event.dateRange;
         setEndDateAndStartDate();
-        print(startDate);
-        print(endDate);
-        // this function return start date and end date
         List<OTCompesationModel> overtime =
             await _otCompesationRepository.getOTCompesation(
                 page: page,
@@ -38,7 +36,9 @@ class OTCompesationBloc extends Bloc<OTCompesationEvent, OTCompesationState> {
                 endDate: endDate!);
         otComList.addAll(overtime);
         page++;
-
+        if (event.isRefresh == true || event.isSecond == true) {
+          yield FetchedOTCompesation();
+        }
         yield InitailizedOTCompesation();
       } catch (e) {
         yield ErrorFetchingOTCompesation(error: e.toString());
@@ -150,6 +150,132 @@ class OTCompesationBloc extends Bloc<OTCompesationEvent, OTCompesationState> {
         yield FetchedOTCompesation();
       } catch (e) {
         yield ErrorAddingOTCompesation(error: e.toString());
+      }
+    }
+    // songMong
+    if (event is InitailzeSongMongStarted) {
+      yield InitailizingSongMong();
+      try {
+        page = 1;
+        songlist.clear();
+        dateRange = event.dateRange;
+        setEndDateAndStartDate();
+        List<OTCompesationModel> overtime =
+            await _otCompesationRepository.getSongMong(
+                page: page,
+                rowperpage: rowperpage,
+                startDate: startDate!,
+                endDate: endDate!);
+        songlist.addAll(overtime);
+        page++;
+        if (event.isRefresh == true || event.isSecond == true) {
+          yield FetchedSongMong();
+        }
+        yield InitailizedSongMong();
+      } catch (e) {
+        yield ErrorFetchingSongMong(error: e.toString());
+      }
+    }
+    if (event is FetchSongMonStarted) {
+      yield FetchingSongMong();
+      try {
+        dateRange = event.dateRange;
+        setEndDateAndStartDate();
+        List<OTCompesationModel> _song =
+            await _otCompesationRepository.getSongMong(
+                page: page,
+                rowperpage: rowperpage,
+                startDate: startDate!,
+                endDate: endDate!);
+        songlist.addAll(_song);
+        page++;
+        if (_song.length < rowperpage) {
+          yield EndOfSonMong();
+        } else {
+          yield FetchedSongMong();
+        }
+      } catch (e) {
+        yield ErrorFetchingSongMong(error: e.toString());
+      }
+    }
+    if (event is AddSongMongStarted) {
+      yield AddingSongMong();
+      try {
+        await _otCompesationRepository.addSonMong(
+            fromDate: event.fromDate,
+            createDate: event.createdDate,
+            date: event.date,
+            toDate: event.toDate);
+        yield AddedSongMong();
+        yield FetchingSongMong();
+        page = 1;
+        songlist.clear();
+        dateRange = "This month";
+        setEndDateAndStartDate();
+        List<OTCompesationModel> overtime =
+            await _otCompesationRepository.getSongMong(
+                page: page,
+                rowperpage: rowperpage,
+                startDate: startDate!,
+                endDate: endDate!);
+        songlist.addAll(overtime);
+        page++;
+        yield FetchedSongMong();
+      } catch (e) {
+        yield ErrorAddingSongMong(error: e.toString());
+      }
+    }
+    if (event is UpdateSongMongStarted) {
+      yield AddingSongMong();
+      try {
+        await _otCompesationRepository.editSonMong(
+            id: event.id,
+            fromDate: event.fromDate,
+            createDate: event.createdDate,
+            date: event.date,
+            toDate: event.toDate);
+        yield AddedSongMong();
+        yield FetchingSongMong();
+        page = 1;
+        songlist.clear();
+        dateRange = "This month";
+        setEndDateAndStartDate();
+        List<OTCompesationModel> overtime =
+            await _otCompesationRepository.getSongMong(
+                page: page,
+                rowperpage: rowperpage,
+                startDate: startDate!,
+                endDate: endDate!);
+        songlist.addAll(overtime);
+        page++;
+        yield FetchedSongMong();
+      } catch (e) {
+        yield ErrorAddingSongMong(error: e.toString());
+      }
+    }
+    if (event is DeleteSongMongStarted) {
+      yield AddingSongMong();
+      try {
+        await _otCompesationRepository.deleteSongMong(
+          id: event.id,
+        );
+        yield AddedSongMong();
+        yield FetchingSongMong();
+        page = 1;
+        songlist.clear();
+        dateRange = "This month";
+        setEndDateAndStartDate();
+        List<OTCompesationModel> overtime =
+            await _otCompesationRepository.getSongMong(
+                page: page,
+                rowperpage: rowperpage,
+                startDate: startDate!,
+                endDate: endDate!);
+        songlist.addAll(overtime);
+        page++;
+        yield FetchedSongMong();
+      } catch (e) {
+        yield ErrorAddingSongMong(error: e.toString());
       }
     }
   }

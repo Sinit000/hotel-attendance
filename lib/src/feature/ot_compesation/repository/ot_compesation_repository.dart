@@ -19,8 +19,7 @@ class OTCompesationRepository {
           "${dotenv.env['baseUrl']}me/compesations?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
       Response response = await _apiProvider.get(url, null, null);
-      print(response.statusCode);
-      print(url);
+
       if (response.statusCode == 200) {
         print(response.data);
         List<OTCompesationModel> leave = [];
@@ -94,6 +93,8 @@ class OTCompesationRepository {
       throw e;
     }
   }
+
+  // song mong or chom nous
 
   Future<void> editOTCompesation(
       {required String id,
@@ -258,4 +259,101 @@ class OTCompesationRepository {
   //     throw e;
   //   }
   // }
+  Future<List<OTCompesationModel>> getSongMong(
+      {required int page,
+      required int rowperpage,
+      required String startDate,
+      required String endDate}) async {
+    try {
+      String url =
+          "${dotenv.env['baseUrl']}me/songmongs?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+      // String url = mainUrl + "me/leaves?from_date=$startDate&to_date=$endDate&page_size=$rowperpage&page=$page";
+      Response response = await _apiProvider.get(url, null, null);
+
+      if (response.statusCode == 200) {
+        print(response.data);
+        List<OTCompesationModel> leave = [];
+        response.data["data"].forEach((data) {
+          leave.add(OTCompesationModel.fromJson(data));
+        });
+        return leave;
+      }
+      throw CustomException.generalException();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> addSonMong(
+      {required String fromDate,
+      required String createDate,
+      required String date,
+      required String toDate}) async {
+    try {
+      String url = mainUrl + "me/songmongs/add";
+      Map body = {
+        "from_date": fromDate,
+        "to_date": toDate,
+        "created_at": createDate,
+        "date": date,
+      };
+      Response response = await _apiProvider.post(url, body, null);
+
+      if (response.statusCode == 200 && response.data["code"] == 0) {
+        return;
+      } else if (response.data["code"].toString() != "0") {
+        throw response.data["message"];
+      }
+      throw CustomException.generalException();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> editSonMong(
+      {required String id,
+      required String fromDate,
+      required String createDate,
+      required String date,
+      required String toDate}) async {
+    try {
+      String url = mainUrl + "me/songmongs/edit/$id";
+      Map body = {
+        "from_date": fromDate,
+        "to_date": toDate,
+        "created_at": createDate,
+        "date": date,
+      };
+      Response response = await _apiProvider.put(url, body);
+
+      print(response.statusCode);
+      if (response.statusCode == 200 && response.data["code"] == 0) {
+        return;
+      } else if (response.data["code"].toString() != "0") {
+        throw response.data["message"];
+      }
+      throw CustomException.generalException();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<void> deleteSongMong({
+    required String id,
+  }) async {
+    try {
+      String url = mainUrl + "me/songmongs/delete/$id";
+
+      Response response = await _apiProvider.delete(url, null);
+
+      if (response.statusCode == 200 && response.data["code"] == 0) {
+        return;
+      } else if (response.data["code"].toString() != "0") {
+        throw response.data["message"];
+      }
+      throw CustomException.generalException();
+    } catch (e) {
+      throw e;
+    }
+  }
 }

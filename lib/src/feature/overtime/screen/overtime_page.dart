@@ -1,5 +1,6 @@
 import 'package:e_learning/src/config/routes/routes.dart';
 import 'package:e_learning/src/feature/auth/bloc/index.dart';
+import 'package:e_learning/src/feature/ot_compesation/screen/ot_compensation_dashboard.dart';
 import 'package:e_learning/src/feature/overtime/bloc/index.dart';
 
 import 'package:e_learning/src/shared/widget/delay_widget.dart';
@@ -73,7 +74,11 @@ class OvertimePage extends StatelessWidget {
                   name:
                       "${AppLocalizations.of(context)!.translate("ot_compesation")!}",
                   onPressed: () {
-                    Navigator.of(context).pushNamed(otcompesation);
+                    // Navigator.of(context).pushNamed(otcompesation);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OTCompensationDashBoard()));
                   },
                 ),
               ),

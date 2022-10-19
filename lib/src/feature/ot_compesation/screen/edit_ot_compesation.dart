@@ -127,7 +127,7 @@ class _EditOtCompesationState extends State<EditOtCompesation> {
           "${AppLocalizations.of(context)!.translate("edit_compesation")!}"),
       body: Builder(builder: (context) {
         return BlocListener(
-          bloc: otCompesationBloc,
+          bloc: clearOTBloc,
           listener: (context, state) {
             if (state is AddingOTCompesation) {
               EasyLoading.show(status: 'loading...');
@@ -317,7 +317,7 @@ class _EditOtCompesationState extends State<EditOtCompesation> {
                             onPressed: () {
                               if (_formKey!.currentState!.validate()) {
                                 // addessdetail = 11.565271/94.6778 so we need to spilt into lat and long
-                                otCompesationBloc
+                                clearOTBloc
                                     .add(UpdateOTCompesationStarted(
                                   id: widget.otCompesationModel.id,
                                   createdDate: createDate!,

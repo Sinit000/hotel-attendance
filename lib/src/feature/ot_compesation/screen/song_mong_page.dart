@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:e_learning/src/feature/ot_compesation/bloc/index.dart';
 import 'package:e_learning/src/feature/ot_compesation/bloc/ot_compesation_bloc.dart';
 import 'package:e_learning/src/feature/ot_compesation/model/ot_compesation_model.dart';
@@ -17,18 +18,21 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../../appLocalizations.dart';
 import 'package:intl/intl.dart';
 
-import 'edit_ot_compesation.dart';
+OTCompesationBloc songBloc = OTCompesationBloc();
 
-OTCompesationBloc clearOTBloc = OTCompesationBloc();
+class SongMongPage extends StatefulWidget {
+  const SongMongPage({Key? key}) : super(key: key);
 
-class OTCompesation extends StatelessWidget {
-  const OTCompesation({Key? key}) : super(key: key);
+  @override
+  State<SongMongPage> createState() => _SongMongPageState();
+}
 
+class _SongMongPageState extends State<SongMongPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: standardAppBar(context,
-          "${AppLocalizations.of(context)!.translate("ot_compesation")!}"),
+      appBar: standardAppBar(
+          context, "${AppLocalizations.of(context)!.translate("song_mong")!}"),
       body: Container(
           margin: EdgeInsets.only(top: 10, bottom: 10), child: Body()),
       floatingActionButton: Container(
@@ -37,8 +41,8 @@ class OTCompesation extends StatelessWidget {
             child: Icon(Icons.add),
             elevation: 0,
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AddOtCompestion()));
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => AddOtCompestion()));
             }),
       ),
     );
@@ -58,7 +62,7 @@ class _BodyState extends State<Body> {
   final RefreshController _refreshController = RefreshController();
   @override
   void initState() {
-    clearOTBloc.add(InitailzeOTCompesationStarted(
+    songBloc.add(InitailzeSongMongStarted(
         dateRange: "This month", isSecond: false, isRefresh: false));
     super.initState();
   }
@@ -66,7 +70,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(
-        bloc: clearOTBloc,
+        bloc: songBloc,
         builder: (context, state) {
           print(state);
 
@@ -85,20 +89,20 @@ class _BodyState extends State<Body> {
             return Column(
               children: [
                 // user condition to avoid null and cause error while data is fetching
-                clearOTBloc.dateRange == null
+                songBloc.dateRange == null
                     ? Container()
                     : Container(
                         padding: EdgeInsets.only(left: 20),
                         alignment: Alignment.centerLeft,
                         child: DropdownButton<String>(
-                          hint: clearOTBloc.dateRange!.contains("to")
-                              ? Text("${clearOTBloc.dateRange!}")
+                          hint: songBloc.dateRange!.contains("to")
+                              ? Text("${songBloc.dateRange!}")
                               : Text(
                                   // leaveBloc.dateRange!,
                                   // _reportBloc.dateRange!.contains("to")
                                   //     ? _reportBloc.dateRange!
                                   //     :W
-                                  "${clearOTBloc.dateRange!}",
+                                  "${songBloc.dateRange!}",
                                   textScaleFactor: 1,
                                 ),
                           items: [
@@ -122,12 +126,10 @@ class _BodyState extends State<Body> {
                                 print("myvalue $mydateRage");
                                 print(mydateRage);
                               });
-                              // clearOTBloc.add(InitailzeOTCompesationStarted(
-                              //     dateRange: value));
-                              clearOTBloc.add(InitailzeSongMongStarted(
+                              songBloc.add(InitailzeSongMongStarted(
                                   dateRange: mydateRage,
-                                  isRefresh: false,
-                                  isSecond: true));
+                                  isSecond: true,
+                                  isRefresh: true));
                             }
                           },
                         ),
@@ -137,21 +139,23 @@ class _BodyState extends State<Body> {
                   height: 10,
                   color: Colors.transparent,
                 ),
-                clearOTBloc.otComList.length == 0
+                songBloc.otComList.length == 0
                     ? Container(
                         child: Text("No data"),
                       )
                     : Expanded(
                         child: SmartRefresher(
                         onRefresh: () {
-                          clearOTBloc.add(InitailzeSongMongStarted(
+                          songBloc.add(InitailzeSongMongStarted(
                               dateRange: mydateRage,
                               isRefresh: true,
                               isSecond: true));
                         },
                         onLoading: () {
-                          clearOTBloc.add(
-                              FetchOTCompesationStarted(dateRange: mydateRage));
+                          songBloc.add(InitailzeSongMongStarted(
+                              dateRange: mydateRage,
+                              isSecond: true,
+                              isRefresh: true));
                         },
                         enablePullDown: true,
                         enablePullUp: true,
@@ -166,7 +170,7 @@ class _BodyState extends State<Body> {
                                 shrinkWrap: true,
                                 // padding: EdgeInsets.only(left: 10, top: 10, right: 0),
 
-                                itemCount: clearOTBloc.otComList.length,
+                                itemCount: songBloc.songlist.length,
                                 itemBuilder: (context, index) {
                                   return Container(
                                     margin: EdgeInsets.only(
@@ -205,7 +209,7 @@ class _BodyState extends State<Body> {
                                                 ),
                                               ),
                                               Text(
-                                                "${clearOTBloc.otComList[index].date}",
+                                                "${songBloc.songlist[index].date}",
                                                 style: TextStyle(
                                                     color: Colors.green,
                                                     fontWeight:
@@ -230,7 +234,7 @@ class _BodyState extends State<Body> {
                                               Row(
                                                 children: [
                                                   Text(
-                                                    "${clearOTBloc.otComList[index].reason} ",
+                                                    "${songBloc.songlist[index].reason} ",
                                                     style: TextStyle(
                                                         color: Colors.red,
                                                         fontWeight:
@@ -251,7 +255,7 @@ class _BodyState extends State<Body> {
                                             height: 5.0,
                                           ),
                                           _buildExpenable(
-                                              clearOTBloc.otComList[index])
+                                              songBloc.songlist[index])
                                           // SizedBox(
                                           //   height: 5.0,
                                           // ),
@@ -438,11 +442,11 @@ class _BodyState extends State<Body> {
                               ],
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EditOtCompesation(
-                                          otCompesationModel: overtime)));
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => EditOtCompesation(
+                              //             otCompesationModel: overtime)));
                             }),
                         SizedBox(
                           width: 5,
@@ -460,9 +464,9 @@ class _BodyState extends State<Body> {
                                   context: context,
                                   onPress: () {
                                     print("id ${overtime.id}");
-                                    clearOTBloc.add(DeleteOTCompesationStarted(
-                                        id: overtime.id));
-                                    Navigator.pop(context);
+                                    // clearOTBloc.add(DeleteOTCompesationStarted(
+                                    //     id: overtime.id));
+                                    // Navigator.pop(context);
                                   });
                             }),
                       ],
@@ -520,10 +524,10 @@ class _BodyState extends State<Body> {
             Navigator.pop(context);
             ps.onConfirm!(ps, ps.selecteds);
             pe.onConfirm!(pe, pe.selecteds);
-            clearOTBloc.add(InitailzeSongMongStarted(
+            songBloc.add(InitailzeSongMongStarted(
                 dateRange: "$_startDate/$_endDate",
-                isRefresh: true,
-                isSecond: true));
+                isSecond: true,
+                isRefresh: true));
           },
           child: Text(PickerLocalizations.of(context).confirmText!))
     ];

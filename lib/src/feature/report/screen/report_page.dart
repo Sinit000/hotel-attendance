@@ -75,51 +75,51 @@ class _ReportBodyState extends State<ReportBody> {
             return Column(
               children: [
                 // user condition to avoid null and cause error while data is fetching
-                _reportBloc.dateRange == null
-                    ? Container()
-                    : Container(
-                        padding: EdgeInsets.only(left: 20),
-                        alignment: Alignment.centerLeft,
-                        child: DropdownButton<String>(
-                          hint: _reportBloc.dateRange!.contains("to")
-                              ? Text("${_reportBloc.dateRange!}")
-                              : Text(
-                                  // leaveBloc.dateRange!,
-                                  // _reportBloc.dateRange!.contains("to")
-                                  //     ? _reportBloc.dateRange!
-                                  //     :W
-                                  "${_reportBloc.dateRange!}",
-                                  textScaleFactor: 1,
-                                ),
-                          items: [
-                            'Today',
-                            'This week',
-                            'This month',
-                            'This year',
-                            "Custom"
-                          ].map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            if (value == "Custom") {
-                              showPickerDateRange(context);
-                              // _reportBloc
-                              // .add(InitailizeReportStarted(dateRange: value));
-                            } else {
-                              setState(() {
-                                mydateRage = value!;
-                                print("myvalue $mydateRage");
-                                print(mydateRage);
-                              });
-                              _reportBloc.add(
-                                  FetchReportStarted(dateRange: mydateRage));
-                            }
-                          },
-                        ),
-                      ),
+                // _reportBloc.dateRange == null
+                //     ? Container()
+                //     : Container(
+                //         padding: EdgeInsets.only(left: 20),
+                //         alignment: Alignment.centerLeft,
+                //         child: DropdownButton<String>(
+                //           hint: _reportBloc.dateRange!.contains("to")
+                //               ? Text("${_reportBloc.dateRange!}")
+                //               : Text(
+                //                   // leaveBloc.dateRange!,
+                //                   // _reportBloc.dateRange!.contains("to")
+                //                   //     ? _reportBloc.dateRange!
+                //                   //     :W
+                //                   "${_reportBloc.dateRange!}",
+                //                   textScaleFactor: 1,
+                //                 ),
+                //           items: [
+                //             'Today',
+                //             'This week',
+                //             'This month',
+                //             'This year',
+                //             "Custom"
+                //           ].map((String value) {
+                //             return DropdownMenuItem<String>(
+                //               value: value,
+                //               child: Text(value),
+                //             );
+                //           }).toList(),
+                //           onChanged: (value) {
+                //             if (value == "Custom") {
+                //               showPickerDateRange(context);
+                //               // _reportBloc
+                //               // .add(InitailizeReportStarted(dateRange: value));
+                //             } else {
+                //               setState(() {
+                //                 mydateRage = value!;
+                //                 print("myvalue $mydateRage");
+                //                 print(mydateRage);
+                //               });
+                //               _reportBloc.add(
+                //                   FetchReportStarted(dateRange: mydateRage));
+                //             }
+                //           },
+                //         ),
+                //       ),
                 Container(
                   width: double.infinity,
                   height: 10,
