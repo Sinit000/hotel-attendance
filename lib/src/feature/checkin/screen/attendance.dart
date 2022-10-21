@@ -1,8 +1,10 @@
 import 'package:e_learning/src/feature/account/bloc/index.dart';
 import 'package:e_learning/src/feature/account/model/account_model.dart';
+import 'package:e_learning/src/feature/auth/bloc/authentication_bloc.dart';
 import 'package:e_learning/src/feature/checkin/screen/checkin_page.dart';
 import 'package:e_learning/src/feature/checkin/screen/checkout_page.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -195,17 +197,49 @@ class _AttendanceState extends State<Attendance> {
                     child: Column(
                       // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Center(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 50),
-                            width: 200,
-                            height: 200,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: Image.asset("assets/icon/man.jpg"),
-                            ),
-                          ),
-                        ),
+                        BlocProvider.of<AuthenticationBloc>(context)
+                                    .state
+                                    .user!
+                                    .img ==
+                                null
+                            ? Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 50),
+                                  width: 200,
+                                  height: 200,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(100),
+                                    child: Image.asset("assets/icon/man.jpg"),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                width: 200,
+                                height: 200,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Container(
+                                    color: Colors.grey[350],
+                                    child: ExtendedImage.network(
+                                      BlocProvider.of<AuthenticationBloc>(
+                                              context)
+                                          .state
+                                          .user!
+                                          .img!,
+                                      // err: Container(
+                                      //   child: Image.asset("assets/img/store/shop-hint.jpg"),
+                                      // ),
+                                      cacheWidth: 1000,
+                                      // cacheHeight: 400,
+                                      enableMemoryCache: true,
+                                      clearMemoryCacheWhenDispose: true,
+                                      clearMemoryCacheIfFailed: false,
+                                      fit: BoxFit.fill,
+                                      width: double.infinity,
+                                    ),
+                                  ),
+                                ),
+                              ),
                         Center(
                             child: Padding(
                           padding: const EdgeInsets.only(top: 20),
@@ -252,7 +286,6 @@ class _AttendanceState extends State<Attendance> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        
         GestureDetector(
           onTap: () {
             String mylat = lat.toString();

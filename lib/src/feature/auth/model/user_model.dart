@@ -5,12 +5,14 @@ class UserModel {
 
   final String? roleName;
   final String? username;
+  final String? img;
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
         id: json["user"]["id"].toString(),
         token: json["token"],
         roleId: json["user"]["role_id"].toString(),
         username: json["user"]["name"],
+        img:json["user"]["profile_url"],
         roleName: json["user"]["role"]["name"]);
   }
   UserModel(
@@ -18,5 +20,6 @@ class UserModel {
       required this.token,
       required this.roleId,
       required this.roleName,
+      required this.img,
       required this.username});
 }

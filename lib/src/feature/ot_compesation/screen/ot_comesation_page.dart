@@ -26,9 +26,9 @@ class OTCompesation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: standardAppBar(context,
-          "${AppLocalizations.of(context)!.translate("ot_compesation")!}"),
+    return Scaffold(  
+      // appBar: standardAppBar(context,
+      //     "${AppLocalizations.of(context)!.translate("ot_compesation")!}"),
       body: Container(
           margin: EdgeInsets.only(top: 10, bottom: 10), child: Body()),
       floatingActionButton: Container(
