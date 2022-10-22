@@ -456,10 +456,12 @@ class _BodyState extends State<Body> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "${leaveOutModel.checkby}",
-                    style: TextStyle(color: Colors.red),
-                  ),
+                  leaveOutModel.checkby == null
+                      ? Text("")
+                      : Text(  
+                          "${leaveOutModel.checkby}",
+                          style: TextStyle(color: Colors.red),
+                        ),
                 ],
               ),
               SizedBox(
@@ -646,7 +648,7 @@ class _BodyState extends State<Body> {
                 EasyLoading.dismiss();
                 EasyLoading.showToast("Success");
                 Navigator.pop(context);
-                 _arriveCtrl.clear();
+                _arriveCtrl.clear();
               }
             },
             child: AlertDialog(

@@ -128,7 +128,7 @@ class _TeamProfileState extends State<TeamProfile> {
                       ? Container(
                           color: Colors.grey[350],
                           child: ExtendedImage.network(
-                            img,
+                            "https://banban-hr.com/hotel/public/$img",
                             // err: Container(
                             //   child: Image.asset("assets/img/store/shop-hint.jpg"),
                             // ),

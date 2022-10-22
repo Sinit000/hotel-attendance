@@ -94,7 +94,7 @@ class _BodyState extends State<Body> {
                                     width: 80,
                                     color: Colors.grey[350],
                                     child: ExtendedImage.network(
-                                      accountBloc.accountModel!.img!,
+                                      "https://banban-hr.com/hotel/public/${accountBloc.accountModel!.img}",
                                       // err: Container(
                                       //   child: Image.asset("assets/img/store/shop-hint.jpg"),
                                       // ),
@@ -117,7 +117,8 @@ class _BodyState extends State<Body> {
 
                                     // imageCacheHeight: 350,
                                     // imageCacheWidth: 350,
-                                    image: "${accountBloc.accountModel!.img}",
+                                    image:
+                                        "https://banban-hr.com/hotel/public/${accountBloc.accountModel!.img}",
                                     fit: BoxFit.fill,
                                   ),
                                 ),

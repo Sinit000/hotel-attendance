@@ -101,8 +101,8 @@ class _EditChangeDayoffState extends State<EditChangeDayoff> {
   Widget build(BuildContext context) {
     print(widget.changeDayOffModel.holiday);
     return Scaffold(
-      appBar: standardAppBar(
-          context, "${AppLocalizations.of(context)!.translate("holiday")!}"),
+      appBar: standardAppBar(context,
+          "${AppLocalizations.of(context)!.translate("edit_change_dayoff")!}"),
       body: Builder(builder: (context) {
         return BlocListener(
             bloc: changeDayOffBloc,

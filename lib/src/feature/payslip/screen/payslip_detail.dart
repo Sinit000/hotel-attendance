@@ -119,7 +119,7 @@ class _PayslipDetailState extends State<PayslipDetail> {
                               "${AppLocalizations.of(context)!.translate("allowance")!} : ",
                               style: Theme.of(context).textTheme.bodyText1,
                             ),
-                            widget.payslipModel.allowance == null
+                            widget.payslipModel.allowance == null  
                                 ? Text("")
                                 : Expanded(
                                     child: Text(

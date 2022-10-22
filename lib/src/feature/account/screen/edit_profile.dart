@@ -89,7 +89,7 @@ class _EditProfileState extends State<EditProfile> {
 
                                   // imageCacheHeight: 350,
                                   // imageCacheWidth: 350,
-                                  image: "${widget.accountModel.img}",
+                                  image: "https://banban-hr.com/hotel/public/${widget.accountModel.img}",
                                   fit: BoxFit.fill,
                                   imageErrorBuilder:
                                       (context, error, StackTrace) {

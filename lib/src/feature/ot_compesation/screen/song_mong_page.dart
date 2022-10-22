@@ -28,6 +28,45 @@ class SongMongPage extends StatefulWidget {
 }
 
 class _SongMongPageState extends State<SongMongPage> {
+  TextEditingController _textFieldController = TextEditingController();
+  TextEditingController _fromCtrl = TextEditingController();
+  TextEditingController _toCtrl = TextEditingController();
+  late GlobalKey<FormState>? _formKey = GlobalKey<FormState>();
+  DateTime? date;
+  DateTime dateNow = DateTime.now();
+  String? dateToday;
+  String? createDate;
+  @override
+  void initState() {
+    DateTime now = DateTime.now();
+
+    String formattedDate = DateFormat('MM/dd/yyyy kk:mm:ss').format(now);
+    String creDate = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    createDate = creDate.toString();
+    dateToday = formattedDate.toString();
+    super.initState();
+  }
+
+  _datePicker({required TextEditingController controller}) {
+    return showDatePicker(
+      context: context,
+      initialDate: dateNow,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 60),
+    ).then((value) {
+      if (value == null) {
+        print("null");
+      } else {
+        setState(() {
+          date = value;
+          String formateDate = DateFormat('yyyy/MM/dd').format(date!);
+          controller.text = formateDate.toString();
+        });
+      }
+      // after click on date ,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +80,140 @@ class _SongMongPageState extends State<SongMongPage> {
             child: Icon(Icons.add),
             elevation: 0,
             onPressed: () {
+              _displayTextInputDialog(context, "");
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => AddOtCompestion()));
             }),
       ),
     );
+  }
+
+  Future<void> _displayTextInputDialog(BuildContext context, String id) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return BlocListener(
+            bloc: songBloc,
+            listener: (context, state) {
+              if (state is AddingSongMong) {
+                EasyLoading.show(status: 'loading...');
+              }
+              if (state is ErrorAddingSongMong) {
+                EasyLoading.dismiss();
+                errorSnackBar(text: state.error.toString(), context: context);
+              }
+              if (state is AddedSongMong) {
+                EasyLoading.dismiss();
+                EasyLoading.showSuccess('Success');
+                Navigator.pop(context);
+                print("success");
+              }
+            },
+            child: AlertDialog(
+              title: Text('Adding Songmong'),
+              content: Container(
+                height: MediaQuery.of(context).size.width / 3,
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _fromCtrl,
+                          readOnly: true,
+                          // keyboardType: TextInputType.text,
+                          onTap: () {
+                            _datePicker(controller: _fromCtrl);
+                            // _dialogDate(controller: _fromCtrl);
+                          },
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.date_range_outlined,
+                                color: Colors.lightBlue,
+                              ),
+                              fillColor: Colors.grey.shade100,
+                              filled: true,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Colors.grey.shade400)),
+                              enabledBorder: InputBorder.none,
+                              // isDense: true,
+                              contentPadding: const EdgeInsets.only(
+                                left: 14.0,
+                              ),
+                              labelText:
+                                  "${AppLocalizations.of(context)!.translate("from_date")!}"),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'From date is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 15),
+                        TextFormField(
+                          controller: _toCtrl,
+                          // keyboardType: TextInputType.text,
+                          readOnly: true,
+                          onTap: () {
+                            _datePicker(controller: _toCtrl);
+                          },
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.date_range_outlined,
+                                color: Colors.lightBlue,
+                              ),
+                              fillColor: Colors.grey.shade100,
+                              filled: true,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Colors.grey.shade400)),
+                              enabledBorder: InputBorder.none,
+                              // isDense: true,
+                              contentPadding: const EdgeInsets.only(
+                                left: 14.0,
+                              ),
+                              labelText:
+                                  "${AppLocalizations.of(context)!.translate("to_date")!}"),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'To Date is required';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    )),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  color: Colors.red,
+                  textColor: Colors.white,
+                  child: Text('CANCEL'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _textFieldController.clear();
+                    _fromCtrl.clear();
+                    _toCtrl.clear();
+                  },
+                ),
+                FlatButton(
+                  color: Colors.green,
+                  textColor: Colors.white,
+                  child: Text('OK'),
+                  onPressed: () {
+                    if (_formKey!.currentState!.validate()) {
+                      songBloc.add(AddSongMongStarted(
+                          fromDate: _fromCtrl.text,
+                          toDate: _toCtrl.text,
+                          createdDate: createDate!,
+                          date: dateToday!));
+                    }
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
 
@@ -60,11 +228,45 @@ class _BodyState extends State<Body> {
   String mydateRage = "This month";
   bool isEnable = false;
   final RefreshController _refreshController = RefreshController();
+  TextEditingController _textFieldController = TextEditingController();
+  TextEditingController _fromCtrl = TextEditingController();
+  TextEditingController _toCtrl = TextEditingController();
+  late GlobalKey<FormState>? _formKey = GlobalKey<FormState>();
+  DateTime? date;
+  DateTime dateNow = DateTime.now();
+  String? dateToday;
+  String? createDate;
   @override
   void initState() {
+    DateTime now = DateTime.now();
+
+    String formattedDate = DateFormat('MM/dd/yyyy kk:mm:ss').format(now);
+    String creDate = DateFormat('yyyy-MM-dd kk:mm:ss').format(now);
+    createDate = creDate.toString();
+    dateToday = formattedDate.toString();
     songBloc.add(InitailzeSongMongStarted(
         dateRange: "This month", isSecond: false, isRefresh: false));
     super.initState();
+  }
+
+  _datePicker({required TextEditingController controller}) {
+    return showDatePicker(
+      context: context,
+      initialDate: dateNow,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 60),
+    ).then((value) {
+      if (value == null) {
+        print("null");
+      } else {
+        setState(() {
+          date = value;
+          String formateDate = DateFormat('yyyy/MM/dd').format(date!);
+          controller.text = formateDate.toString();
+        });
+      }
+      // after click on date ,
+    });
   }
 
   @override
@@ -74,13 +276,13 @@ class _BodyState extends State<Body> {
         builder: (context, state) {
           print(state);
 
-          if (state is InitailizingOTCompesation) {
+          if (state is InitailizingSongMong) {
             return Center(
               child: Lottie.asset('assets/animation/loader.json',
                   width: 200, height: 200),
             );
           }
-          if (state is ErrorFetchingOTCompesation) {
+          if (state is ErrorFetchingSongMong) {
             return Center(
               child: Text(state.error.toString()),
             );
@@ -139,7 +341,7 @@ class _BodyState extends State<Body> {
                   height: 10,
                   color: Colors.transparent,
                 ),
-                songBloc.otComList.length == 0
+                state == InitailizingSongMong
                     ? Container(
                         child: Text("No data"),
                       )
@@ -152,10 +354,9 @@ class _BodyState extends State<Body> {
                               isSecond: true));
                         },
                         onLoading: () {
-                          songBloc.add(InitailzeSongMongStarted(
-                              dateRange: mydateRage,
-                              isSecond: true,
-                              isRefresh: true));
+                          songBloc.add(FetchSongMonStarted(
+                            dateRange: mydateRage,
+                          ));
                         },
                         enablePullDown: true,
                         enablePullUp: true,
@@ -172,6 +373,7 @@ class _BodyState extends State<Body> {
 
                                 itemCount: songBloc.songlist.length,
                                 itemBuilder: (context, index) {
+                                  print(songBloc.songlist.length);
                                   return Container(
                                     margin: EdgeInsets.only(
                                         bottom: 10.0, left: 8.0, right: 8.0),
@@ -277,23 +479,19 @@ class _BodyState extends State<Body> {
         listener: (context, state) {
           print("state");
           print(state);
-          if (state is FetchedOTCompesation) {
+          if (state is FetchedSongMong) {
             _refreshController.loadComplete();
             _refreshController.refreshCompleted();
           }
-          if (state is EndofOTCompesationList) {
+          if (state is EndOfSonMong) {
             _refreshController.loadNoData();
           }
-          if (state is AddingOTCompesation) {
+          if (state is AddingSongMong) {
             EasyLoading.show(status: "loading....");
           }
-          if (state is ErrorAddingOTCompesation) {
+          if (state is ErrorAddingSongMong) {
             EasyLoading.dismiss();
             errorSnackBar(text: state.error.toString(), context: context);
-          }
-          if (state is AddedOTCompesation) {
-            EasyLoading.dismiss();
-            EasyLoading.showSuccess("Sucess");
           }
         });
   }
@@ -442,6 +640,8 @@ class _BodyState extends State<Body> {
                               ],
                             ),
                             onPressed: () {
+                              _displayTextInputDialog(
+                                  context, overtime.id, overtime);
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(
@@ -464,9 +664,9 @@ class _BodyState extends State<Body> {
                                   context: context,
                                   onPress: () {
                                     print("id ${overtime.id}");
-                                    // clearOTBloc.add(DeleteOTCompesationStarted(
-                                    //     id: overtime.id));
-                                    // Navigator.pop(context);
+                                    songBloc.add(
+                                        DeleteSongMongStarted(id: overtime.id));
+                                    Navigator.pop(context);
                                   });
                             }),
                       ],
@@ -549,6 +749,138 @@ class _BodyState extends State<Body> {
                   pe.makePicker()
                 ],
               ),
+            ),
+          );
+        });
+  }
+
+  Future<void> _displayTextInputDialog(
+      BuildContext context, String id, OTCompesationModel overtime) async {
+    _fromCtrl.text = overtime.fromDate!;
+    _toCtrl.text = overtime.toDate!;
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return BlocListener(
+            bloc: songBloc,
+            listener: (context, state) {
+              if (state is AddingSongMong) {
+                EasyLoading.show(status: 'loading...');
+              }
+              if (state is ErrorAddingSongMong) {
+                EasyLoading.dismiss();
+                errorSnackBar(text: state.error.toString(), context: context);
+              }
+              if (state is AddedSongMong) {
+                EasyLoading.dismiss();
+                EasyLoading.showSuccess('Success');
+                Navigator.pop(context);
+                print("success");
+              }
+            },
+            child: AlertDialog(
+              title: Text('Eding Songmong'),
+              content: Container(
+                height: MediaQuery.of(context).size.width / 3,
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _fromCtrl,
+                          readOnly: true,
+                          // keyboardType: TextInputType.text,
+                          onTap: () {
+                            _datePicker(controller: _fromCtrl);
+                            // _dialogDate(controller: _fromCtrl);
+                          },
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.date_range_outlined,
+                                color: Colors.lightBlue,
+                              ),
+                              fillColor: Colors.grey.shade100,
+                              filled: true,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Colors.grey.shade400)),
+                              enabledBorder: InputBorder.none,
+                              // isDense: true,
+                              contentPadding: const EdgeInsets.only(
+                                left: 14.0,
+                              ),
+                              labelText:
+                                  "${AppLocalizations.of(context)!.translate("from_date")!}"),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'From date is required';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 15),
+                        TextFormField(
+                          controller: _toCtrl,
+                          // keyboardType: TextInputType.text,
+                          readOnly: true,
+                          onTap: () {
+                            _datePicker(controller: _toCtrl);
+                          },
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.date_range_outlined,
+                                color: Colors.lightBlue,
+                              ),
+                              fillColor: Colors.grey.shade100,
+                              filled: true,
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      color: Colors.grey.shade400)),
+                              enabledBorder: InputBorder.none,
+                              // isDense: true,
+                              contentPadding: const EdgeInsets.only(
+                                left: 14.0,
+                              ),
+                              labelText:
+                                  "${AppLocalizations.of(context)!.translate("to_date")!}"),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'To Date is required';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    )),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  color: Colors.red,
+                  textColor: Colors.white,
+                  child: Text('CANCEL'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    _textFieldController.clear();
+                    _fromCtrl.clear();
+                    _toCtrl.clear();
+                  },
+                ),
+                FlatButton(
+                  color: Colors.green,
+                  textColor: Colors.white,
+                  child: Text('OK'),
+                  onPressed: () {
+                    if (_formKey!.currentState!.validate()) {
+                      songBloc.add(UpdateSongMongStarted(
+                          id: id,
+                          fromDate: _fromCtrl.text,
+                          toDate: _toCtrl.text,
+                          createdDate: createDate!,
+                          date: dateToday!));
+                    }
+                  },
+                ),
+              ],
             ),
           );
         });

@@ -221,11 +221,7 @@ class _AttendanceState extends State<Attendance> {
                                   child: Container(
                                     color: Colors.grey[350],
                                     child: ExtendedImage.network(
-                                      BlocProvider.of<AuthenticationBloc>(
-                                              context)
-                                          .state
-                                          .user!
-                                          .img!,
+                                      "https://banban-hr.com/hotel/public/${BlocProvider.of<AuthenticationBloc>(context).state.user!.img!}",
                                       // err: Container(
                                       //   child: Image.asset("assets/img/store/shop-hint.jpg"),
                                       // ),

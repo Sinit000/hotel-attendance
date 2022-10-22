@@ -78,7 +78,7 @@ Future<String> uploadImage({required File image}) async {
     // var type = "upload";
 
     Response response = await apiProvider.post(
-        "${dotenv.env['baseUrl']}/employee/uploads", formData, null);
+        "${dotenv.env['baseUrl']}employee/uploads", formData, null);
     print(response.statusCode);
     print(response);
 

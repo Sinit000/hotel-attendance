@@ -37,7 +37,7 @@ class PayslipModel {
       fromDate: json["from_date"],
       toDate: json["to_date"],
       baseSalary: json["base_salary"].toString(),
-      allowance: json["allowance"].toString(),
+      allowance: json["user_allowance"].toString(),
       bonus: json["bonus"].toString(),
       wageHour: json["wage_hour"].toString(),
       netPerHour: json["net_perhour"].toString(),

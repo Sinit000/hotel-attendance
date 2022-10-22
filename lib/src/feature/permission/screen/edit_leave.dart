@@ -467,7 +467,7 @@ class _EditLeaveState extends State<EditLeave> {
                                                 placeholder:
                                                     "assets/animation/loader.json",
                                                 image:
-                                                    "https://banban-hr.herokuapp.com/${widget.leaveModel.imgUrl!}",
+                                                    "https://banban-hr.com/hotel/public/${widget.leaveModel.imgUrl!}",
                                                 fit: BoxFit.fill,
                                                 imageErrorBuilder: (context,
                                                     error, StackTrace) {
