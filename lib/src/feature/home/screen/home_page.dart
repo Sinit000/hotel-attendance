@@ -1,7 +1,9 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:e_learning/src/config/routes/routes.dart';
 import 'package:e_learning/src/feature/account/bloc/index.dart';
 import 'package:e_learning/src/feature/auth/bloc/authentication_bloc.dart';
 import 'package:e_learning/src/feature/auth/bloc/authentication_state.dart';
+import 'package:e_learning/src/feature/home/check_connectivity.dart';
 import 'package:e_learning/src/feature/home/screen/menu.dart';
 import 'package:e_learning/src/feature/home/screen/widget/home_item.dart';
 import 'package:e_learning/src/feature/notification/res/notification_api.dart';
@@ -16,6 +18,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../../../appLocalizations.dart';
 import 'home_menu.dart';
 import 'my_app_bar.dart';
+import 'package:flutter/foundation.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -23,6 +26,46 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Map _source = {ConnectivityResult.none: false};
+  // final NetworkConnectivity _networkConnectivity = NetworkConnectivity.instance;
+  String string = '';
+  // ConnectivityService connectivityService = ConnectivityService();
+  @override
+  void initState() {
+    super.initState();
+    // connectivityService.checkInternetConnection();
+    // _networkConnectivity.initialise();
+    // _networkConnectivity.myStream.listen((source) {
+    //   _source = source;
+    //   print('source $_source');
+    //   // 1.
+    //   switch (_source.keys.toList()[0]) {
+    //     case ConnectivityResult.mobile:
+    //       string =
+    //           _source.values.toList()[0] ? 'Mobile: Online' : 'Mobile: Offline';
+    //       break;
+    //     case ConnectivityResult.wifi:
+    //       string =
+    //           _source.values.toList()[0] ? 'WiFi: Online' : 'WiFi: Offline';
+    //       break;
+    //     case ConnectivityResult.none:
+    //     default:
+    //       string = 'Offline';
+    //   }
+    //   // 2.
+    //   setState(() {});
+    //   // 3.
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(
+    //       content: Text(
+    //         string,
+    //         style: TextStyle(fontSize: 30),
+    //       ),
+    //     ),
+    //   );
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Map> homeMenuUser = [
@@ -75,10 +118,11 @@ class _HomePageState extends State<HomePage> {
         "iconColor": Colors.blue,
         "image": "assets/blackIcon/calendar.png",
         "onPressed": () {
-          BlocProvider.of<AuthenticationBloc>(context).state.user!.roleName ==
-                  "Cheif Department"
-              ? Navigator.pushNamed(context, dayoff)
-              : Navigator.pushNamed(context, mydayOff);
+          Navigator.pushNamed(context, mydayOff);
+          // BlocProvider.of<AuthenticationBloc>(context).state.user!.roleName ==
+          //         "Cheif Department"
+          //     ? Navigator.pushNamed(context, dayoff)
+          //     : Navigator.pushNamed(context, mydayOff);
         }
       },
       {
@@ -174,17 +218,22 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _showNotificationWithActions() async {
-    print('object');
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-      '...',
-      '...',
-      '...',
-    );
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await flutterLocalNotificationsPlugin.show(
-        0, '...', '...', notificationDetails);
-  }
+  // Future<void> _showNotificationWithActions() async {
+  //   print('object');
+  //   const AndroidNotificationDetails androidNotificationDetails =
+  //       AndroidNotificationDetails(
+  //     '...',
+  //     '...',
+  //     '...',
+  //   );
+  //   const NotificationDetails notificationDetails =
+  //       NotificationDetails(android: androidNotificationDetails);
+  //   await flutterLocalNotificationsPlugin.show(
+  //       0, '...', '...', notificationDetails);
+  // }
+  // @override
+  // void dispose() {
+  //   _networkConnectivity.disposeStream();
+  //   super.dispose();
+  // }
 }

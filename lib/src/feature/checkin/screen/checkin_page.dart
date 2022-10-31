@@ -13,8 +13,8 @@ import '../../../../appLocalizations.dart';
 
 class CheckinPage extends StatefulWidget {
   // final String date;
-  final String lat;
-  final String lon;
+  final String? lat;
+  final String? lon;
   const CheckinPage({required this.lat, required this.lon});
 
   @override
@@ -58,6 +58,8 @@ class _CheckinPageState extends State<CheckinPage> {
 
   @override
   Widget build(BuildContext context) {
+    // print(widget.lat);
+    // print(widget.lon);
     return Scaffold(
       appBar: AppBar(
         title: Text("${AppLocalizations.of(context)!.translate("scanQr_in")!}"),
@@ -74,6 +76,7 @@ class _CheckinPageState extends State<CheckinPage> {
           if (state is AddedCheckin) {
             EasyLoading.dismiss();
             EasyLoading.showSuccess("Success");
+
             Navigator.pop(context);
             // accountBloc.add(FetchAccountStarted());
             print("success");
@@ -141,6 +144,21 @@ class _CheckinPageState extends State<CheckinPage> {
         // var lastResult = qrResult.split(" ");
         print(qrResult);
         if (qrResult == "ban") {
+          if (widget.lat == null ||
+              widget.lon == null ||
+              widget.lat == "null" ||
+              widget.lon == "null") {
+            // errorSnackBar(text: "Please scan again", context: context);
+            controller.resumeCamera();
+          } else {
+            BlocProvider.of<AccountBloc>(context).add(AddCheckinStarted(
+                date: mydate!,
+                createdDate: createDate!,
+                checkinTime: checkinTime!,
+                lat: widget.lat!,
+                lon: widget.lon!,
+                qrId: qrId[1]));
+          }
           // print('valid qr');
           // print(mydate);
           // print(createDate);
@@ -148,13 +166,6 @@ class _CheckinPageState extends State<CheckinPage> {
           // print(widget.lat);
           // print(widget.lon);
           // print(qrId[1]);
-          BlocProvider.of<AccountBloc>(context).add(AddCheckinStarted(
-              date: mydate!,
-              createdDate: createDate!,
-              checkinTime: checkinTime!,
-              lat: widget.lat,
-              lon: widget.lon,
-              qrId: qrId[1]));
 
           print("success");
         } else {

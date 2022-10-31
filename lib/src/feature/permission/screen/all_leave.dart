@@ -212,6 +212,40 @@ class _BodyState extends State<Body> {
                                                 padding: const EdgeInsets.only(
                                                     right: 8),
                                                 child: Text(
+                                                  "${AppLocalizations.of(context)!.translate("name")!} : ",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "${leaveBloc.allLeave[index].name} ",
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  // Text("- "),
+                                                  // Text(
+                                                  //   " ${BlocProvider.of<WantedBloc>(context).wantedList[index].maxPrice}",
+                                                  //   style: TextStyle(
+                                                  //       color: Colors.red,
+                                                  //       fontWeight: FontWeight.bold),
+                                                  // ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: Text(
                                                   "${AppLocalizations.of(context)!.translate("reason")!} : ",
                                                   style: TextStyle(
                                                       color: Colors.black),
@@ -398,99 +432,99 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 10,
               ),
-              leaveModel.status == "pending"
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          height:
-                              1.4 * (MediaQuery.of(context).size.height / 25),
-                          width: 5 * (MediaQuery.of(context).size.width / 15),
-                          margin: EdgeInsets.only(bottom: 5, top: 5),
-                          child: RaisedButton(
-                            elevation: 5.0,
-                            color: Colors.green,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            onPressed: () {
-                              leaveBloc.add(UpdateLeaveStatusStarted(
-                                  leaveDeduction: "0",
-                                  id: leaveModel.id,
-                                  status: "approved"));
-                            },
-                            child: Text(
-                              "Aprove",
-                              style: TextStyle(
-                                color: Colors.white,
-                                letterSpacing: 1.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                        // CupertinoButton(
-                        //     padding: EdgeInsets.all(1.0),
-                        //     color: Colors.green,
-                        //     child: Row(
-                        //       children: [
-                        //         Icon(Icons.edit),
-                        //       ],
-                        //     ),
-                        //     onPressed: () {
-                        //       // _displayTextInputDialog(context, leaveModel.id);
-                        //     }),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          height:
-                              1.4 * (MediaQuery.of(context).size.height / 25),
-                          width: 5 * (MediaQuery.of(context).size.width / 15),
-                          margin: EdgeInsets.only(bottom: 5, top: 5),
-                          child: RaisedButton(
-                            elevation: 5.0,
-                            color: Colors.red,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            onPressed: () {
-                              leaveBloc.add(UpdateLeaveStatusStarted(
-                                  leaveDeduction: "0",
-                                  id: leaveModel.id,
-                                  status: "rejected"));
-                            },
-                            child: Text(
-                              "Reject",
-                              style: TextStyle(
-                                color: Colors.white,
-                                letterSpacing: 1.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                        // CupertinoButton(
-                        //     padding: EdgeInsets.all(1.0),
-                        //     color: Colors.red,
-                        //     child: Row(
-                        //       children: [
-                        //         Icon(Icons.delete),
-                        //       ],
-                        //     ),
-                        //     onPressed: () {
-                        //       deleteDialog(
-                        //           context: context,
-                        //           onPress: () {
-                        //             print("id ${leaveModel.id}");
-                        //             leaveBloc.add(
-                        //                 DeleteLeaveStarted(id: leaveModel.id));
-                        //             Navigator.pop(context);
-                        //           });
-                        //     }),
-                      ],
-                    )
-                  : leaveModel.status == "rejected"
-                      ? Container()
-                      : Container(),
+              // leaveModel.status == "pending"
+              //     ? Row(
+              // mainAxisAlignment: MainAxisAlignment.end,
+              // children: [
+              //   Container(
+              //     height:
+              //         1.4 * (MediaQuery.of(context).size.height / 25),
+              //     width: 5 * (MediaQuery.of(context).size.width / 15),
+              //     margin: EdgeInsets.only(bottom: 5, top: 5),
+              //     child: RaisedButton(
+              //       elevation: 5.0,
+              //       color: Colors.green,
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(10.0),
+              //       ),
+              //       onPressed: () {
+              //         leaveBloc.add(UpdateLeaveStatusStarted(
+              //             leaveDeduction: "0",
+              //             id: leaveModel.id,
+              //             status: "approved"));
+              //       },
+              //       child: Text(
+              //         "Aprove",
+              //         style: TextStyle(
+              //           color: Colors.white,
+              //           letterSpacing: 1.5,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // CupertinoButton(
+              //     padding: EdgeInsets.all(1.0),
+              //     color: Colors.green,
+              //     child: Row(
+              //       children: [
+              //         Icon(Icons.edit),
+              //       ],
+              //     ),
+              //     onPressed: () {
+              //       // _displayTextInputDialog(context, leaveModel.id);
+              //     }),
+              // SizedBox(
+              //   width: 5,
+              // ),
+              // Container(
+              //   height:
+              //       1.4 * (MediaQuery.of(context).size.height / 25),
+              //   width: 5 * (MediaQuery.of(context).size.width / 15),
+              //   margin: EdgeInsets.only(bottom: 5, top: 5),
+              //   child: RaisedButton(
+              //     elevation: 5.0,
+              //     color: Colors.red,
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(10.0),
+              //     ),
+              //     onPressed: () {
+              //       leaveBloc.add(UpdateLeaveStatusStarted(
+              //           leaveDeduction: "0",
+              //           id: leaveModel.id,
+              //           status: "rejected"));
+              //     },
+              //     child: Text(
+              //       "Reject",
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         letterSpacing: 1.5,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // CupertinoButton(
+              //     padding: EdgeInsets.all(1.0),
+              //     color: Colors.red,
+              //     child: Row(
+              //       children: [
+              //         Icon(Icons.delete),
+              //       ],
+              //     ),
+              //     onPressed: () {
+              //       deleteDialog(
+              //           context: context,
+              //           onPress: () {
+              //             print("id ${leaveModel.id}");
+              //             leaveBloc.add(
+              //                 DeleteLeaveStarted(id: leaveModel.id));
+              //             Navigator.pop(context);
+              //           });
+              //     }),
+              //   ],
+              // )
+              // : leaveModel.status == "rejected"
+              //     ? Container()
+              //     : Container(),
             ],
           ),
           builder: (_, collapsed, expanded) {

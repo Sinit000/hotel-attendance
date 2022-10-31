@@ -1,4 +1,6 @@
 // import 'package:awesome_notifications/awesome_notifications.dart';
+import 'dart:io';
+
 import 'package:e_learning/src/config/routes/route_generator.dart';
 import 'package:e_learning/src/feature/account/bloc/index.dart';
 import 'package:e_learning/src/feature/auth/bloc/index.dart';
@@ -20,6 +22,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'appLocalizations.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'src/feature/home/check_connectivity.dart';
 import 'src/feature/home/screen/widget/mylocation.dart';
 import 'src/feature/landing/landing.dart';
 import 'src/feature/leaveout/bloc/index.dart';
@@ -47,7 +50,18 @@ import 'src/feature/notification/screen/local_notification.dart';
 
 enum Env { Production, Developement }
 final Env env = Env.Production;
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() async {
+  HttpOverrides.global = MyHttpOverrides();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // status bar color
   ));

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:e_learning/src/feature/auth/model/user_model.dart';
@@ -31,6 +32,7 @@ class LoginRegisterRepository {
       }
       throw CustomException.generalException();
     } catch (error) {
+      log(error.toString());
       throw error;
     }
   }

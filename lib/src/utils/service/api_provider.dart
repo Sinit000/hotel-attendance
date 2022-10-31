@@ -60,7 +60,8 @@ class ApiProvider {
         }
         // return e.response!;
       }
-      throw Exception("No Internet connection.");
+      print(e);
+      throw Exception(e.error.toString());
     }
     return response;
   }

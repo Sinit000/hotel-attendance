@@ -29,6 +29,8 @@ class MyDayOff extends StatelessWidget {
     return BlocProvider.of<AuthenticationBloc>(context).state.user!.roleName ==
             "Cheif Department"
         ? Scaffold(
+            appBar: standardAppBar(context,
+                "${AppLocalizations.of(context)!.translate("change_dayoff")!}"),
             body: Container(
                 margin: EdgeInsets.only(top: 10, bottom: 10), child: Body()),
             floatingActionButton: Container(

@@ -94,9 +94,11 @@ class _HolidayPageState extends State<HolidayPage> {
           borderRadius: BorderRadius.circular(6),
           color: Colors.white,
           border: Border.all(
-            color: holidayModel.status == "pending" ? Colors.green : Colors.red,
-            // width: 5,
-          ),
+              color: holidayModel.status == "pending"
+                  ? Colors.green
+                  : Colors.grey.withOpacity(0.2)
+              // width: 5,
+              ),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),

@@ -12,6 +12,7 @@ class LeaveModel {
   final String? leavetype;
   final String? number;
   final String? note;
+  final String? name;
   final String? imgUrl;
   final String? leaveDeduction;
   final LeaveTypeModel? leaveTypeModel;
@@ -29,6 +30,7 @@ class LeaveModel {
         subtype: json["subtype"],
         imgUrl: json["image_url"],
         note: json["note"],
+        name: json["name"],
         leaveDeduction: json["leave_deduction"].toString(),
         leaveTypeModel: json["leavetype"] == null
             ? null
@@ -47,6 +49,7 @@ class LeaveModel {
       required this.leavetype,
       required this.type,
       required this.imgUrl,
+      required this.name,
       required this.leaveDeduction,
       required this.leaveTypeModel});
 }

@@ -17,8 +17,8 @@ import '../../../../appLocalizations.dart';
 
 class CheckoutPage extends StatefulWidget {
   final String id;
-  final String lat;
-  final String lon;
+  final String? lat;
+  final String? lon;
   CheckoutPage({required this.id, required this.lat, required this.lon});
   // final String locationId;
   // final String timetableId;
@@ -210,14 +210,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
         var qrId = scanData.code!.split("/");
         print(qrResult);
         if (qrResult == "ban") {
-          BlocProvider.of<AccountBloc>(context).add(AddCheckoutStarted(
-              date: mydate!,
-              id: widget.id,
-              checkoutTime: checkinTime!,
-              lat: widget.lat,
-              lon: widget.lon,
-              qrId: qrId[1],
-              createdDate: today!));
+          if (widget.lat == null ||
+              widget.lon == null ||
+              widget.lat == "null" ||
+              widget.lon == "null") {
+            // errorSnackBar(text: "Please scan again", context: context);
+            controller.resumeCamera();
+          } else {
+            BlocProvider.of<AccountBloc>(context).add(AddCheckoutStarted(
+                date: mydate!,
+                id: widget.id,
+                checkoutTime: checkinTime!,
+                lat: widget.lat!,
+                lon: widget.lon!,
+                qrId: qrId[1],
+                createdDate: today!));
+          }
+
           // print("success");
         } else {
           // print("wrong qr");
