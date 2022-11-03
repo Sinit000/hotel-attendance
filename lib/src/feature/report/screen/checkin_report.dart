@@ -335,7 +335,7 @@ class _CheckinReportState extends State<CheckinReport> {
             ps.onConfirm!(ps, ps.selecteds);
             pe.onConfirm!(pe, pe.selecteds);
             _reportBloc.add(InitailizeAttendanceStarted(
-                dateRange: mydateRange, isSecond: true));
+                dateRange: "$_startDate/$_endDate", isSecond: true));
           },
           child: Text(PickerLocalizations.of(context).confirmText!))
     ];

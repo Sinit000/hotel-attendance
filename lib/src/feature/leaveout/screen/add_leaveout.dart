@@ -24,6 +24,9 @@ class _AddLeaveoutState extends State<AddLeaveout> {
   final TextEditingController _numCtrl = TextEditingController();
   late GlobalKey<FormState>? _formKey = GlobalKey<FormState>();
   final TextEditingController _typeCtrl = TextEditingController();
+  final TextEditingController _noteCtrl = TextEditingController();
+  String select = "";
+  bool isSeclect = false;
 
   DateTime? date;
   DateTime dateNow = DateTime.now();
@@ -31,6 +34,7 @@ class _AddLeaveoutState extends State<AddLeaveout> {
   String? dateToday;
   String? createDate;
   List<String> typeList = ['leave_out', 'clear_leave_out'];
+  List<String> reasonList = ['work', 'personal'];
   @override
   void initState() {
     DateTime now = DateTime.now();
@@ -102,7 +106,13 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                         onTap: () {
                           customModal(context, typeList, (value) {
                             _typeCtrl.text = value;
-                            print(value);
+
+                            select = value;
+
+                            setState(() {
+                              isSeclect = true;
+                            });
+                            print(select);
                           });
                         },
 
@@ -130,57 +140,66 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                         },
                       ),
                       SizedBox(height: 15),
-                      TextFormField(
-                        controller: _reasonCtrl,
-                        keyboardType: TextInputType.text,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Colors.grey.shade400)),
-                            enabledBorder: InputBorder.none,
-                            // isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                              left: 14.0,
+                      isSeclect == true && select == "leave_out"
+                          ? TextFormField(
+                              controller: _reasonCtrl,
+                              keyboardType: TextInputType.text,
+                              // maxLines: null,
+                              onTap: () {
+                                customModal(context, reasonList, (value) {
+                                  _reasonCtrl.text = value;
+                                  print(value);
+                                });
+                              },
+
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                  fillColor: Colors.grey.shade100,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(
+                                          color: Colors.grey.shade400)),
+                                  enabledBorder: InputBorder.none,
+                                  // isDense: true,
+                                  contentPadding: const EdgeInsets.only(
+                                    left: 14.0,
+                                  ),
+                                  labelText:
+                                      "${AppLocalizations.of(context)!.translate("reason")!}"),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Reason is required';
+                                }
+                                return null;
+                              },
+                            )
+                          : TextFormField(
+                              controller: _reasonCtrl,
+                              keyboardType: TextInputType.text,
+                              maxLines: null,
+                              decoration: InputDecoration(
+                                  // suffixIcon: Icon(Icons.arrow_drop_down),
+                                  fillColor: Colors.grey.shade100,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(
+                                          color: Colors.grey.shade400)),
+                                  enabledBorder: InputBorder.none,
+                                  // isDense: true,
+                                  contentPadding: const EdgeInsets.only(
+                                    left: 14.0,
+                                  ),
+                                  labelText:
+                                      "${AppLocalizations.of(context)!.translate("reason")!}"),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Reason is required';
+                                }
+                                return null;
+                              },
                             ),
-                            labelText:
-                                "${AppLocalizations.of(context)!.translate("reason")!}"),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Reason is required';
-                          }
-                          return null;
-                        },
-                      ),
-                      // SizedBox(height: 15),
-                      // TextFormField(
-                      //   controller: _numCtrl,
-                      //   keyboardType: TextInputType.number,
-                      //   // keyboardType: TextInputType.multiline,
-                      //   // minLines: 5,
-                      //   // maxLines: 20,
-                      //   decoration: InputDecoration(
-                      //       fillColor: Colors.grey.shade100,
-                      //       filled: true,
-                      //       focusedBorder: OutlineInputBorder(
-                      //           borderSide: new BorderSide(
-                      //               color: Colors.grey.shade400)),
-                      //       enabledBorder: InputBorder.none,
-                      //       // isDense: true,
-                      //       contentPadding: const EdgeInsets.only(
-                      //         left: 14.0,
-                      //       ),
-                      //       labelText:
-                      //           "${AppLocalizations.of(context)!.translate("duration")!}"),
-                      //   validator: (value) {
-                      //     if (value!.isEmpty) {
-                      //       return 'Duration is required.';
-                      //     }
-                      //     return null;
-                      //   },
-                      // ),
+                      
                       SizedBox(height: 15),
                       TextFormField(
                         controller: _timeOutCtrl,
@@ -213,6 +232,7 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                           return null;
                         },
                       ),
+                      
                       SizedBox(height: 15),
                       TextFormField(
                         controller: _timeInCtrl,
@@ -246,6 +266,25 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                         },
                       ),
                       SizedBox(height: 15),
+                      TextFormField(
+                        controller: _noteCtrl,
+                        keyboardType: TextInputType.text,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Colors.grey.shade400)),
+                            enabledBorder: InputBorder.none,
+                            // isDense: true,
+                            contentPadding: const EdgeInsets.only(
+                              left: 14.0,
+                            ),
+                            labelText:
+                                "${AppLocalizations.of(context)!.translate("notes")!}"),
+                      ),
+                      SizedBox(height: 15),
                       SizedBox(height: MediaQuery.of(context).size.height / 10),
                       Container(
                         margin:
@@ -263,11 +302,12 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                                 // addessdetail = 11.565271/94.6778 so we need to spilt into lat and long
                                 BlocProvider.of<LeaveOutBloc>(context).add(
                                     AddLeaveOutStarted(
-                                      requestType: _typeCtrl.text,
+                                        requestType: _typeCtrl.text,
                                         createdDate: createDate!,
                                         today: dateToday!,
                                         reason: _reasonCtrl.text,
                                         timein: _timeInCtrl.text,
+                                        note: _noteCtrl.text,
                                         timeout: _timeOutCtrl.text));
                               }
                             },

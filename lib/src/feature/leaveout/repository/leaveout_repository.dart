@@ -161,6 +161,7 @@ class LeaveOutRepository {
       {required String reason,
       required String timein,
       required String createDate,
+      required String note,
       required String date,
       required String requestType,
       required String timeout}) async {
@@ -173,6 +174,7 @@ class LeaveOutRepository {
         "time_out": timeout,
         "created_at": createDate,
         "date": date,
+        "note": note,
       };
       Response response = await apiProvider.post(url, body, null);
 
@@ -196,6 +198,7 @@ class LeaveOutRepository {
       required String timein,
       required String createDate,
       required String date,
+      required String note,
       required String timeout}) async {
     try {
       String url = mainUrl + "me/leaveouts/edit/$id";
@@ -206,6 +209,7 @@ class LeaveOutRepository {
         "date": date,
         "time_in": timein,
         "time_out": timeout,
+        "note": note,
       };
       Response response = await apiProvider.put(url, body);
       if (response.statusCode == 200 && response.data["code"] == 0) {

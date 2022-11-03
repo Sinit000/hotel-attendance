@@ -86,7 +86,7 @@ class LeaveOutBloc extends Bloc<LeaveOutEvent, LeaveoutState> {
             createDate: event.createdDate,
             date: event.today,
             reason: event.reason,
-            // duration: event.duration,
+            note: event.note,
             timein: event.timein,
             requestType: event.requestType,
             timeout: event.timeout);
@@ -123,7 +123,7 @@ class LeaveOutBloc extends Bloc<LeaveOutEvent, LeaveoutState> {
             date: event.today,
             id: event.id,
             reason: event.reason,
-            // duration: event.duration,
+            note: event.note,
             timein: event.timein,
             // type: event.type,
             requestType: event.requestType,

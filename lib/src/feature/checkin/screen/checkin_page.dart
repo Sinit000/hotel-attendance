@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:location/location.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -13,9 +14,9 @@ import '../../../../appLocalizations.dart';
 
 class CheckinPage extends StatefulWidget {
   // final String date;
-  final String? lat;
-  final String? lon;
-  const CheckinPage({required this.lat, required this.lon});
+  String? lat;
+  String? lon;
+  CheckinPage({required this.lat, required this.lon});
 
   @override
   State<CheckinPage> createState() => _CheckinPageState();
@@ -30,10 +31,33 @@ class _CheckinPageState extends State<CheckinPage> {
   String? checkin;
 
   String? checkinTime;
-  double? lat;
-  double? lot;
+
   String? createDate;
   String? mydate;
+
+  // location
+  LocationData? _location;
+  // GoogleMapController? mapController;
+  // LatLng? _initialcameraposition;
+  double? latitude;
+  double? lotidude;
+  final Location location = Location();
+  Future<void> _myLocation() async {
+    _location = await location.getLocation();
+
+    setState(() {
+      latitude = _location!.latitude;
+      lotidude = _location!.longitude;
+    });
+    print(latitude);
+    print(lotidude);
+    // _initialcameraposition = LatLng(_location.latitude, _location.longitude);
+    // location.onLocationChanged.listen((LocationData currentLocation) {
+    //   _location = currentLocation;
+    //   _initialcameraposition = LatLng(_location.latitude, _location.longitude);
+    // });
+  }
+
   @override
   void initState() {
     DateTime now = DateTime.now();
@@ -42,6 +66,25 @@ class _CheckinPageState extends State<CheckinPage> {
     checkin = formattedDate.toString();
     createDate = creDate.toString();
     mydate = formattedDate.substring(0, 10);
+    print(widget.lat);
+    print(widget.lon);
+    if (widget.lat == null ||
+        widget.lon == null ||
+        widget.lat == "null" ||
+        widget.lon == "null") {
+      _myLocation();
+      // widget.lat = latitude.toString();
+      // widget.lon = lotidude.toString();
+      // print(widget.lat);
+      // print(widget.lon);
+
+      // errorSnackBar(text: "Please scan again", context: context);
+
+    } else {
+      print('not null');
+      print(widget.lat);
+      print(widget.lon);
+    }
     // _checkPermissions();
     // _requestPermission();
     super.initState();
@@ -58,15 +101,13 @@ class _CheckinPageState extends State<CheckinPage> {
 
   @override
   Widget build(BuildContext context) {
-    // print(widget.lat);
-    // print(widget.lon);
     return Scaffold(
       appBar: AppBar(
         title: Text("${AppLocalizations.of(context)!.translate("scanQr_in")!}"),
         backgroundColor: Colors.green[700],
       ),
       body: BlocListener(
-        bloc: BlocProvider.of<AccountBloc>(context),
+        bloc: attendanceBloc,
         listener: (context, state) {
           print(state);
           if (state is AddingCheckin) {
@@ -148,10 +189,25 @@ class _CheckinPageState extends State<CheckinPage> {
               widget.lon == null ||
               widget.lat == "null" ||
               widget.lon == "null") {
+            if (latitude != null) {
+              print(lotidude);
+              print(latitude);
+              widget.lat = latitude.toString();
+              widget.lon = lotidude.toString();
+              attendanceBloc.add(AddCheckinStarted(
+                  date: mydate!,
+                  createdDate: createDate!,
+                  checkinTime: checkinTime!,
+                  lat: latitude.toString(),
+                  lon: lotidude.toString(),
+                  qrId: qrId[1]));
+            } else {
+              controller.resumeCamera();
+            }
             // errorSnackBar(text: "Please scan again", context: context);
-            controller.resumeCamera();
+
           } else {
-            BlocProvider.of<AccountBloc>(context).add(AddCheckinStarted(
+            attendanceBloc.add(AddCheckinStarted(
                 date: mydate!,
                 createdDate: createDate!,
                 checkinTime: checkinTime!,
@@ -159,12 +215,13 @@ class _CheckinPageState extends State<CheckinPage> {
                 lon: widget.lon!,
                 qrId: qrId[1]));
           }
+
           // print('valid qr');
           // print(mydate);
           // print(createDate);
           // print(checkinTime);
-          // print(widget.lat);
-          // print(widget.lon);
+          print(widget.lat);
+          print(widget.lon);
           // print(qrId[1]);
 
           print("success");

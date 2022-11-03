@@ -17,8 +17,8 @@ import '../../../../appLocalizations.dart';
 
 class CheckoutPage extends StatefulWidget {
   final String id;
-  final String? lat;
-  final String? lon;
+  String? lat;
+  String? lon;
   CheckoutPage({required this.id, required this.lat, required this.lon});
   // final String locationId;
   // final String timetableId;
@@ -105,6 +105,27 @@ class _CheckoutPageState extends State<CheckoutPage> {
   //   super.initState();
   // }
   String? today;
+  LocationData? _location;
+  // GoogleMapController? mapController;
+  // LatLng? _initialcameraposition;
+  double? latitude;
+  double? lotidude;
+  final Location location = Location();
+  Future<void> _myLocation() async {
+    _location = await location.getLocation();
+
+    setState(() {
+      latitude = _location!.latitude;
+      lotidude = _location!.longitude;
+    });
+    print(latitude);
+    print(lotidude);
+    // _initialcameraposition = LatLng(_location.latitude, _location.longitude);
+    // location.onLocationChanged.listen((LocationData currentLocation) {
+    //   _location = currentLocation;
+    //   _initialcameraposition = LatLng(_location.latitude, _location.longitude);
+    // });
+  }
 
   @override
   void initState() {
@@ -117,6 +138,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
     today = formattDate.substring(0, 10);
     // _checkPermissions();
     // _requestPermission();
+    if (widget.lat == null ||
+        widget.lon == null ||
+        widget.lat == "null" ||
+        widget.lon == "null") {
+      _myLocation();
+      // widget.lat = latitude.toString();
+      // widget.lon = lotidude.toString();
+      // print(widget.lat);
+      // print(widget.lon);
+
+      // errorSnackBar(text: "Please scan again", context: context);
+
+    } else {
+      print('not null');
+      print(widget.lat);
+      print(widget.lon);
+    }
     super.initState();
   }
 
@@ -138,7 +176,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         backgroundColor: Colors.green[700],
       ),
       body: BlocListener(
-        bloc: BlocProvider.of<AccountBloc>(context),
+        bloc: attendanceBloc,
         listener: (context, state) {
           print(state);
           if (state is AddingCheckout) {
@@ -215,9 +253,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
               widget.lat == "null" ||
               widget.lon == "null") {
             // errorSnackBar(text: "Please scan again", context: context);
-            controller.resumeCamera();
+            // controller.resumeCamera();
+            if (latitude != null) {
+              widget.lat = latitude.toString();
+              widget.lon = lotidude.toString();
+              attendanceBloc.add(AddCheckoutStarted(
+                  date: mydate!,
+                  id: widget.id,
+                  checkoutTime: checkinTime!,
+                  lat: latitude.toString(),
+                  lon: lotidude.toString(),
+                  qrId: qrId[1],
+                  createdDate: today!));
+            } else {
+              controller.resumeCamera();
+            }
           } else {
-            BlocProvider.of<AccountBloc>(context).add(AddCheckoutStarted(
+            attendanceBloc.add(AddCheckoutStarted(
                 date: mydate!,
                 id: widget.id,
                 checkoutTime: checkinTime!,

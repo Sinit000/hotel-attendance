@@ -240,13 +240,33 @@ class _LeaveBodyState extends State<LeaveBody> {
                                                         fontWeight:
                                                             FontWeight.bold),
                                                   ),
-                                                  // Text("- "),
-                                                  // Text(
-                                                  //   " ${BlocProvider.of<WantedBloc>(context).wantedList[index].maxPrice}",
-                                                  //   style: TextStyle(
-                                                  //       color: Colors.red,
-                                                  //       fontWeight: FontWeight.bold),
-                                                  // ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: Text(
+                                                  "${AppLocalizations.of(context)!.translate("leave_type")!} : ",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Text(
+                                                    "${leaveBloc.myleave[index].leaveTypeModel!.leaveType} ",
+                                                    style: TextStyle(
+                                                        color: Colors.red,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
                                                 ],
                                               ),
                                             ],

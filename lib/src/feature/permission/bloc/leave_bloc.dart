@@ -47,7 +47,7 @@ class LeaveBloc extends Bloc<LeaveEvent, LeaveState> {
         dateRange = event.dateRange;
         setEndDateAndStartDate();
 
-        List<LeaveModel> leaveList = await leaveRepository.getleave(
+      List<LeaveModel> leaveList = await leaveRepository.getleave(
             page: page,
             rowperpage: rowperpage,
             startDate: startDate!,

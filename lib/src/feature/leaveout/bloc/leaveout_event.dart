@@ -56,12 +56,14 @@ class AddLeaveOutStarted extends LeaveOutEvent {
   final String timeout;
   final String createdDate;
   final String today;
+  final String note;
   AddLeaveOutStarted(
       {required this.createdDate,
       required this.today,
       required this.reason,
       required this.timein,
       required this.timeout,
+      required this.note,
       required this.requestType});
 }
 
@@ -74,6 +76,7 @@ class UpdateLeaveOutStarted extends LeaveOutEvent {
   final String timeout;
   final String createdDate;
   final String today;
+  final String note;
 
   UpdateLeaveOutStarted(
       {required this.id,
@@ -82,6 +85,7 @@ class UpdateLeaveOutStarted extends LeaveOutEvent {
       required this.reason,
       required this.timein,
       required this.timeout,
+      required this.note,
       required this.requestType});
 }
 
@@ -89,15 +93,15 @@ class UpdateLeaveOutStatusStarted extends LeaveOutEvent {
   final String id;
   final String status;
   // final String requestType;
-  UpdateLeaveOutStatusStarted(
-      {required this.id, required this.status});
+  UpdateLeaveOutStatusStarted({required this.id, required this.status});
 }
 
 class UpdateLeaveOutSStatusStarted extends LeaveOutEvent {
   final String id;
   final String status;
   final String arrivingTime;
-  UpdateLeaveOutSStatusStarted({required this.id, required this.status,required this.arrivingTime});
+  UpdateLeaveOutSStatusStarted(
+      {required this.id, required this.status, required this.arrivingTime});
 }
 
 class DeleteLeaveOutStarted extends LeaveOutEvent {

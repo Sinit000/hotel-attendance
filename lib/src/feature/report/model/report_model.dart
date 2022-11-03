@@ -6,6 +6,8 @@ class ReportModel {
   final String totalOt;
   final String otCash;
   final String otHour;
+  final String absent;
+  final String holiday;
   factory ReportModel.fromJson(Map<String, dynamic> json) {
     return ReportModel(
         attendance: json["attendance"].toString(),
@@ -14,6 +16,8 @@ class ReportModel {
         leaveout: json["leaveout"].toString(),
         totalOt: json["total_ot"].toString(),
         otCash: json["ot_cash"].toString(),
+        absent:json["absent"].toString(),
+        holiday: json["ot_holiday"].toString(),
         otHour: json["ot_hour"].toString());
   }
   ReportModel(
@@ -23,5 +27,7 @@ class ReportModel {
       required this.leaveout,
       required this.totalOt,
       required this.otCash,
+      required this.absent,
+      required this.holiday,
       required this.otHour});
 }

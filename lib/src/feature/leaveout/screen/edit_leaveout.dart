@@ -27,6 +27,7 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
   late GlobalKey<FormState>? _formKey = GlobalKey<FormState>();
 
   final TextEditingController _typeCtrl = TextEditingController();
+  final TextEditingController _noteCtrl = TextEditingController();
 
   DateTime? date;
   DateTime dateNow = DateTime.now();
@@ -34,6 +35,9 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
   String? dateToday;
   String? createDate;
   List<String> typeList = ['leave_out', 'clear_leave_out'];
+  List<String> reasonList = ['work', 'personal'];
+  String select = "";
+  bool isSeclect = false;
   @override
   void initState() {
     DateTime now = DateTime.now();
@@ -46,6 +50,10 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
     _timeOutCtrl.text = widget.leaveOutModel.timeout!;
     // _timeInCtrl.text = widget.leaveOutModel.reason!;
     _numCtrl.text = widget.leaveOutModel.duration!;
+    if (widget.leaveOutModel.note != null ||
+        widget.leaveOutModel.note != "null") {
+      _noteCtrl.text = widget.leaveOutModel.note!;
+    }
     super.initState();
   }
 
@@ -109,6 +117,12 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
                         onTap: () {
                           customModal(context, typeList, (value) {
                             _typeCtrl.text = value;
+                            select = value;
+
+                            setState(() {
+                              isSeclect = true;
+                            });
+                            print(select);
                             print(value);
                           });
                         },
@@ -136,58 +150,65 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 15),
-                      TextFormField(
-                        controller: _reasonCtrl,
-                        keyboardType: TextInputType.text,
-                        maxLines: null,
-                        decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Colors.grey.shade400)),
-                            enabledBorder: InputBorder.none,
-                            // isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                              left: 14.0,
+                      isSeclect == true && select == "leave_out"
+                          ? TextFormField(
+                              controller: _reasonCtrl,
+                              keyboardType: TextInputType.text,
+                              // maxLines: null,
+                              onTap: () {
+                                customModal(context, reasonList, (value) {
+                                  _reasonCtrl.text = value;
+                                  print(value);
+                                });
+                              },
+
+                              readOnly: true,
+                              decoration: InputDecoration(
+                                  suffixIcon: Icon(Icons.arrow_drop_down),
+                                  fillColor: Colors.grey.shade100,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(
+                                          color: Colors.grey.shade400)),
+                                  enabledBorder: InputBorder.none,
+                                  // isDense: true,
+                                  contentPadding: const EdgeInsets.only(
+                                    left: 14.0,
+                                  ),
+                                  labelText:
+                                      "${AppLocalizations.of(context)!.translate("reason")!}"),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Reason is required';
+                                }
+                                return null;
+                              },
+                            )
+                          : TextFormField(
+                              controller: _reasonCtrl,
+                              keyboardType: TextInputType.text,
+                              maxLines: null,
+                              decoration: InputDecoration(
+                                  // suffixIcon: Icon(Icons.arrow_drop_down),
+                                  fillColor: Colors.grey.shade100,
+                                  filled: true,
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: new BorderSide(
+                                          color: Colors.grey.shade400)),
+                                  enabledBorder: InputBorder.none,
+                                  // isDense: true,
+                                  contentPadding: const EdgeInsets.only(
+                                    left: 14.0,
+                                  ),
+                                  labelText:
+                                      "${AppLocalizations.of(context)!.translate("reason")!}"),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Reason is required';
+                                }
+                                return null;
+                              },
                             ),
-                            labelText:
-                                "${AppLocalizations.of(context)!.translate("reason")!}"),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Reason is required';
-                          }
-                          return null;
-                        },
-                      ),
-                      SizedBox(height: 15),
-                      TextFormField(
-                        controller: _numCtrl,
-                        keyboardType: TextInputType.number,
-                        // keyboardType: TextInputType.multiline,
-                        // minLines: 5,
-                        // maxLines: 20,
-                        decoration: InputDecoration(
-                            fillColor: Colors.grey.shade100,
-                            filled: true,
-                            focusedBorder: OutlineInputBorder(
-                                borderSide: new BorderSide(
-                                    color: Colors.grey.shade400)),
-                            enabledBorder: InputBorder.none,
-                            // isDense: true,
-                            contentPadding: const EdgeInsets.only(
-                              left: 14.0,
-                            ),
-                            labelText:
-                                "${AppLocalizations.of(context)!.translate("duration")!}"),
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Duration is required.';
-                          }
-                          return null;
-                        },
-                      ),
                       SizedBox(height: 15),
                       TextFormField(
                         controller: _timeOutCtrl,
@@ -253,6 +274,25 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
                         },
                       ),
                       SizedBox(height: 15),
+                      TextFormField(
+                        controller: _noteCtrl,
+                        keyboardType: TextInputType.text,
+                        maxLines: null,
+                        decoration: InputDecoration(
+                            fillColor: Colors.grey.shade100,
+                            filled: true,
+                            focusedBorder: OutlineInputBorder(
+                                borderSide: new BorderSide(
+                                    color: Colors.grey.shade400)),
+                            enabledBorder: InputBorder.none,
+                            // isDense: true,
+                            contentPadding: const EdgeInsets.only(
+                              left: 14.0,
+                            ),
+                            labelText:
+                                "${AppLocalizations.of(context)!.translate("notes")!}"),
+                      ),
+                      SizedBox(height: 15),
                       SizedBox(height: MediaQuery.of(context).size.height / 10),
                       Container(
                         margin:
@@ -276,6 +316,7 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
                                         today: dateToday!,
                                         reason: _reasonCtrl.text,
                                         timein: _timeInCtrl.text,
+                                        note: _noteCtrl.text,
                                         timeout: _timeOutCtrl.text));
                               }
                             },

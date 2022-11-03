@@ -127,11 +127,13 @@ class _CounterPageState extends State<CounterPage> {
           Text(
             "$title",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            textScaleFactor: 1.2,
           ),
           SizedBox(
             height: 10.0,
           ),
-          Text("$text")
+          Text("$text",
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
         ],
       ),
     );

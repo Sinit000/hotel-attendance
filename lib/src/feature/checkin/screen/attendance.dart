@@ -15,7 +15,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../appLocalizations.dart';
 import 'package:intl/intl.dart';
 
-// AccountBloc accountBloc = AccountBloc();
+AccountBloc attendanceBloc = AccountBloc();
 
 class Attendance extends StatefulWidget {
   const Attendance({Key? key}) : super(key: key);
@@ -102,42 +102,44 @@ class _AttendanceState extends State<Attendance> {
     // accountBloc.add(FetchAccountStarted());
     _checkPermissions();
     _requestPermission();
+    attendanceBloc.add(FetchCheckAccountStarted(todayDate: checkindate!.substring(0, 10)));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AccountBloc>(context).add(
-        FetchCheckAccountStarted(todayDate: checkindate!.substring(0, 10)));
+    // BlocProvider.of<AccountBloc>(context).add(
+    //     FetchCheckAccountStarted(todayDate: checkindate!.substring(0, 10)));
     print(checkindate);
     print(mydate);
     return Scaffold(
         appBar: standardAppBar(context,
             "${AppLocalizations.of(context)!.translate("check_attendane")!}"),
         body: BlocConsumer(
-            bloc: BlocProvider.of<AccountBloc>(context),
+            bloc: attendanceBloc,
             builder: (context, state) {
               print(state);
+
               if (state is FetchedCheckAccount) {
-                if (BlocProvider.of<AccountBloc>(context)
+                if (attendanceBloc
                         .check!
                         .checkinStatus ==
                     "false") {
                   return checkin(
                       accountModel:
-                          BlocProvider.of<AccountBloc>(context).check!);
-                } else if (BlocProvider.of<AccountBloc>(context)
+                          attendanceBloc.check!);
+                } else if (attendanceBloc
                         .check!
                         .checkinStatus ==
                     "true") {
                   return checkOut(
                       accountModel:
-                          BlocProvider.of<AccountBloc>(context).check!);
-                } else if (BlocProvider.of<AccountBloc>(context)
+                          attendanceBloc.check!);
+                } else if (attendanceBloc
                             .check!
                             .checkinStatus ==
                         "leave" ||
-                    BlocProvider.of<AccountBloc>(context)
+                    attendanceBloc
                             .check!
                             .checkinStatus ==
                         "absent") {

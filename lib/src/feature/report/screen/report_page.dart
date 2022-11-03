@@ -143,6 +143,9 @@ class _ReportBodyState extends State<ReportBody> {
                                   text:
                                       "${_reportBloc.reportModel!.attendance}"),
                               _buildReportItem(
+                                  title: "Absent",
+                                  text: "${_reportBloc.reportModel!.absent}"),
+                              _buildReportItem(
                                   title: "Leave",
                                   text: "${_reportBloc.reportModel!.leave}"),
                               _buildReportItem(
@@ -153,14 +156,18 @@ class _ReportBodyState extends State<ReportBody> {
                                   title: "Leaveout",
                                   text: "${_reportBloc.reportModel!.leaveout}"),
                               _buildReportItem(
-                                  title: "Total OT",
+                                  title: "Total Overtime",
                                   text: "${_reportBloc.reportModel!.totalOt}"),
+                              _buildReportItem(
+                                  title: "OT Hour",
+                                  text: "${_reportBloc.reportModel!.otHour}"),
                               _buildReportItem(
                                   title: "OT Cash",
                                   text: "${_reportBloc.reportModel!.otCash}"),
                               _buildReportItem(
-                                  title: "OT Hour",
-                                  text: "${_reportBloc.reportModel!.otHour}")
+                                  title: "OT Holiday",
+                                  text: "${_reportBloc.reportModel!.holiday}"),
+
                               // Container(
                               //   alignment: Alignment.center,
                               //   margin: EdgeInsets.all(30.0),
@@ -467,16 +474,21 @@ class _ReportBodyState extends State<ReportBody> {
       alignment: Alignment.center,
       margin: EdgeInsets.all(15.0),
       decoration: BoxDecoration(
-          color: Colors.green, borderRadius: BorderRadius.circular(20)),
+          color: Colors.green[300], borderRadius: BorderRadius.circular(20)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text("$title"),
+          Text(
+            "$title",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            textScaleFactor: 1.2,
+          ),
           SizedBox(
             height: 10.0,
           ),
-          Text("$text")
+          Text("$text",
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
         ],
       ),
     );
@@ -517,7 +529,8 @@ class _ReportBodyState extends State<ReportBody> {
             Navigator.pop(context);
             ps.onConfirm!(ps, ps.selecteds);
             pe.onConfirm!(pe, pe.selecteds);
-            _reportBloc.add(FetchReportStarted(dateRange: mydateRage));
+            _reportBloc
+                .add(FetchReportStarted(dateRange: "$_startDate/$_endDate"));
           },
           child: Text(PickerLocalizations.of(context).confirmText!))
     ];

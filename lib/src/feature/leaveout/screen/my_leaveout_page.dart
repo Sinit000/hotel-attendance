@@ -319,6 +319,38 @@ class _LeaveOutBodyState extends State<LeaveOutBody> {
                                               ),
                                             ],
                                           ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 8),
+                                                child: Text(
+                                                  "${AppLocalizations.of(context)!.translate("notes")!} : ",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              BlocProvider.of<LeaveOutBloc>(
+                                                                  context)
+                                                              .myLeaveout[index]
+                                                              .note ==
+                                                          null ||
+                                                      BlocProvider.of<LeaveOutBloc>(
+                                                                  context)
+                                                              .myLeaveout[index]
+                                                              .note ==
+                                                          "null"
+                                                  ? Text("")
+                                                  : Text(
+                                                      "${BlocProvider.of<LeaveOutBloc>(context).myLeaveout[index].note}",
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                            ],
+                                          ),
                                           BlocProvider.of<LeaveOutBloc>(context)
                                                       .myLeaveout[index]
                                                       .status ==
