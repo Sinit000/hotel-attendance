@@ -193,6 +193,28 @@ class _LeaveOutBodyState extends State<LeaveOutBody> {
                                                 padding: const EdgeInsets.only(
                                                     right: 10),
                                                 child: Text(
+                                                  "${AppLocalizations.of(context)!.translate("type")!} : ",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Text(
+                                                "${BlocProvider.of<LeaveOutBloc>(context).myLeaveout[index].requestType}",
+                                                style: TextStyle(
+                                                    color: Colors.green,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            ],
+                                          ),
+                                          Row(
+                                            // mainAxisAlignment:
+                                            //     MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                                child: Text(
                                                   "${AppLocalizations.of(context)!.translate("date")!} : ",
                                                   style: TextStyle(
                                                       color: Colors.black),

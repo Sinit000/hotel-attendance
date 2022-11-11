@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:lottie/lottie.dart';
 
+import '../../../../appLocalizations.dart';
+
 class LeavetypePage extends StatefulWidget {
   const LeavetypePage({Key? key}) : super(key: key);
 
@@ -25,7 +27,8 @@ class _LeavetypePageState extends State<LeavetypePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.withOpacity(0.2),
-      appBar: standardAppBar(context, "Leavetype"),
+      appBar: standardAppBar(
+          context, AppLocalizations.of(context)!.translate("leave_type")!),
       body: BlocBuilder(
           bloc: _leaveBloc,
           builder: (context, state) {

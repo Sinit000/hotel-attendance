@@ -199,7 +199,6 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                                 return null;
                               },
                             ),
-                      
                       SizedBox(height: 15),
                       TextFormField(
                         controller: _timeOutCtrl,
@@ -232,7 +231,6 @@ class _AddLeaveoutState extends State<AddLeaveout> {
                           return null;
                         },
                       ),
-                      
                       SizedBox(height: 15),
                       TextFormField(
                         controller: _timeInCtrl,

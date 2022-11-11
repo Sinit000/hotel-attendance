@@ -26,7 +26,7 @@ class OTCompesation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(  
+    return Scaffold(
       // appBar: standardAppBar(context,
       //     "${AppLocalizations.of(context)!.translate("ot_compesation")!}"),
       body: Container(
@@ -314,7 +314,9 @@ class _BodyState extends State<Body> {
             builder: (c) {
               var controller = ExpandableController.of(c, required: true)!;
               return Text(
-                controller.expanded ? "Click to Hide" : "Click to view",
+                controller.expanded
+                    ? "${AppLocalizations.of(context)!.translate("hide")!}"
+                    : "${AppLocalizations.of(context)!.translate("show")!}",
                 style: Theme.of(context).textTheme.bodyText1,
               );
             },
@@ -330,12 +332,12 @@ class _BodyState extends State<Body> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: Text(
-                      "${AppLocalizations.of(context)!.translate("type_ot")!} : ",
+                      "${AppLocalizations.of(context)!.translate("request_type")!} : ",
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
                   Text(
-                    "${overtime.type}",
+                    "${overtime.requestype}",
                   ),
                 ],
               ),
@@ -351,9 +353,13 @@ class _BodyState extends State<Body> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "${overtime.duration}",
-                  ),
+                  overtime.type == "hour"
+                      ? Text(
+                          "${overtime.duration} hour",
+                        )
+                      : Text(
+                          "${overtime.duration} day",
+                        ),
                 ],
               ),
               Row(

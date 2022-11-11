@@ -253,8 +253,11 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
                                                 .bodyText1,
                                           ),
                                           _employeeBloc.accountModel!
-                                                      .minorChild ==
-                                                  null
+                                                          .minorChild ==
+                                                      null ||
+                                                  _employeeBloc.accountModel!
+                                                          .minorChild ==
+                                                      "null"
                                               ? Container()
                                               : Expanded(
                                                   child: Text(
@@ -267,7 +270,9 @@ class _ProfileTeamDetailState extends State<ProfileTeamDetail> {
                                         ],
                                       ),
                                 SizedBox(height: 5),
-                                _employeeBloc.accountModel!.spouseJob == null
+                                _employeeBloc.accountModel!.spouseJob == null ||
+                                        _employeeBloc.accountModel!.spouseJob ==
+                                            "null"
                                     ? Container()
                                     : Row(
                                         crossAxisAlignment:

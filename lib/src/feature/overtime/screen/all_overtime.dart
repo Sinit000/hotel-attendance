@@ -61,7 +61,8 @@ class _BodyState extends State<Body> {
   String mydateRage = "This month";
   @override
   void initState() {
-    overtimeBloc.add(InitializeAllOvertimeStarted(dateRange: "This month",isSecond: false));
+    overtimeBloc.add(
+        InitializeAllOvertimeStarted(dateRange: "This month", isSecond: false));
     super.initState();
   }
 
@@ -127,7 +128,7 @@ class _BodyState extends State<Body> {
                               });
                               print(value);
                               overtimeBloc.add(InitializeAllOvertimeStarted(
-                                  dateRange: value,isSecond: true));
+                                  dateRange: value, isSecond: true));
                             }
                           },
                         ),
@@ -146,8 +147,8 @@ class _BodyState extends State<Body> {
                         onRefresh: () {
                           print("fetch dateRange");
                           print(mydateRage);
-                          overtimeBloc.add(
-                              InitializeAllOvertimeStarted(dateRange: mydateRage,isRefresh: 'yes'));
+                          overtimeBloc.add(InitializeAllOvertimeStarted(
+                              dateRange: mydateRage, isRefresh: 'yes'));
                         },
                         onLoading: () {
                           print("fetch dateRange");
@@ -338,7 +339,9 @@ class _BodyState extends State<Body> {
             builder: (c) {
               var controller = ExpandableController.of(c, required: true)!;
               return Text(
-                controller.expanded ? "Click to Hide" : "Click to view",
+                controller.expanded
+                    ? "${AppLocalizations.of(context)!.translate("hide")!}"
+                    : "${AppLocalizations.of(context)!.translate("show")!}",
                 style: Theme.of(context).textTheme.bodyText1,
               );
             },
@@ -355,9 +358,13 @@ class _BodyState extends State<Body> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "${overtime.duration}",
-                  ),
+                  overtime.type == "hour"
+                      ? Text(
+                          "${overtime.duration} hour",
+                        )
+                      : Text(
+                          "${overtime.duration} day",
+                        ),
                 ],
               ),
               SizedBox(
@@ -556,7 +563,7 @@ class _BodyState extends State<Body> {
             ps.onConfirm!(ps, ps.selecteds);
             pe.onConfirm!(pe, pe.selecteds);
             overtimeBloc.add(InitializeAllOvertimeStarted(
-                dateRange: "$_startDate/$_endDate",isSecond: true));
+                dateRange: "$_startDate/$_endDate", isSecond: true));
           },
           child: Text(PickerLocalizations.of(context).confirmText!))
     ];

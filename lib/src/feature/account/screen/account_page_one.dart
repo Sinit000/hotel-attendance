@@ -111,16 +111,7 @@ class _BodyState extends State<Body> {
                               : Container(
                                   height: 80,
                                   width: 80,
-                                  child: FadeInImage.assetNetwork(
-                                    placeholder:
-                                        "assets/icon/Logo_BanBanHotel.png",
-
-                                    // imageCacheHeight: 350,
-                                    // imageCacheWidth: 350,
-                                    image:
-                                        "https://banban-hr.com/hotel/public/${accountBloc.accountModel!.img}",
-                                    fit: BoxFit.fill,
-                                  ),
+                                  child: Image.asset("assets/icon/avartar.png"),
                                 ),
                           SizedBox(
                             width: 20,
@@ -175,7 +166,8 @@ class _BodyState extends State<Body> {
                             children: [
                               _builContainer(
                                   iconData: Icons.account_circle_outlined,
-                                  title: "Personal Info",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("personal_profile")!,
                                   iconColor: Colors.green,
                                   onTap: () {
                                     Navigator.push(
@@ -195,7 +187,8 @@ class _BodyState extends State<Body> {
                               ),
                               _builContainer(
                                   iconData: Icons.account_circle_outlined,
-                                  title: "My Counter",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("my_counter")!,
                                   iconColor: Colors.blue,
                                   onTap: () {
                                     Navigator.push(
@@ -212,7 +205,8 @@ class _BodyState extends State<Body> {
                               ),
                               _builContainer(
                                   iconData: Icons.account_circle_outlined,
-                                  title: "Publich Holiday",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("ph_holiday")!,
                                   iconColor: Colors.pinkAccent,
                                   onTap: () {
                                     Navigator.push(
@@ -301,14 +295,14 @@ class _BodyState extends State<Body> {
                               //   height: 1.0,
                               //   color: Colors.grey[400],
                               // ),
-                              _builContainer(
-                                  iconData: Icons.people_outlined,
-                                  title:
-                                      "${AppLocalizations.of(context)!.translate("aboutUs")!}",
-                                  iconColor: Colors.blue,
-                                  onTap: () {
-                                    // languageModal(context);
-                                  }),
+                              // _builContainer(
+                              //     iconData: Icons.people_outlined,
+                              //     title:
+                              //         "${AppLocalizations.of(context)!.translate("aboutUs")!}",
+                              //     iconColor: Colors.blue,
+                              //     onTap: () {
+                              //       // languageModal(context);
+                              //     }),
                               Container(
                                 margin: EdgeInsets.only(left: 50),
                                 child: Divider(
@@ -376,6 +370,7 @@ class _BodyState extends State<Body> {
                   SizedBox(
                     height: 20,
                   ),
+                  // Container(child: Text("Power By "),)
                 ],
               );
             }

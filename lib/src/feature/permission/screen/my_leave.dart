@@ -271,25 +271,25 @@ class _LeaveBodyState extends State<LeaveBody> {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: 5.0,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 8),
-                                                child: Text(
-                                                  "${AppLocalizations.of(context)!.translate("type_one")!} : ",
-                                                  style: TextStyle(
-                                                      color: Colors.black),
-                                                ),
-                                              ),
-                                              Text(
-                                                "${leaveBloc.myleave[index].type}",
-                                              ),
-                                            ],
-                                          ),
+                                          // SizedBox(
+                                          //   height: 5.0,
+                                          // ),
+                                          // Row(
+                                          //   children: [
+                                          //     Padding(
+                                          //       padding: const EdgeInsets.only(
+                                          //           right: 8),
+                                          //       child: Text(
+                                          //         "${AppLocalizations.of(context)!.translate("type_one")!} : ",
+                                          //         style: TextStyle(
+                                          //             color: Colors.black),
+                                          //       ),
+                                          //     ),
+                                          //     Text(
+                                          //       "${leaveBloc.myleave[index].type}",
+                                          //     ),
+                                          //   ],
+                                          // ),
                                           SizedBox(
                                             height: 5.0,
                                           ),
@@ -304,9 +304,13 @@ class _LeaveBodyState extends State<LeaveBody> {
                                                       color: Colors.black),
                                                 ),
                                               ),
-                                              Text(
-                                                "${leaveBloc.myleave[index].number}",
-                                              ),
+                                              leaveBloc.myleave[index].type ==
+                                                      "hour"
+                                                  ? Text(
+                                                      "${leaveBloc.myleave[index].number}  hour")
+                                                  : Text(
+                                                      "${leaveBloc.myleave[index].number}  day",
+                                                    ),
                                             ],
                                           ),
                                           SizedBox(
@@ -388,7 +392,7 @@ class _LeaveBodyState extends State<LeaveBody> {
                                                               .status ==
                                                           "rejected"
                                                   ? Text(
-                                                      "\$0",
+                                                      "",
                                                       style: TextStyle(
                                                           color: Colors.red),
                                                     )

@@ -224,6 +224,31 @@ class _BodyState extends State<Body> {
                                             height: 5.0,
                                           ),
                                           Row(
+                                            // mainAxisAlignment:
+                                            //     MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 10),
+                                                child: Text(
+                                                  "${AppLocalizations.of(context)!.translate("request_type")!} : ",
+                                                  style: TextStyle(
+                                                      color: Colors.black),
+                                                ),
+                                              ),
+                                              Text(
+                                                "${_chiefBloc.allLeaveout[index].requestType}",
+                                                style: TextStyle(
+                                                    color: Colors.green,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5.0,
+                                          ),
+                                          Row(
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
@@ -321,7 +346,9 @@ class _BodyState extends State<Body> {
             builder: (c) {
               var controller = ExpandableController.of(c, required: true)!;
               return Text(
-                controller.expanded ? "Click to Hide" : "Click to view",
+                controller.expanded
+                    ? "${AppLocalizations.of(context)!.translate("hide")!}"
+                    : "${AppLocalizations.of(context)!.translate("show")!}",
                 style: Theme.of(context).textTheme.bodyText1,
               );
             },
@@ -439,7 +466,7 @@ class _BodyState extends State<Body> {
                                   id: leaveOutModel.id, status: "approved"));
                             },
                             child: Text(
-                              "Aprove",
+                              "${AppLocalizations.of(context)!.translate("approve")!}",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,
@@ -467,7 +494,7 @@ class _BodyState extends State<Body> {
                                   id: leaveOutModel.id, status: "rejected"));
                             },
                             child: Text(
-                              "Reject",
+                              "${AppLocalizations.of(context)!.translate("reject")!}",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,

@@ -48,12 +48,18 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
     _reasonCtrl.text = widget.leaveOutModel.reason!;
     _timeInCtrl.text = widget.leaveOutModel.timein!;
     _timeOutCtrl.text = widget.leaveOutModel.timeout!;
-    // _timeInCtrl.text = widget.leaveOutModel.reason!;
+    _typeCtrl.text = widget.leaveOutModel.requestType!;
     _numCtrl.text = widget.leaveOutModel.duration!;
-    if (widget.leaveOutModel.note != null ||
-        widget.leaveOutModel.note != "null") {
-      _noteCtrl.text = widget.leaveOutModel.note!;
-    }
+    widget.leaveOutModel.note == null || widget.leaveOutModel.note == "null"
+        ? _noteCtrl.text = ""
+        : _noteCtrl.text = widget.leaveOutModel.note!;
+
+    // if (widget.leaveOutModel.note != null ||
+    //     widget.leaveOutModel.note != "null") {
+    //   _noteCtrl.text = widget.leaveOutModel.note!;
+    // } else {
+    //   _noteCtrl.text = "";
+    // }
     super.initState();
   }
 
@@ -150,6 +156,7 @@ class _EditLeaveOutState extends State<EditLeaveOut> {
                           return null;
                         },
                       ),
+                      SizedBox(height: 15),
                       isSeclect == true && select == "leave_out"
                           ? TextFormField(
                               controller: _reasonCtrl,

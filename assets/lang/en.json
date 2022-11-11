@@ -123,7 +123,39 @@
     "sponse_job": "Spouse Job",
     "leave_deduction": "Leave Deduction",
     "song_mong": "Song Mong",
-    "edit_change_dayoff": "Edit Change Dayoff"
+    "edit_change_dayoff": "Edit Change Dayoff",
+    "personal_profile": "Personal Info",
+    "ph_holiday": "Public Holiday",
+    "my_counter":"My Counter",
+    "total_ph":"Total PH",
+    "hospital_leave":"Hospitality Leave",
+    "mariage_leave":"Marriage Leave",
+    "funeral_leave":"Funeral Leave",
+    "meternity_leave":"Meternity Leave",
+    "peternity_leave":"Peternity Leave",
+    "counter":"My Counter",
+    "summary":"Summary",
+    "absent":"Absent",
+    "leave_out":"Leave out",
+    "ot_cash":"OT Cash",
+    "ot_holiday":"OT Holiday",
+    "today":"Today",
+    "this_week":"This week",
+    "this_month":"This month",
+    "this_year":"This year",
+    "custom":"Custom",
+    "view":"View",
+    "hide":"Click to hide",
+    "show":"Click to view",
+    "approve":"Approve",
+    "reject":"Reject",
+    "request_type":"Type",
+    "clear_ot":"Clear OT",
+    "song_thaing":"Song Thngai"
+    
+    
+    
+    
 
 
 

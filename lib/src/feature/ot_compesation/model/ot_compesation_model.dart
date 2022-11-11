@@ -11,7 +11,7 @@ class OTCompesationModel {
   final String? approvBy;
 
   final String? type;
-  // final String? notes;
+  final String? requestype;
 
   factory OTCompesationModel.fromJson(Map<String, dynamic> json) {
     return OTCompesationModel(
@@ -27,8 +27,8 @@ class OTCompesationModel {
         // paytype: json["pay_type"],
         reason: json["reason"],
         date: json["date"],
-        approvBy: json["approved_by"]
-        // payStatus: json["pay_status"],
+        approvBy: json["approved_by"],
+        requestype: json["request_type"],
         // otRate: json["ot_rate"].toString(),
         // otHour: json["ot_hour"].toString(),
         // otMethod: json["ot_method"].toString(),
@@ -48,8 +48,8 @@ class OTCompesationModel {
       // required this.paytype,
       required this.reason,
       required this.date,
-      required this.approvBy
-      // required this.otRate,
+      required this.approvBy,
+      required this.requestype,
       // required this.otHour,
       // required this.otMethod,
       // required this.payStatus,

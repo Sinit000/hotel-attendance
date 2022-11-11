@@ -10,6 +10,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../appLocalizations.dart';
+
 class TeamProfile extends StatefulWidget {
   const TeamProfile({Key? key}) : super(key: key);
 
@@ -30,7 +32,8 @@ class _TeamProfileState extends State<TeamProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey.withOpacity(0.2),
-        appBar: standardAppBar(context, "Team Profile"),
+        appBar: standardAppBar(context,
+            "${AppLocalizations.of(context)!.translate("team_profile")!}"),
         body: Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
           child: BlocConsumer(
@@ -78,7 +81,8 @@ class _TeamProfileState extends State<TeamProfile> {
                                 id: _employeeBloc.emploList[index].id!,
                                 name: _employeeBloc.emploList[index].name!,
                                 img: _employeeBloc.emploList[index].img,
-                                position: "View");
+                                position:
+                                    "${AppLocalizations.of(context)!.translate("view")!}");
                           },
                         ),
                       ],

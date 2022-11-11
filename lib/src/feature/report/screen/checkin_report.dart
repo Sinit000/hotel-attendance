@@ -7,6 +7,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../appLocalizations.dart';
+
 class CheckinReport extends StatefulWidget {
   const CheckinReport({Key? key}) : super(key: key);
 
@@ -161,7 +163,7 @@ class _CheckinReportState extends State<CheckinReport> {
                                         padding:
                                             const EdgeInsets.only(right: 10),
                                         child: Text(
-                                          "Date :",
+                                          "${AppLocalizations.of(context)!.translate("date")!} :",
                                           style: TextStyle(color: Colors.black),
                                         ),
                                       ),
@@ -182,18 +184,26 @@ class _CheckinReportState extends State<CheckinReport> {
                                         padding:
                                             const EdgeInsets.only(right: 8),
                                         child: Text(
-                                          "Checkin Time :",
+                                          "${AppLocalizations.of(context)!.translate("checkin_time")!} :",
                                           style: TextStyle(color: Colors.black),
                                         ),
                                       ),
                                       Row(
                                         children: [
-                                          Text(
-                                            "${_reportBloc.myreport[index].checkinTime} ",
-                                            style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold),
-                                          ),
+                                          _reportBloc.myreport[index]
+                                                          .checkinTime ==
+                                                      null ||
+                                                  _reportBloc.myreport[index]
+                                                          .checkinTime ==
+                                                      "null"
+                                              ? Text("")
+                                              : Text(
+                                                  "${_reportBloc.myreport[index].checkinTime} ",
+                                                  style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
                                           // Text("- "),
                                           // Text(
                                           //   " ${BlocProvider.of<WantedBloc>(context).wantedList[index].maxPrice}",
@@ -214,13 +224,20 @@ class _CheckinReportState extends State<CheckinReport> {
                                         padding:
                                             const EdgeInsets.only(right: 8),
                                         child: Text(
-                                          "Checkin Status :",
+                                          "${AppLocalizations.of(context)!.translate("checkin_status")!} :",
                                           style: TextStyle(color: Colors.black),
                                         ),
                                       ),
-                                      Text(
-                                        "${_reportBloc.myreport[index].checkitStatus} ${_reportBloc.myreport[index].checkinLate} mn",
-                                      ),
+                                      _reportBloc.myreport[index]
+                                                      .checkitStatus ==
+                                                  null ||
+                                              _reportBloc.myreport[index]
+                                                      .checkitStatus ==
+                                                  "null"
+                                          ? Text("")
+                                          : Text(
+                                              "${_reportBloc.myreport[index].checkitStatus} ${_reportBloc.myreport[index].checkinLate} mn",
+                                            ),
                                     ],
                                   ),
                                   SizedBox(
@@ -232,13 +249,20 @@ class _CheckinReportState extends State<CheckinReport> {
                                         padding:
                                             const EdgeInsets.only(right: 8),
                                         child: Text(
-                                          "Checkout time :",
+                                          "${AppLocalizations.of(context)!.translate("checkout_time")!} :",
                                           style: TextStyle(color: Colors.black),
                                         ),
                                       ),
-                                      Text(
-                                        "${_reportBloc.myreport[index].checkoutTime}",
-                                      ),
+                                      _reportBloc.myreport[index]
+                                                      .checkoutTime ==
+                                                  null ||
+                                              _reportBloc.myreport[index]
+                                                      .checkoutTime ==
+                                                  "null"
+                                          ? Text("")
+                                          : Text(
+                                              "${_reportBloc.myreport[index].checkoutTime}",
+                                            ),
                                     ],
                                   ),
                                   SizedBox(
@@ -250,13 +274,20 @@ class _CheckinReportState extends State<CheckinReport> {
                                         padding:
                                             const EdgeInsets.only(right: 8),
                                         child: Text(
-                                          "Checkout Status :",
+                                          "${AppLocalizations.of(context)!.translate("checkout_status")!} :",
                                           style: TextStyle(color: Colors.black),
                                         ),
                                       ),
-                                      Text(
-                                        "${_reportBloc.myreport[index].checkoutStatus}  ${_reportBloc.myreport[index].checkoutLate}",
-                                      ),
+                                      _reportBloc.myreport[index]
+                                                      .checkoutStatus ==
+                                                  null ||
+                                              _reportBloc.myreport[index]
+                                                      .checkoutStatus ==
+                                                  "null"
+                                          ? Text("")
+                                          : Text(
+                                              "${_reportBloc.myreport[index].checkoutStatus}  ${_reportBloc.myreport[index].checkoutLate}",
+                                            ),
                                     ],
                                   ),
                                   SizedBox(
@@ -268,7 +299,7 @@ class _CheckinReportState extends State<CheckinReport> {
                                         padding:
                                             const EdgeInsets.only(right: 8),
                                         child: Text(
-                                          "Duration :",
+                                          "${AppLocalizations.of(context)!.translate("duration")!} :",
                                           style: TextStyle(color: Colors.black),
                                         ),
                                       ),

@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../appLocalizations.dart';
+
 class CounterPage extends StatefulWidget {
   const CounterPage({Key? key}) : super(key: key);
 
@@ -26,7 +28,8 @@ class _CounterPageState extends State<CounterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.withOpacity(0.2),
-      appBar: standardAppBar(context, "Counter page"),
+      appBar: standardAppBar(
+          context, AppLocalizations.of(context)!.translate("my_counter")!),
       body: Container(
         margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
         child: BlocBuilder(
@@ -48,29 +51,36 @@ class _CounterPageState extends State<CounterPage> {
                           crossAxisSpacing: 4.0,
                           children: [
                             _buildItem(
-                                title: "Total Ot",
+                                title: AppLocalizations.of(context)!
+                                    .translate("total_ot")!,
                                 text: "${_accountBloc.mycounter!.otDuration}"),
                             _buildItem(
-                                title: "Total PH",
+                                title: AppLocalizations.of(context)!
+                                    .translate("total_ph")!,
                                 text: "${_accountBloc.mycounter!.totalPh}"),
                             _buildItem(
-                                title: "Hospitality Leave",
+                                title: AppLocalizations.of(context)!
+                                    .translate("hospital_leave")!,
                                 text:
                                     "${_accountBloc.mycounter!.hospitalLeave}"),
                             _buildItem(
-                                title: "Marriage Leave",
+                                title: AppLocalizations.of(context)!
+                                    .translate("mariage_leave")!,
                                 text:
                                     "${_accountBloc.mycounter!.marriageLeave}"),
                             _buildItem(
-                                title: "Feneral Leave",
+                                title: AppLocalizations.of(context)!
+                                    .translate("funeral_leave")!,
                                 text:
                                     "${_accountBloc.mycounter!.funeralLeave}"),
                             _buildItem(
-                                title: "Maternity Leave",
+                                title: AppLocalizations.of(context)!
+                                    .translate("meternity_leave")!,
                                 text:
                                     "${_accountBloc.mycounter!.meternityLeave}"),
                             _buildItem(
-                                title: "Peternity Leave",
+                                title: AppLocalizations.of(context)!
+                                    .translate("peternity_leave")!,
                                 text:
                                     "${_accountBloc.mycounter!.peternityLeave}")
                             // Container(

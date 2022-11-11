@@ -316,7 +316,9 @@ class _BodyState extends State<Body> {
             builder: (c) {
               var controller = ExpandableController.of(c, required: true)!;
               return Text(
-                controller.expanded ? "Click to Hide" : "Click to view",
+                controller.expanded
+                    ? "${AppLocalizations.of(context)!.translate("hide")!}"
+                    : "${AppLocalizations.of(context)!.translate("show")!}",
                 style: Theme.of(context).textTheme.bodyText1,
               );
             },
@@ -333,31 +335,35 @@ class _BodyState extends State<Body> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "${overtime.duration}",
-                  ),
+                  overtime.type == "hour"
+                      ? Text(
+                          "${overtime.duration} hour",
+                        )
+                      : Text(
+                          "${overtime.duration} day",
+                        ),
                 ],
               ),
               SizedBox(
                 height: 5.0,
               ),
-              SizedBox(
-                height: 5.0,
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      "${AppLocalizations.of(context)!.translate("type_ot")!} : ",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  Text(
-                    "${overtime.type}",
-                  ),
-                ],
-              ),
+              // SizedBox(
+              //   height: 5.0,
+              // ),
+              // Row(
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsets.only(right: 8),
+              //       child: Text(
+              //         "${AppLocalizations.of(context)!.translate("type_ot")!} : ",
+              //         style: TextStyle(color: Colors.black),
+              //       ),
+              //     ),
+              //     Text(
+              //       "${overtime.type}",
+              //     ),
+              //   ],
+              // ),
               Row(
                 children: [
                   Padding(
@@ -481,7 +487,7 @@ class _BodyState extends State<Body> {
                               _displayTextInputDialog(context, overtime.id);
                             },
                             child: Text(
-                              "Aprove",
+                              "${AppLocalizations.of(context)!.translate("approve")!}",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,
@@ -510,7 +516,7 @@ class _BodyState extends State<Body> {
                                   paytype: _payTypeCtrl.text));
                             },
                             child: Text(
-                              "Reject",
+                              "${AppLocalizations.of(context)!.translate("approve")!}",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,

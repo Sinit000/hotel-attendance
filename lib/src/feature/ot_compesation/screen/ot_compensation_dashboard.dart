@@ -2,6 +2,8 @@ import 'package:e_learning/src/feature/ot_compesation/screen/ot_comesation_page.
 import 'package:e_learning/src/feature/ot_compesation/screen/song_mong_page.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../appLocalizations.dart';
+
 class OTCompensationDashBoard extends StatelessWidget {
   const OTCompensationDashBoard({Key? key}) : super(key: key);
 
@@ -17,7 +19,7 @@ class OTCompensationDashBoard extends StatelessWidget {
           // backgroundColor: HexColor("#ff4e00"),
           centerTitle: true,
           title: Text(
-            'OVertime Compensation',
+            "${AppLocalizations.of(context)!.translate("ot_compesation")!}",
             style: TextStyle(color: Colors.white),
           ),
           bottom: TabBar(
@@ -25,11 +27,12 @@ class OTCompensationDashBoard extends StatelessWidget {
             indicatorWeight: 2,
             tabs: [
               Tab(
-                child: Text("Clear Overtime ",
+                child: Text("${AppLocalizations.of(context)!.translate("ot_compesation")!}",
                     style: TextStyle(color: Colors.white)),
               ),
               Tab(
-                child: Text("Song Mong", style: TextStyle(color: Colors.white)),
+                child: Text("${AppLocalizations.of(context)!.translate("song_thaing")!}",
+                    style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

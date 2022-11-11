@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../appLocalizations.dart';
 import 'checkin_report.dart';
 
 class ReportWithDashboard extends StatelessWidget {
@@ -23,7 +24,7 @@ class ReportWithDashboard extends StatelessWidget {
           // backgroundColor: HexColor("#ff4e00"),
           centerTitle: true,
           title: Text(
-            'Report',
+            AppLocalizations.of(context)!.translate("report")!,
             style: TextStyle(color: Colors.white),
           ),
           bottom: TabBar(
@@ -31,11 +32,13 @@ class ReportWithDashboard extends StatelessWidget {
             indicatorWeight: 2,
             tabs: [
               Tab(
-                child: Text("Summary ", style: TextStyle(color: Colors.white)),
+                child: Text(AppLocalizations.of(context)!.translate("summary")!,
+                    style: TextStyle(color: Colors.white)),
               ),
               Tab(
-                child:
-                    Text("Attendance", style: TextStyle(color: Colors.white)),
+                child: Text(
+                    AppLocalizations.of(context)!.translate("attendance")!,
+                    style: TextStyle(color: Colors.white)),
               ),
             ],
           ),

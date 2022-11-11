@@ -39,7 +39,7 @@ class _MyAppBarState extends State<MyAppBar> {
                   padding: EdgeInsets.only(left: 20),
                   width: MediaQuery.of(context).size.width / 1.5,
                   child: Text(
-                    "Welcome ${BlocProvider.of<AuthenticationBloc>(context).state.user!.username}",
+                    "${AppLocalizations.of(context)!.translate("welcome")!} ${BlocProvider.of<AuthenticationBloc>(context).state.user!.username}",
                     textScaleFactor: 1.7,
                     overflow: TextOverflow.fade,
                     maxLines: 2,

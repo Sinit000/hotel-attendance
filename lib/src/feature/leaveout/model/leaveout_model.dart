@@ -30,7 +30,7 @@ class LeaveOutModel {
         approveby: json["approve_by"],
         name: json["name"],
         type: json["type"],
-        note: json["note"],
+        note: json["note"].toString(),
         requestType: json["request_type"],
         employeeModel:
             json["user"] == null ? null : EmployeeModel.fromJson(json["user"]));

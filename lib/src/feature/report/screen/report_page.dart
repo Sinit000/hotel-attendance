@@ -139,33 +139,42 @@ class _ReportBodyState extends State<ReportBody> {
                             crossAxisSpacing: 4.0,
                             children: [
                               _buildReportItem(
-                                  title: "Attendance",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("attendance")!,
                                   text:
                                       "${_reportBloc.reportModel!.attendance}"),
                               _buildReportItem(
-                                  title: "Absent",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("absent")!,
                                   text: "${_reportBloc.reportModel!.absent}"),
                               _buildReportItem(
-                                  title: "Leave",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("leave")!,
                                   text: "${_reportBloc.reportModel!.leave}"),
                               _buildReportItem(
-                                  title: "Leave Deduction",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("leave_deduction")!,
                                   text:
                                       "${_reportBloc.reportModel!.leaveDeduction}"),
                               _buildReportItem(
-                                  title: "Leaveout",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("leave_out")!,
                                   text: "${_reportBloc.reportModel!.leaveout}"),
                               _buildReportItem(
-                                  title: "Total Overtime",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("total_ot")!,
                                   text: "${_reportBloc.reportModel!.totalOt}"),
                               _buildReportItem(
-                                  title: "OT Hour",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("otHour")!,
                                   text: "${_reportBloc.reportModel!.otHour}"),
                               _buildReportItem(
-                                  title: "OT Cash",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("ot_cash")!,
                                   text: "${_reportBloc.reportModel!.otCash}"),
                               _buildReportItem(
-                                  title: "OT Holiday",
+                                  title: AppLocalizations.of(context)!
+                                      .translate("ot_holiday")!,
                                   text: "${_reportBloc.reportModel!.holiday}"),
 
                               // Container(
