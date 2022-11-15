@@ -82,7 +82,18 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingOvertime) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    overtimeBloc.add(InitializeAllOvertimeStarted(
+                        dateRange: "This month", isSecond: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -140,7 +151,8 @@ class _BodyState extends State<Body> {
                 ),
                 overtimeBloc.myovertime.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -367,23 +379,23 @@ class _BodyState extends State<Body> {
                         ),
                 ],
               ),
-              SizedBox(
-                height: 5.0,
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      "${AppLocalizations.of(context)!.translate("type_ot")!} : ",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  Text(
-                    "${overtime.type}",
-                  ),
-                ],
-              ),
+              // SizedBox(
+              //   height: 5.0,
+              // ),
+              // Row(
+              //   children: [
+              //     Padding(
+              //       padding: const EdgeInsets.only(right: 8),
+              //       child: Text(
+              //         "${AppLocalizations.of(context)!.translate("type_ot")!} : ",
+              //         style: TextStyle(color: Colors.black),
+              //       ),
+              //     ),
+              //     Text(
+              //       "${overtime.type}",
+              //     ),
+              //   ],
+              // ),
               SizedBox(
                 height: 5.0,
               ),
@@ -440,20 +452,22 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 5.0,
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      "${AppLocalizations.of(context)!.translate("total_ot")!} : ",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  Text(
-                    "${overtime.totalOt}",
-                  ),
-                ],
-              ),
+              overtime.paytype != "holiday"
+                  ? Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Text(
+                            "${AppLocalizations.of(context)!.translate("total_ot")!} : ",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        Text(
+                          "${overtime.totalOt}",
+                        )
+                      ],
+                    )
+                  : Row(),
               SizedBox(
                 height: 5.0,
               ),
@@ -472,7 +486,7 @@ class _BodyState extends State<Body> {
                   ),
                 ],
               ),
-              overtime.payStatus == "pending"
+              overtime.status == "pending" || overtime.status == "approved"
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

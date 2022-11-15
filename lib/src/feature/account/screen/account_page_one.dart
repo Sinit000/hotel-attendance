@@ -376,7 +376,17 @@ class _BodyState extends State<Body> {
             }
             if (state is ErrorFethchingAccount) {
               return Center(
-                child: Text(state.error.toString()),
+                child: TextButton(
+                    onPressed: () {
+                      accountBloc.add(FetchAccountStarted());
+                    },
+                    style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.teal,
+                      onSurface: Colors.grey,
+                    ),
+                    child: Text(
+                        "${AppLocalizations.of(context)!.translate("retry")!}")),
               );
             }
             return Center(

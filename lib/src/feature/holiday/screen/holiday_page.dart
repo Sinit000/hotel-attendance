@@ -53,12 +53,14 @@ class _HolidayPageState extends State<HolidayPage> {
                         backgroundColor: Colors.teal,
                         onSurface: Colors.grey,
                       ),
-                      child: Text("Retry")),
+                      child: Text(
+                          "${AppLocalizations.of(context)!.translate("retry")!}")),
                 );
               } else {
                 if (_holidayBloc.holidaylist.length == 0) {
                   return Center(
-                    child: Text("No Data"),
+                    child: Text(
+                        "${AppLocalizations.of(context)!.translate("no_data")!}"),
                   );
                 }
                 return ListView.builder(

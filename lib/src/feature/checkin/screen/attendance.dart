@@ -265,7 +265,17 @@ class _AttendanceState extends State<Attendance> {
               } else if (state is ErrorFethchingAccount) {
                 return Scaffold(
                   body: Center(
-                    child: Text(state.error.toString()),
+                    child: TextButton(
+                  onPressed: () {
+                    attendanceBloc.add(FetchCheckAccountStarted(todayDate: checkindate!.substring(0, 10)));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
                   ),
                 );
                 // ignore: unnecessary_statements

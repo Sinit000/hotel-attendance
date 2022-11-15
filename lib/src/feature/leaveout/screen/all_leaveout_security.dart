@@ -98,7 +98,18 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingLeaveOut) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    _secuirtyBloc.add(InitializeLeaveOutSecurityStarted(
+                        dateRange: mydateRage, isSecond: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -156,7 +167,8 @@ class _BodyState extends State<Body> {
                 ),
                 _secuirtyBloc.security.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -379,7 +391,7 @@ class _BodyState extends State<Body> {
               return Text(
                 controller.expanded
                     ? "${AppLocalizations.of(context)!.translate("hide")!}"
-                    : "${AppLocalizations.of(context)!.translate("show")!}",
+                    : "${AppLocalizations.of(context)!.translate("view")!}",
                 style: Theme.of(context).textTheme.bodyText1,
               );
             },
@@ -396,9 +408,13 @@ class _BodyState extends State<Body> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "${leaveOutModel.duration}",
-                  ),
+                  leaveOutModel.type == "hour"
+                      ? Text(
+                          "${leaveOutModel.duration} hour",
+                        )
+                      : Text(
+                          "${leaveOutModel.duration} mn",
+                        ),
                 ],
               ),
               SizedBox(
@@ -515,7 +531,7 @@ class _BodyState extends State<Body> {
                                   context, leaveOutModel.id, "completed");
                             },
                             child: Text(
-                              "Complete",
+                              "${AppLocalizations.of(context)!.translate("complete")!}",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,
@@ -545,7 +561,7 @@ class _BodyState extends State<Body> {
                                   status: "Uncomplete"));
                             },
                             child: Text(
-                              "Uncomplete",
+                              "${AppLocalizations.of(context)!.translate("incomplete")!}",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,
@@ -679,7 +695,8 @@ class _BodyState extends State<Body> {
               }
             },
             child: AlertDialog(
-              title: Text('Choose arriving time'),
+              title: Text(
+                  "${AppLocalizations.of(context)!.translate("input_arrriving_time")!}"),
               content: Container(
                 height: MediaQuery.of(context).size.height / 3,
                 child: Form(
@@ -709,7 +726,8 @@ class _BodyState extends State<Body> {
                                 ),
                               ),
                               isDense: true,
-                              labelText: "Choose Time"),
+                              labelText:
+                                  "${AppLocalizations.of(context)!.translate("enter_time")!}"),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'arriving time is required.';
@@ -724,7 +742,8 @@ class _BodyState extends State<Body> {
                 FlatButton(
                   color: Colors.red,
                   textColor: Colors.white,
-                  child: Text('CANCEL'),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("cancel")!}"),
                   onPressed: () {
                     Navigator.pop(context);
                     _arriveCtrl.clear();
@@ -733,7 +752,8 @@ class _BodyState extends State<Body> {
                 FlatButton(
                   color: Colors.green,
                   textColor: Colors.white,
-                  child: Text('OK'),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("submit")!}"),
                   onPressed: () {
                     if (_formKey!.currentState!.validate()) {
                       print(_arriveCtrl.text);

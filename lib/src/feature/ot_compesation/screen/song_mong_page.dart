@@ -110,7 +110,8 @@ class _SongMongPageState extends State<SongMongPage> {
               }
             },
             child: AlertDialog(
-              title: Text('Adding Songmong'),
+              title: Text(
+                  "${AppLocalizations.of(context)!.translate("adding_song_mong")!}"),
               content: Container(
                 height: MediaQuery.of(context).size.width / 3,
                 child: Form(
@@ -188,7 +189,8 @@ class _SongMongPageState extends State<SongMongPage> {
                 FlatButton(
                   color: Colors.red,
                   textColor: Colors.white,
-                  child: Text('CANCEL'),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("cancel")!}"),
                   onPressed: () {
                     Navigator.pop(context);
                     _textFieldController.clear();
@@ -199,7 +201,8 @@ class _SongMongPageState extends State<SongMongPage> {
                 FlatButton(
                   color: Colors.green,
                   textColor: Colors.white,
-                  child: Text('OK'),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("submit")!}"),
                   onPressed: () {
                     if (_formKey!.currentState!.validate()) {
                       songBloc.add(AddSongMongStarted(
@@ -284,7 +287,20 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingSongMong) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    songBloc.add(InitailzeSongMongStarted(
+                        dateRange: "This month",
+                        isSecond: false,
+                        isRefresh: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -343,7 +359,8 @@ class _BodyState extends State<Body> {
                 ),
                 state == InitailizingSongMong
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -539,7 +556,7 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                   Text(
-                    "${overtime.type}",
+                    "${overtime.requestype}",
                   ),
                 ],
               ),
@@ -555,9 +572,11 @@ class _BodyState extends State<Body> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "${overtime.duration}",
-                  ),
+                  overtime.type == "hour"
+                      ? Text("${overtime.duration} hour")
+                      : Text(
+                          "${overtime.duration} day",
+                        ),
                 ],
               ),
               Row(
@@ -781,7 +800,8 @@ class _BodyState extends State<Body> {
               }
             },
             child: AlertDialog(
-              title: Text('Eding Songmong'),
+              title: Text(
+                  "${AppLocalizations.of(context)!.translate("edit_song_mong")!}"),
               content: Container(
                 height: MediaQuery.of(context).size.width / 3,
                 child: Form(
@@ -859,7 +879,8 @@ class _BodyState extends State<Body> {
                 FlatButton(
                   color: Colors.red,
                   textColor: Colors.white,
-                  child: Text('CANCEL'),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("cancel")!}"),
                   onPressed: () {
                     Navigator.pop(context);
                     _textFieldController.clear();
@@ -870,7 +891,8 @@ class _BodyState extends State<Body> {
                 FlatButton(
                   color: Colors.green,
                   textColor: Colors.white,
-                  child: Text('OK'),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("submit")!}"),
                   onPressed: () {
                     if (_formKey!.currentState!.validate()) {
                       songBloc.add(UpdateSongMongStarted(

@@ -139,7 +139,8 @@ class _BodyState extends State<Body> {
                 ),
                 overtimeBloc.myovertime.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("retry")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -417,21 +418,23 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 5.0,
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
-                      "${AppLocalizations.of(context)!.translate("total_ot")!} : ",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  Text(
-                    "${overtime.totalOt}",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ],
-              ),
+              overtime.paytype != "holiday"
+                  ? Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Text(
+                            "${AppLocalizations.of(context)!.translate("total_ot")!} : ",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                        ),
+                        Text(
+                          "${overtime.totalOt}",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ],
+                    )
+                  : Row(),
               SizedBox(
                 height: 5.0,
               ),
@@ -516,7 +519,7 @@ class _BodyState extends State<Body> {
                                   paytype: _payTypeCtrl.text));
                             },
                             child: Text(
-                              "${AppLocalizations.of(context)!.translate("approve")!}",
+                              "${AppLocalizations.of(context)!.translate("reject")!}",
                               style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,

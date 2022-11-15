@@ -62,7 +62,18 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingLeaveOut) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    _chiefBloc.add(InitializeAllLeaveOutStarted(
+                        dateRange: mydateRage, isSecond: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -119,7 +130,8 @@ class _BodyState extends State<Body> {
                 ),
                 _chiefBloc.allLeaveout.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -361,23 +373,6 @@ class _BodyState extends State<Body> {
                   Padding(
                     padding: const EdgeInsets.only(right: 8),
                     child: Text(
-                      "${AppLocalizations.of(context)!.translate("duration")!} : ",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                  Text(
-                    "${leaveOutModel.duration}",
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5.0,
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8),
-                    child: Text(
                       "${AppLocalizations.of(context)!.translate("time_out")!} : ",
                       style: TextStyle(color: Colors.black),
                     ),
@@ -401,6 +396,30 @@ class _BodyState extends State<Body> {
                   ),
                   Text(
                     "${leaveOutModel.timein}",
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 5.0,
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Text(
+                      "${AppLocalizations.of(context)!.translate("duration")!} : ",
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  ),
+                  leaveOutModel.type == "hour"
+                      ? Text(
+                          "${leaveOutModel.duration} hour",
+                        )
+                      : Text(
+                          "${leaveOutModel.duration} mn",
+                        ),
+                  Text(
+                    "${leaveOutModel.duration}",
                   ),
                 ],
               ),

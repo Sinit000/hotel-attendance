@@ -58,6 +58,7 @@ class EmployeeBloc extends Bloc<EmployeeEvent, EmployeeState> {
       try {
         // Future.delayed(Duration(milliseconds: 200));
         print(page);
+        page = 1;
         emploList.clear();
         List<AccountModel> _departmentList = await _departmentRepository
             .getEmployeeByDepartment(rowPerpage: rowperpage, page: page);

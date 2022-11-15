@@ -110,7 +110,17 @@ class _CounterPageState extends State<CounterPage> {
               }
               if (state is ErrorFethchingAccount) {
                 return Center(
-                  child: Text(state.error.toString()),
+                  child: TextButton(
+                      onPressed: () {
+                        _accountBloc.add(FetchCounterStarted());
+                      },
+                      style: TextButton.styleFrom(
+                        primary: Colors.white,
+                        backgroundColor: Colors.teal,
+                        onSurface: Colors.grey,
+                      ),
+                      child: Text(
+                          "${AppLocalizations.of(context)!.translate("retry")!}")),
                 );
               }
               return Center(

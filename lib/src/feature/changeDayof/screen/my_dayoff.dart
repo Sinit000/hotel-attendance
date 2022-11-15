@@ -98,7 +98,18 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingDayOff) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    changeDayOffBloc.add(InitializeMyDayOffStarted(
+                        dateRange: "This month", isSecond: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -155,7 +166,8 @@ class _BodyState extends State<Body> {
                 ),
                 changeDayOffBloc.myDayoff.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -332,7 +344,9 @@ class _BodyState extends State<Body> {
             builder: (c) {
               var controller = ExpandableController.of(c, required: true)!;
               return Text(
-                controller.expanded ? "Click to Hide" : "Click to view",
+                controller.expanded
+                    ? "${AppLocalizations.of(context)!.translate("hide")!}"
+                    : "${AppLocalizations.of(context)!.translate("view")!}",
                 style: Theme.of(context).textTheme.bodyText1,
               );
             },

@@ -28,7 +28,7 @@
     "office_tel": "Office Tel",
     "address": "Address",
     "timetable": "Timetable",
-    "email": "អ៊ីមែល",
+    "email": "Email",
     "submit": "Submit",
     "leave_page": "Leave Page",
     "date": "Date",
@@ -151,7 +151,20 @@
     "reject":"Reject",
     "request_type":"Type",
     "clear_ot":"Clear OT",
-    "song_thaing":"Song Thngai"
+    "song_thaing":"Song Thngai",
+    "complete":"Complete",
+    "incomplete":"Incomplete",
+    "cancel":"Cancel",
+   
+    "no_data" : "No data",
+    "input_arrriving_time" : "Complete Arriving Time",
+    "enter_time" : "Enter Time",
+    "ok" : "Ok",
+    "adding_song_mong" : "Add Song Thngai",
+    "edit_song_mong" : "Edit Song Thngai",
+    "retry" : "Retry",
+    "sub_leavetype" : "Sub Leavetype"
+    
     
     
     

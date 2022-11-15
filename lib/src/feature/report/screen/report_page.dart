@@ -68,7 +68,8 @@ class _ReportBodyState extends State<ReportBody> {
                     backgroundColor: Colors.teal,
                     onSurface: Colors.grey,
                   ),
-                  child: Text("Retry")),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("no_data")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);

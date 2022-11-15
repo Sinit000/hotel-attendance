@@ -66,7 +66,19 @@ class _LeaveOutBodyState extends State<LeaveOutBody> {
           }
           if (state is ErrorFetchingLeaveOut) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    BlocProvider.of<LeaveOutBloc>(context).add(
+                        InitializeMyLeaveOutStarted(
+                            dateRange: mydateRage, isSecond: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -127,7 +139,8 @@ class _LeaveOutBodyState extends State<LeaveOutBody> {
                 ),
                 BlocProvider.of<LeaveOutBloc>(context).myLeaveout.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(

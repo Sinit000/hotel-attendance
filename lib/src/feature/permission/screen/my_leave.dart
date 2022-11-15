@@ -84,7 +84,7 @@ class _LeaveBodyState extends State<LeaveBody> {
                     backgroundColor: Colors.teal,
                     onSurface: Colors.grey,
                   ),
-                  child: Text("Retry")),
+                  child: Text( "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -141,7 +141,7 @@ class _LeaveBodyState extends State<LeaveBody> {
                 ),
                 leaveBloc.myleave.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text("${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -305,7 +305,13 @@ class _LeaveBodyState extends State<LeaveBody> {
                                                 ),
                                               ),
                                               leaveBloc.myleave[index].type ==
-                                                      "hour"
+                                                          "hour" ||
+                                                      leaveBloc.myleave[index]
+                                                              .type ==
+                                                          "half_day_m" ||
+                                                      leaveBloc.myleave[index]
+                                                              .type ==
+                                                          "half_day_n"
                                                   ? Text(
                                                       "${leaveBloc.myleave[index].number}  hour")
                                                   : Text(

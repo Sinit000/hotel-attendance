@@ -49,7 +49,7 @@ class PayslipModel {
       exChangeRate: json["exchange_rate"].toString(),
       deduction: json["deduction"].toString(),
       grossSalary: json["net_salary"].toString(),
-      netSalary: json["gross_salary"].toString(),
+      netSalary: json["net_salary"].toString(),
 
       totalAttendance: json["total_attendance"].toString(),
       note: json["notes"].toString(),

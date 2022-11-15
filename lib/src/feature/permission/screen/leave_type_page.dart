@@ -1,5 +1,6 @@
 import 'package:e_learning/src/feature/permission/bloc/index.dart';
 import 'package:e_learning/src/feature/permission/model/leave_type_model.dart';
+import 'package:e_learning/src/feature/permission/screen/sub_leavetype.dart';
 import 'package:e_learning/src/shared/widget/standard_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,8 @@ class _LeavetypePageState extends State<LeavetypePage> {
                       backgroundColor: Colors.teal,
                       onSurface: Colors.grey,
                     ),
-                    child: Text("Retry")),
+                    child: Text(
+                        "${AppLocalizations.of(context)!.translate("retry")!}")),
               );
             }
             return Stack(
@@ -78,55 +80,67 @@ class _LeavetypePageState extends State<LeavetypePage> {
             child: ListView.builder(
                 itemCount: leave.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                    child: Container(
-                      height: 80,
-                      margin: EdgeInsets.only(top: 10),
-                      child: ListTile(
-                        leading: Container(
-                          // padding: EdgeInsets.only(left: 10),
-                          // margin: EdgeInsets.only(left: 20, top: 5),
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.orangeAccent,
-                            borderRadius: BorderRadius.circular(50),
+                  return InkWell(
+                    onTap: () {
+                      leave[index].leaveType != "Special Leave"
+                          ? Container()
+                          : Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Subleavetype(id: leave[index].id)));
+                    },
+                    child: Card(
+                      child: Container(
+                        height: 80,
+                        margin: EdgeInsets.only(top: 10),
+                        child: ListTile(
+                          leading: Container(
+                            // padding: EdgeInsets.only(left: 10),
+                            // margin: EdgeInsets.only(left: 20, top: 5),
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.orangeAccent,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Center(
+                              child:
+                                  leave[index].leaveType.contains('Maternity')
+                                      ? Text(
+                                          "1",
+                                          style: TextStyle(color: Colors.white),
+                                          textScaleFactor: 1.2,
+                                        )
+                                      : Text(
+                                          "${leave[index].duration}",
+                                          style: TextStyle(color: Colors.white),
+                                          textScaleFactor: 1.5,
+                                        ),
+                            ),
                           ),
-                          child: Center(
-                            child: leave[index].leaveType.contains('Maternity')
-                                ? Text(
-                                    "1",
-                                    style: TextStyle(color: Colors.white),
-                                    textScaleFactor: 1.2,
-                                  )
-                                : Text(
-                                    "${leave[index].duration}",
-                                    style: TextStyle(color: Colors.white),
-                                    textScaleFactor: 1.5,
-                                  ),
+                          title: Text(
+                            "${leave[index].leaveType}",
+                            textScaleFactor: 1.3,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
+                          subtitle: leave[index].leaveType.contains('Maternity')
+                              ? Text(
+                                  "1 Month",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                  textScaleFactor: 1.2,
+                                )
+                              : Text(""),
+                          trailing: leave[index].leaveType == "Special Leave"
+                              ? Icon(
+                                  Icons.navigate_next_outlined,
+                                )
+                              : Text(""),
                         ),
-                        title: Text(
-                          "${leave[index].leaveType}",
-                          textScaleFactor: 1.3,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: leave[index].leaveType.contains('Maternity')
-                            ? Text(
-                                "1 Month",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold),
-                                textScaleFactor: 1.2,
-                              )
-                            : Text(""),
-                        trailing: leave[index].leaveType == "Special Leave"
-                            ? Icon(
-                                Icons.navigate_next_outlined,
-                              )
-                            : Text(""),
                       ),
                     ),
                   );

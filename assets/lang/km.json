@@ -113,7 +113,7 @@
     "change_dayoff": "ការផ្លាស់ប្តូរថ្ងៃឈប់សម្រាក",
     "add_dayOff": "បង្កើតការផ្លាស់ប្តូរ",
     "workday": "ថ្ងៃធ្វើការ",
-    "holiday": "ថ្ងៃបុណ្យ",
+    "holiday": "ថ្ងៃបុណ្យជាតិ",
     "wage_hour": "ម៉ោងធ្វើការក្នុងមួយថ្ងៃ",
     "net_perday": "ប្រាក់ក្នុងមួយថ្ងៃ",
     "net_perhour": "ប្រាក់ក្នុងមួយម៉ោង",
@@ -144,14 +144,27 @@
     "this_month":"ខែនេះ",
     "this_year":"ឆ្នាំនេះ",
     "custom":"ជ្រើសរើស",
-    "view":"មើល",
+    "view":"ចុចដើម្បីមើល",
     "hide":"ចុចដើម្បីលាក់",
     "show":"ចុចដើមប្បីបង្ហាញ",
     "approve":"យល់ព្រម",
     "reject":"បដិសេដ",
     "request_type":"ប្រភេទ",
     "clear_ot":"ទូទាត់ការថែមម៉ោង",
-    "song_thaing":"សងថ្ងៃ"
+    "song_thaing":"សងថ្ងៃ",
+    "complete":"ត្រឡប់មកវិញ",
+    "incomplete":"មិនត្រឡប់មកវិញ",
+    "cancel":"បោះបង់",
+    "no_data" : "មិនមានទិន្នន័យ",
+    
+    "input_arrriving_time" : "បំពេញម៉ោងមកដល់",
+    "enter_time" : "បំពេញម៉ោង",
+    "ok" : "យល់ព្រម",
+    "adding_song_mong" : "បង្កើតការសងថ្ងៃ",
+    "edit_song_mong" : "កែប្រែលការសងថ្ងៃ",
+    "retry" : "ព្យាយាមម្តងទៀត",
+    "sub_leavetype" : "Sub Leavetype"
+    
     
     
    

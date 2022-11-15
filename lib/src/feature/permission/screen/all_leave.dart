@@ -70,7 +70,18 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingLeave) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    leaveBloc.add(InitializeAllLeaveStarted(
+                        dateRange: "This month", isSecond: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -127,7 +138,8 @@ class _BodyState extends State<Body> {
                 ),
                 leaveBloc.allLeave.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(
@@ -338,7 +350,9 @@ class _BodyState extends State<Body> {
             builder: (c) {
               var controller = ExpandableController.of(c, required: true)!;
               return Text(
-                controller.expanded ? "Click to Hide" : "Click to view",
+                controller.expanded
+                    ? "${AppLocalizations.of(context)!.translate("hide")!}"
+                    : "${AppLocalizations.of(context)!.translate("view")!}",
                 style: Theme.of(context).textTheme.bodyText1,
               );
             },
@@ -372,9 +386,15 @@ class _BodyState extends State<Body> {
                       style: TextStyle(color: Colors.black),
                     ),
                   ),
-                  Text(
-                    "${leaveModel.number}",
-                  ),
+                  leaveModel.type == "hour" ||
+                          leaveModel.type == "half_day_m" ||
+                          leaveModel.type == "half_day_n"
+                      ? Text(
+                          "${leaveModel.number} hour",
+                        )
+                      : Text(
+                          "${leaveModel.number} day",
+                        ),
                 ],
               ),
               SizedBox(
@@ -665,7 +685,8 @@ class _BodyState extends State<Body> {
                 FlatButton(
                   color: Colors.red,
                   textColor: Colors.white,
-                  child: Text('CANCEL'),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("cancel")!}"),
                   onPressed: () {
                     Navigator.pop(context);
                     _textFieldController.clear();
@@ -674,7 +695,8 @@ class _BodyState extends State<Body> {
                 FlatButton(
                   color: Colors.green,
                   textColor: Colors.white,
-                  child: Text('OK'),
+                  child:
+                      Text("${AppLocalizations.of(context)!.translate("ok")!}"),
                   onPressed: () {
                     if (_formKey!.currentState!.validate()) {
                       String status = "";

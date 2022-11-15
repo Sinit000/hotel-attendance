@@ -78,7 +78,20 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingOTCompesation) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    clearOTBloc.add(InitailzeOTCompesationStarted(
+                        dateRange: "This month",
+                        isSecond: false,
+                        isRefresh: false));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
           } else {
             // print(_reportBloc.dateRange!);
@@ -139,7 +152,7 @@ class _BodyState extends State<Body> {
                 ),
                 clearOTBloc.otComList.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text("${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(

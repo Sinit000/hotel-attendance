@@ -48,7 +48,17 @@ class _TeamProfileState extends State<TeamProfile> {
                 }
                 if (state is ErrorFetchingEmployee) {
                   return Center(
-                    child: Text(state.error.toString()),
+                    child: TextButton(
+                        onPressed: () {
+                          _employeeBloc.add(InitializeEmployeeStarted());
+                        },
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                          backgroundColor: Colors.teal,
+                          onSurface: Colors.grey,
+                        ),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("retry")!}")),
                   );
                 }
                 return SmartRefresher(

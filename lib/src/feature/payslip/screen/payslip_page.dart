@@ -59,8 +59,22 @@ class _BodyState extends State<Body> {
           }
           if (state is ErrorFetchingPayslip) {
             return Center(
-              child: Text(state.error.toString()),
+              child: TextButton(
+                  onPressed: () {
+                    _payslipBloc.add(InitailizePayslipStarted(
+                        dateRange: "This year", isSecond: true));
+                  },
+                  style: TextButton.styleFrom(
+                    primary: Colors.white,
+                    backgroundColor: Colors.teal,
+                    onSurface: Colors.grey,
+                  ),
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate("retry")!}")),
             );
+            // return Center(
+            //   child: Text(state.error.toString()),
+            // );
           } else {
             // print(_reportBloc.dateRange!);
             return Column(
@@ -115,7 +129,8 @@ class _BodyState extends State<Body> {
                 ),
                 _payslipBloc.payslip.length == 0
                     ? Container(
-                        child: Text("No data"),
+                        child: Text(
+                            "${AppLocalizations.of(context)!.translate("no_data")!}"),
                       )
                     : Expanded(
                         child: SmartRefresher(

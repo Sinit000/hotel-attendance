@@ -236,7 +236,7 @@ class _CheckinReportState extends State<CheckinReport> {
                                                   "null"
                                           ? Text("")
                                           : Text(
-                                              "${_reportBloc.myreport[index].checkitStatus} ${_reportBloc.myreport[index].checkinLate} mn",
+                                              "${_reportBloc.myreport[index].checkitStatus}     ${_reportBloc.myreport[index].checkinLate} mn",
                                             ),
                                     ],
                                   ),
@@ -286,7 +286,7 @@ class _CheckinReportState extends State<CheckinReport> {
                                                   "null"
                                           ? Text("")
                                           : Text(
-                                              "${_reportBloc.myreport[index].checkoutStatus}  ${_reportBloc.myreport[index].checkoutLate}",
+                                              "${_reportBloc.myreport[index].checkoutStatus}      ${_reportBloc.myreport[index].checkoutLate} mn",
                                             ),
                                     ],
                                   ),
